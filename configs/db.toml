@@ -4,7 +4,7 @@
 	dbUser = "root"
 	dbPwd = ""
 	dbHost = "127.0.0.1"
-	dbName = "ginana"
+	dbName = "ginana_blog"
 	dbPort = "3306"
 	dbPrev = "w_"
 	debug = true
