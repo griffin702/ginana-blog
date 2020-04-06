@@ -2,11 +2,11 @@ package main
 
 import (
 	"flag"
-	_ "ginana/docs"
-	"ginana/internal/config"
-	"ginana/internal/wire"
-	"ginana/library/conf/paladin"
-	"ginana/library/log"
+	_ "ginana-blog/docs"
+	"ginana-blog/internal/config"
+	"ginana-blog/internal/wire"
+	"ginana-blog/library/conf/paladin"
+	"ginana-blog/library/log"
 	"os"
 	"os/signal"
 	"syscall"

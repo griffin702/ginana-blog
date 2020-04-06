@@ -1,7 +1,7 @@
 package log
 
 import (
-	"ginana/library/log/hook"
+	"ginana-blog/library/log/hook"
 	rotatelogs "github.com/lestrrat/go-file-rotatelogs"
 	"github.com/rifflock/lfshook"
 	"github.com/sirupsen/logrus"

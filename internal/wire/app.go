@@ -2,8 +2,8 @@ package wire
 
 import (
 	"context"
-	"ginana/internal/service"
-	"ginana/library/log"
+	"ginana-blog/internal/service"
+	"ginana-blog/library/log"
 	"net/http"
 	"time"
 )

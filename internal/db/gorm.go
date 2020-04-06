@@ -1,10 +1,10 @@
 package db
 
 import (
-	"ginana/internal/config"
-	"ginana/internal/model"
-	"ginana/library/conf/paladin"
-	"ginana/library/database"
+	"ginana-blog/internal/config"
+	"ginana-blog/internal/model"
+	"ginana-blog/library/conf/paladin"
+	"ginana-blog/library/database"
 	"github.com/jinzhu/gorm"
 )
 

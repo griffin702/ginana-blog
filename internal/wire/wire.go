@@ -4,13 +4,13 @@
 package wire
 
 import (
-	"ginana/internal/config"
-	"ginana/internal/db"
-	"ginana/internal/server/http"
-	"ginana/internal/server/http/h_user"
-	"ginana/internal/server/http/router"
-	"ginana/internal/service"
-	"ginana/internal/service/i_user"
+	"ginana-blog/internal/config"
+	"ginana-blog/internal/db"
+	"ginana-blog/internal/server/http"
+	"ginana-blog/internal/server/http/h_user"
+	"ginana-blog/internal/server/http/router"
+	"ginana-blog/internal/service"
+	"ginana-blog/internal/service/i_user"
 	"github.com/google/wire"
 )
 

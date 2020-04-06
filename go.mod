@@ -1,4 +1,4 @@
-module ginana
+module ginana-blog
 
 go 1.13
 

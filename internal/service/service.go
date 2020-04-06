@@ -1,7 +1,7 @@
 package service
 
 import (
-	"ginana/internal/service/i_user"
+	"ginana-blog/internal/service/i_user"
 	"github.com/casbin/casbin/v2"
 	"github.com/jinzhu/gorm"
 )

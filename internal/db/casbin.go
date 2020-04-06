@@ -2,11 +2,11 @@ package db
 
 import (
 	"context"
-	"ginana/internal/config"
-	"ginana/internal/service/i_user"
-	"ginana/library/conf/paladin"
-	"ginana/library/database"
-	"ginana/library/log"
+	"ginana-blog/internal/config"
+	"ginana-blog/internal/service/i_user"
+	"ginana-blog/library/conf/paladin"
+	"ginana-blog/library/database"
+	"ginana-blog/library/log"
 	"github.com/casbin/casbin/v2"
 	"time"
 )

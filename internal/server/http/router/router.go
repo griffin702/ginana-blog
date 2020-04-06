@@ -1,9 +1,9 @@
 package router
 
 import (
-	"ginana/internal/server/http/h_user"
-	"ginana/library/log"
-	"ginana/library/mdw"
+	"ginana-blog/internal/server/http/h_user"
+	"ginana-blog/library/log"
+	"ginana-blog/library/mdw"
 	"github.com/gin-gonic/gin"
 )
 

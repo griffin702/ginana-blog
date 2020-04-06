@@ -1,7 +1,7 @@
 package mdw
 
 import (
-	"ginana/library/log"
+	"ginana-blog/library/log"
 	"github.com/gin-gonic/gin"
 	"net/http/httputil"
 	"runtime"

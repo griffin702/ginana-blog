@@ -2,7 +2,7 @@ package mdw
 
 import (
 	"fmt"
-	"ginana/library/log"
+	"ginana-blog/library/log"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"

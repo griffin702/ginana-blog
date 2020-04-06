@@ -3,7 +3,7 @@ package paladin_test
 import (
 	"testing"
 
-	"ginana/library/conf/paladin"
+	"ginana-blog/library/conf/paladin"
 
 	"github.com/BurntSushi/toml"
 	"github.com/stretchr/testify/assert"

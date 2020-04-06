@@ -3,9 +3,9 @@ package i_user
 import (
 	"context"
 	"fmt"
-	"ginana/internal/config"
-	"ginana/library/database"
-	"ginana/library/tools"
+	"ginana-blog/internal/config"
+	"ginana-blog/library/database"
+	"ginana-blog/library/tools"
 	"github.com/casbin/casbin/v2"
 	"github.com/jinzhu/gorm"
 	"time"

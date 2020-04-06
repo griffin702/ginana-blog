@@ -2,8 +2,8 @@ package database
 
 import (
 	"fmt"
-	"ginana/library/log"
-	xtime "ginana/library/time"
+	"ginana-blog/library/log"
+	xtime "ginana-blog/library/time"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"strings"

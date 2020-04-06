@@ -1,9 +1,9 @@
 package http
 
 import (
-	"ginana/internal/config"
-	"ginana/library/conf/paladin"
-	"ginana/library/log"
+	"ginana-blog/internal/config"
+	"ginana-blog/library/conf/paladin"
+	"ginana-blog/library/log"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"

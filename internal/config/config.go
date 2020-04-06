@@ -2,10 +2,10 @@ package config
 
 import (
 	"context"
-	"ginana/library/conf/paladin"
-	"ginana/library/database"
-	"ginana/library/log"
-	xtime "ginana/library/time"
+	"ginana-blog/library/conf/paladin"
+	"ginana-blog/library/database"
+	"ginana-blog/library/log"
+	xtime "ginana-blog/library/time"
 	"github.com/BurntSushi/toml"
 )
 

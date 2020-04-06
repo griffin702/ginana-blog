@@ -1,8 +1,8 @@
 package h_user
 
 import (
-	"ginana/internal/model"
-	"ginana/internal/service"
+	"ginana-blog/internal/model"
+	"ginana-blog/internal/service"
 	"github.com/gin-gonic/gin"
 )
 
