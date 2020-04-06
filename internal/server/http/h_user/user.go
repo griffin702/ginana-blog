@@ -29,5 +29,5 @@ func (h *HUser) GetUsers(ctx *gin.Context) {
 	k := &model.GiNana{
 		Hello: "GiNana Server",
 	}
-	ctx.JSON(200, k)
+	ctx.HTML(200, "index.html", k)
 }

@@ -19,6 +19,7 @@ func NewGin() (e *gin.Engine) {
 	gin.SetMode(gin.ReleaseMode)
 	gin.DefaultWriter = log.GetOutFile()
 	e = gin.Default()
+	e.LoadHTMLGlob("../internal/server/http/views/*")
 	// Logger, Recovery
 	e.Use(mdw.Logger, mdw.Recovery)
 	// Cors
