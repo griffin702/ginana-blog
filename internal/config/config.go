@@ -64,6 +64,7 @@ type Config struct {
 	MySQL         *database.SQLConfig
 	Casbin        *database.CasbinConfig
 	Server        *ServerConfig
+	GinMode       string
 	CacheExpire   xtime.Duration
 }
 
