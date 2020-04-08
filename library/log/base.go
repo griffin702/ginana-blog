@@ -32,6 +32,7 @@ func (l *logger) isStdOut() bool {
 
 func (l *logger) NewStdOut() {
 	cli := logrus.New()
+	cli.SetLevel(_level)
 	cli.Out = os.Stdout
 	cli.Formatter = &GiNanaStdFormatter{}
 	cli.AddHook(&hook.DefaultFieldHook{})
@@ -42,14 +43,13 @@ func (l *logger) NewStdOut() {
 
 func (l *logger) NewFile() (cf func()) {
 	cli := logrus.New()
+	cli.SetLevel(_level)
 	out, _ := os.OpenFile(os.DevNull, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 	cf = func() {
 		if out != nil {
 			_ = out.Close()
 		}
 	}
-	cli.Out = out
-	cli.SetLevel(_level)
 	logWriter, err := rotatelogs.New(
 		_path+"-%Y-%m-%d-%H-%M.log",
 		//rotatelogs.WithLinkName(d.path),
@@ -59,6 +59,7 @@ func (l *logger) NewFile() (cf func()) {
 	if err != nil {
 		return
 	}
+	cli.Out = logWriter
 	writeMap := lfshook.WriterMap{
 		logrus.DebugLevel: logWriter,
 		logrus.InfoLevel:  logWriter,

@@ -1,4 +1,4 @@
-package h_user
+package h_api
 
 import (
 	"ginana-blog/internal/model"
@@ -6,12 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type HUser struct {
+type HApi struct {
 	svc *service.Service
 }
 
-func New(s *service.Service) *HUser {
-	return &HUser{
+func New(s *service.Service) *HApi {
+	return &HApi{
 		svc: s,
 	}
 }
@@ -24,10 +24,10 @@ func New(s *service.Service) *HUser {
 // @Param id path int true "ID"
 // @Success 200 {string} string "ok"
 // @Failure 500 {string} string "failed"
-// @Router / [get]
-func (h *HUser) GetUsers(ctx *gin.Context) {
+// @Router /users [get]
+func (h *HApi) GetUsers(ctx *gin.Context) {
 	k := &model.GiNana{
 		Hello: "GiNana Server",
 	}
-	ctx.HTML(200, "admin/base.html", k)
+	ctx.JSON(200, k)
 }

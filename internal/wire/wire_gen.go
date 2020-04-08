@@ -9,7 +9,9 @@ import (
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/db"
 	"ginana-blog/internal/server/http"
-	"ginana-blog/internal/server/http/h_user"
+	"ginana-blog/internal/server/http/h_admin"
+	"ginana-blog/internal/server/http/h_api"
+	"ginana-blog/internal/server/http/h_front"
 	"ginana-blog/internal/server/http/router"
 	"ginana-blog/internal/service"
 	"ginana-blog/internal/service/i_user"
@@ -39,8 +41,10 @@ func InitApp() (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	hUser := h_user.New(serviceService)
-	engine := router.InitRouter(hUser, configConfig)
+	hFront := h_front.New(serviceService)
+	hAdmin := h_admin.New(serviceService)
+	hApi := h_api.New(serviceService)
+	engine := router.InitRouter(hFront, hAdmin, hApi, configConfig)
 	server, err := http.NewHttpServer(engine, configConfig)
 	if err != nil {
 		return nil, nil, err
@@ -60,6 +64,6 @@ var initProvider = wire.NewSet(config.NewConfig, db.NewDB, db.NewCasbin)
 
 var iProvider = wire.NewSet(i_user.New)
 
-var hProvider = wire.NewSet(h_user.New)
+var hProvider = wire.NewSet(h_front.New, h_admin.New, h_api.New)
 
 var httpProvider = wire.NewSet(router.InitRouter, http.NewHttpServer)

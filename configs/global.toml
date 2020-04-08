@@ -19,4 +19,4 @@ enableTemplate = true
 
 viewsPath = "../views"
 
-staticDir = "static:../static static2:../static2"
+staticDir = "static:../static"

@@ -2,14 +2,30 @@ package router
 
 import (
 	"ginana-blog/internal/config"
-	"ginana-blog/internal/server/http/h_user"
+	"ginana-blog/internal/server/http/h_admin"
+	"ginana-blog/internal/server/http/h_api"
+	"ginana-blog/internal/server/http/h_front"
 	"github.com/gin-gonic/gin"
 )
 
-func InitRouter(u *h_user.HUser, cfg *config.Config) (e *gin.Engine) {
+func InitRouter(
+	front *h_front.HFront,
+	admin *h_admin.HAdmin,
+	api *h_api.HApi,
+	cfg *config.Config,
+) (e *gin.Engine) {
 	e = NewGin(cfg)
-
-	e.GET("/", u.GetUsers)
-
+	fr := e.Group("/")
+	{
+		fr.GET("/", front.Index)
+	}
+	ad := e.Group("/admin")
+	{
+		ad.GET("/admin", admin.AdminIndex)
+	}
+	ap := e.Group("/api")
+	{
+		ap.GET("/users", api.GetUsers)
+	}
 	return
 }

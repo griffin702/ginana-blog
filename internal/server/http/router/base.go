@@ -36,21 +36,40 @@ func initTemplate(e *gin.Engine, cfg *config.Config) {
 		return
 	}
 	r := multitemplate.NewRenderer()
-	layouts, err := filepath.Glob(cfg.ViewsPath + "/layouts/base.html")
+	// front
+	frontLayouts, err := filepath.Glob(cfg.ViewsPath + "/layouts/front.html")
 	if err != nil {
 		panic(err)
 	}
-	includes, err := filepath.Glob(cfg.ViewsPath + "/**/*")
+	frontContents, err := filepath.Glob(cfg.ViewsPath + "/front/*")
 	if err != nil {
 		panic(err)
 	}
 	// Generate our templates map from our layouts/ and includes/ directories
-	for _, include := range includes {
-		layoutCopy := make([]string, len(layouts))
-		copy(layoutCopy, layouts)
-		files := append(layoutCopy, include)
-		_, dir := filepath.Split(filepath.Dir(include))
-		name := fmt.Sprintf("%s/%s", dir, filepath.Base(include))
+	for _, content := range frontContents {
+		layoutCopy := make([]string, len(frontLayouts))
+		copy(layoutCopy, frontLayouts)
+		files := append(layoutCopy, content)
+		_, dir := filepath.Split(filepath.Dir(content))
+		name := fmt.Sprintf("%s/%s", dir, filepath.Base(content))
+		r.AddFromFiles(name, files...)
+	}
+	// admin
+	adminLayouts, err := filepath.Glob(cfg.ViewsPath + "/layouts/admin.html")
+	if err != nil {
+		panic(err)
+	}
+	adminContents, err := filepath.Glob(cfg.ViewsPath + "/admin/*")
+	if err != nil {
+		panic(err)
+	}
+	// Generate our templates map from our layouts/ and includes/ directories
+	for _, content := range adminContents {
+		layoutCopy := make([]string, len(adminLayouts))
+		copy(layoutCopy, adminLayouts)
+		files := append(layoutCopy, content)
+		_, dir := filepath.Split(filepath.Dir(content))
+		name := fmt.Sprintf("%s/%s", dir, filepath.Base(content))
 		r.AddFromFiles(name, files...)
 	}
 	e.HTMLRender = r
