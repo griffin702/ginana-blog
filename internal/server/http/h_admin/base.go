@@ -4,6 +4,7 @@ import (
 	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type HAdmin struct {
@@ -20,5 +21,5 @@ func (h *HAdmin) AdminIndex(ctx *gin.Context) {
 	k := &model.GiNana{
 		Hello: "GiNana Server",
 	}
-	ctx.HTML(200, "admin/index.html", k)
+	ctx.HTML(http.StatusOK, "admin/index.html", k)
 }

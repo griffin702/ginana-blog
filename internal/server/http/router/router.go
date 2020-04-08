@@ -8,12 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func InitRouter(
-	front *h_front.HFront,
-	admin *h_admin.HAdmin,
-	api *h_api.HApi,
-	cfg *config.Config,
-) (e *gin.Engine) {
+func InitRouter(front *h_front.HFront, admin *h_admin.HAdmin, api *h_api.HApi, cfg *config.Config) (e *gin.Engine) {
 	e = NewGin(cfg)
 	fr := e.Group("/")
 	{

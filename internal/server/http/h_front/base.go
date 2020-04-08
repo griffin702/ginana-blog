@@ -4,6 +4,7 @@ import (
 	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type HFront struct {
@@ -20,5 +21,5 @@ func (h *HFront) Index(ctx *gin.Context) {
 	k := &model.GiNana{
 		Hello: "GiNana Server",
 	}
-	ctx.HTML(200, "front/index.html", k)
+	ctx.HTML(http.StatusOK, "front/index.html", k)
 }
