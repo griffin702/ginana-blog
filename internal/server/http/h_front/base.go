@@ -21,5 +21,6 @@ func (h *HFront) Index(ctx *gin.Context) {
 	k := &model.GiNana{
 		Hello: "GiNana Server",
 	}
-	ctx.HTML(http.StatusOK, "front/index.html", k)
+	ctx.Set("data", k)
+	ctx.HTML(http.StatusOK, "front/index.html", ctx.Keys)
 }
