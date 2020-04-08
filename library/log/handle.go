@@ -39,7 +39,7 @@ type Loggers []Logger
 func (h Loggers) GetOutFile() (out io.Writer) {
 	var wr []io.Writer
 	for _, l := range h {
-		if o := l.GetOutFile(); !l.isStdOut() && o != nil {
+		if o := l.GetOutFile(); o != nil {
 			wr = append(wr, o)
 		}
 	}
