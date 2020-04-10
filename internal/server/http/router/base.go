@@ -8,8 +8,10 @@ import (
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
+	"html/template"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 func NewGin(cfg *config.Config) (e *gin.Engine) {
@@ -35,6 +37,10 @@ func initTemplate(e *gin.Engine, cfg *config.Config) {
 		return
 	}
 	r := multitemplate.NewRenderer()
+	funcs := template.FuncMap{
+		"date":     dateFormat,
+		"str2html": str2html,
+	}
 	// front
 	frontLayouts, err := filepath.Glob(cfg.ViewsPath + "/layouts/front.html")
 	if err != nil {
@@ -51,7 +57,7 @@ func initTemplate(e *gin.Engine, cfg *config.Config) {
 		files := append(layoutCopy, content)
 		_, dir := filepath.Split(filepath.Dir(content))
 		name := fmt.Sprintf("%s/%s", dir, filepath.Base(content))
-		r.AddFromFiles(name, files...)
+		r.AddFromFilesFuncs(name, funcs, files...)
 	}
 	// admin
 	adminLayouts, err := filepath.Glob(cfg.ViewsPath + "/layouts/admin.html")
@@ -69,7 +75,7 @@ func initTemplate(e *gin.Engine, cfg *config.Config) {
 		files := append(layoutCopy, content)
 		_, dir := filepath.Split(filepath.Dir(content))
 		name := fmt.Sprintf("%s/%s", dir, filepath.Base(content))
-		r.AddFromFiles(name, files...)
+		r.AddFromFilesFuncs(name, funcs, files...)
 	}
 	e.HTMLRender = r
 }
@@ -92,4 +98,13 @@ func initStaticDir(e *gin.Engine, cfg *config.Config) {
 			e.Static(path[0], path[1])
 		}
 	}
+}
+
+// template function
+func dateFormat(t time.Time, layout string) string {
+	return t.Format(layout)
+}
+
+func str2html(str string) template.HTML {
+	return template.HTML(str)
 }
