@@ -33,11 +33,8 @@ func NewIris(cfg *config.Config) (e *iris.Application) {
 	initTemplate(e, cfg)
 	initStaticDir(e, cfg)
 	e.OnAnyErrorCode(customLogger, func(ctx iris.Context) {
-		ctx.JSON(resp.JsonError(ecode.Errorf(ctx.GetStatusCode())))
+		ctx.JSON(resp.PlusJson(nil, ecode.Errorf(ctx.GetStatusCode())))
 	})
-	//// Swagger
-	//handle := mdw.SwaggerHandler("http://127.0.0.1:8000/swagger/doc.json")
-	//e.GET("/swagger/*any", handle)
 	return
 }
 

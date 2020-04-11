@@ -11,11 +11,12 @@ type JSON struct {
 	Data    interface{} `json:"data,omitempty"`
 }
 
-func JsonError(err error) *JSON {
+func PlusJson(data interface{}, err error) *JSON {
 	ec := ecode.Cause(err)
 	return &JSON{
 		Code:    ec.Code(),
 		Message: ec.Message(),
+		Data:    data,
 	}
 }
 

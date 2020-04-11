@@ -24,5 +24,9 @@ func InitRouter(front *front.CFront, admin *admin.CAdmin, api *api.CApi, cfg *co
 	adminParty := mvc.New(e.Party("/"))
 	adminParty.Router.Layout("layouts/admin.html")
 	adminParty.Handle(admin)
+	apiParty := e.Party("/api", Cors()).AllowMethods(iris.MethodOptions)
+	{
+		apiParty.Get("/", api.GetUsers)
+	}
 	return
 }
