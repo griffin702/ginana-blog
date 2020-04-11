@@ -6,11 +6,11 @@ package wire
 import (
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/db"
-	"ginana-blog/internal/server/http"
-	"ginana-blog/internal/server/http/h_admin"
-	"ginana-blog/internal/server/http/h_api"
-	"ginana-blog/internal/server/http/h_front"
-	"ginana-blog/internal/server/http/router"
+	"ginana-blog/internal/server"
+	"ginana-blog/internal/server/controller/admin"
+	"ginana-blog/internal/server/controller/api"
+	"ginana-blog/internal/server/controller/front"
+	"ginana-blog/internal/server/router"
 	"ginana-blog/internal/service"
 	"ginana-blog/internal/service/i_user"
 	"github.com/google/wire"
@@ -18,15 +18,15 @@ import (
 
 var initProvider = wire.NewSet(config.NewConfig, db.NewDB, db.NewCasbin)
 var iProvider = wire.NewSet(i_user.New)
-var hProvider = wire.NewSet(h_front.New, h_admin.New, h_api.New)
-var httpProvider = wire.NewSet(router.InitRouter, http.NewHttpServer)
+var cProvider = wire.NewSet(front.New, admin.New, api.New)
+var httpProvider = wire.NewSet(router.InitRouter, server.NewHttpServer)
 
 func InitApp() (*App, func(), error) {
 	panic(wire.Build(
 		initProvider,
 		iProvider,
 		service.New,
-		hProvider,
+		cProvider,
 		httpProvider,
 		NewApp,
 	))

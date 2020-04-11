@@ -19,7 +19,7 @@ func NewApp(s *service.Service, h *http.Server) (app *App, closeFunc func(), err
 		http: h,
 	}
 	closeFunc = func() {
-		ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		if err := h.Shutdown(ctx); err != nil {
 			log.Errorf("httpSrv.Shutdown error(%v)", err)
 		}
