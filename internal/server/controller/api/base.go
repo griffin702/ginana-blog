@@ -7,11 +7,11 @@ import (
 
 type CApi struct {
 	Ctx iris.Context
-	Svc *service.Service
+	svc *service.Service
 }
 
 func New(s *service.Service) *CApi {
 	return &CApi{
-		Svc: s,
+		svc: s,
 	}
 }

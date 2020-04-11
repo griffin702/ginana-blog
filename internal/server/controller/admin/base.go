@@ -7,11 +7,11 @@ import (
 
 type CAdmin struct {
 	Ctx iris.Context
-	Svc *service.Service
+	svc *service.Service
 }
 
 func New(s *service.Service) *CAdmin {
 	return &CAdmin{
-		Svc: s,
+		svc: s,
 	}
 }

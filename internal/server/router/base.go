@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/server/resp"
 	"ginana-blog/library/ecode"
@@ -20,6 +21,7 @@ func NewIris(cfg *config.Config) (e *iris.Application) {
 	golog.Install(log.GetLogger())
 	customLogger := logger.New(logger.Config{
 		Status: true, IP: true, Method: true, Path: true, Query: true,
+		//MessageHeaderKeys: []string{"User-Agent"},
 	})
 	e.Use(customLogger, recover.New())
 	e.Logger().SetLevel(cfg.IrisLogLevel)
@@ -56,6 +58,11 @@ func initStaticDir(e *iris.Application, cfg *config.Config) {
 		return
 	}
 	staticDirList := strings.Split(cfg.StaticDir, " ")
+	if len(staticDirList) > 0 {
+		icon := "favicon.ico"
+		path := strings.Split(staticDirList[0], ":")
+		e.Favicon(fmt.Sprintf("%s/%s", path[1], icon), icon)
+	}
 	for _, v := range staticDirList {
 		path := strings.Split(v, ":")
 		if len(path) == 2 {

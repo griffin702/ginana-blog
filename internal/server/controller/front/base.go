@@ -11,12 +11,12 @@ import (
 type CFront struct {
 	Ctx     iris.Context
 	Session *sessions.Session
-	Svc     *service.Service
+	svc     *service.Service
 }
 
 func New(s *service.Service) *CFront {
 	return &CFront{
-		Svc: s,
+		svc: s,
 	}
 }
 
