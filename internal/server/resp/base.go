@@ -20,7 +20,7 @@ func PlusJson(data interface{}, err error) *JSON {
 	}
 }
 
-func HttpError(data map[string]interface{}, err error) mvc.Result {
+func PlusHtml(data map[string]interface{}, err error) mvc.Result {
 	ec := ecode.Cause(err)
 	data["error"] = &JSON{
 		Code:    ec.Code(),
