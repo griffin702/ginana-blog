@@ -6,10 +6,18 @@ import (
 )
 
 func (s *service) GetSiteOptions() (res map[string]*string, err error) {
+	key := "siteOptions"
 	var options []*model.Options
-	if err = s.db.Find(&options).Error; err != nil {
-		err = ecode.Errorf(500, err)
-		return
+	err = s.mc.Get(key, &options)
+	if err != nil {
+		if err = s.db.Find(&options).Error; err != nil {
+			err = ecode.Errorf(500, err)
+			return
+		}
+		if err = s.mc.Set(key, &options); err != nil {
+			err = ecode.Errorf(500, err)
+			return
+		}
 	}
 	res = make(map[string]*string)
 	for _, v := range options {

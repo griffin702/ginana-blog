@@ -20,6 +20,7 @@ import (
 
 func NewIris(svc service.Service, cfg *config.Config) (e *iris.Application) {
 	e = iris.New()
+	//e.Use(iris.Cache304(10 * time.Second))
 	golog.Install(log.GetLogger())
 	customLogger := logger.New(logger.Config{
 		Status: true, IP: true, Method: true, Path: true, Query: true,
@@ -27,12 +28,12 @@ func NewIris(svc service.Service, cfg *config.Config) (e *iris.Application) {
 	})
 	e.Use(customLogger, recover.New())
 	e.Logger().SetLevel(cfg.IrisLogLevel)
+	initTemplate(e, cfg)
+	initStaticDir(e, cfg)
 	e.Use(func(ctx iris.Context) {
 		ctx.Gzip(cfg.EnableGzip)
 		ctx.Next()
 	})
-	initTemplate(e, cfg)
-	initStaticDir(e, cfg)
 	e.OnAnyErrorCode(customLogger, func(ctx iris.Context) {
 		ctx.JSON(resp.PlusJson(nil, ecode.Errorf(ctx.GetStatusCode())))
 	})
@@ -69,9 +70,8 @@ func initStaticDir(e *iris.Application, cfg *config.Config) {
 	}
 	staticDirList := strings.Split(cfg.StaticDir, " ")
 	if len(staticDirList) > 0 {
-		icon := "favicon.ico"
 		path := strings.Split(staticDirList[0], ":")
-		e.Favicon(fmt.Sprintf("%s/%s", path[1], icon), icon)
+		e.Favicon(fmt.Sprintf("%s/favicon.ico", path[1]))
 	}
 	for _, v := range staticDirList {
 		path := strings.Split(v, ":")
