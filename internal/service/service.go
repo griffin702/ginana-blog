@@ -16,6 +16,7 @@ type Service interface {
 	SetEnforcer(ef *casbin.SyncedEnforcer) (err error)
 	GetAllRoles(ctx context.Context) (roles []database.CasbinRole, err error)
 	GetAllUsers(ctx context.Context) (roles []database.CasbinUser, err error)
+	GetSiteOptions() (res map[string]*string, err error)
 }
 
 func New(cfg *config.Config, db *gorm.DB, mc memcache.Memcache) (s Service, err error) {
@@ -25,6 +26,7 @@ func New(cfg *config.Config, db *gorm.DB, mc memcache.Memcache) (s Service, err 
 		mc:   mc,
 		tool: tools.New(),
 	}
+	_, err = s.GetSiteOptions()
 	return
 }
 

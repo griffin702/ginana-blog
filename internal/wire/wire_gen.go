@@ -36,10 +36,10 @@ func InitApp() (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
+	cApi := api.New(serviceService)
 	cFront := front.New(serviceService)
 	cAdmin := admin.New(serviceService)
-	cApi := api.New(serviceService)
-	application := router.InitRouter(cFront, cAdmin, cApi, configConfig)
+	application := router.InitRouter(serviceService, configConfig, cApi, cFront, cAdmin)
 	httpServer, err := server.NewHttpServer(application, configConfig)
 	if err != nil {
 		return nil, nil, err

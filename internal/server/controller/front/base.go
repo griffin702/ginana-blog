@@ -4,7 +4,6 @@ import (
 	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/mvc"
 	"github.com/kataras/iris/v12/sessions"
 )
 
@@ -20,12 +19,10 @@ func New(s service.Service) *CFront {
 	}
 }
 
-func (c *CFront) Get() mvc.Result {
+func (c *CFront) Get() {
 	data := model.GiNana{
 		Hello: "Hello GiNana!",
 	}
-	return mvc.View{
-		Name: "front/index.html",
-		Data: data,
-	}
+	c.Ctx.ViewData("data", data)
+	c.Ctx.View("front/index.html")
 }
