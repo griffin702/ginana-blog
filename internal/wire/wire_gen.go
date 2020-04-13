@@ -37,7 +37,7 @@ func InitApp() (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	memcache, err := db.NewMC()
+	memcache, err := db.NewMC(configConfig)
 	if err != nil {
 		return nil, nil, err
 	}
