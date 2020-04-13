@@ -28,6 +28,7 @@ func NewDB(cfg *config.Config) (db *gorm.DB, err error) {
 func initTable(db *gorm.DB) {
 	db.AutoMigrate(
 		new(model.User),
+		new(model.Options),
 	)
 }
 
