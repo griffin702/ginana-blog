@@ -1318,7 +1318,7 @@ a.readmore {
     .top-to-page {
         position: fixed;
         bottom: 380px;
-        right: 14%;
+        right: 3%;
     }
 
     #to_down, #to_top {

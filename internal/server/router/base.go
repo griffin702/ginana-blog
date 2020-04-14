@@ -37,24 +37,7 @@ func NewIris(svc service.Service, cfg *config.Config) (e *iris.Application) {
 	e.OnAnyErrorCode(customLogger, func(ctx iris.Context) {
 		ctx.JSON(resp.PlusJson(nil, ecode.Errorf(ctx.GetStatusCode())))
 	})
-	e.UseGlobal(func(ctx iris.Context) {
-		res, err := svc.GetSiteOptions()
-		if err != nil {
-			ctx.JSON(resp.PlusJson(nil, err))
-			ctx.StopExecution()
-			return
-		}
-		//ctx.ViewData("options", res)
-		path, _ := getDefaultStaticDir(cfg.StaticDir)
-		ctx.ViewData("theme",
-			fmt.Sprintf("/%s/theme/%s/", path, res["theme"]),
-		)
-		ctx.ViewData("hidejs", `<!--[if lt IE 9]>
-	<script src="/static/js/html5shiv.min.js"></script>
-	<![endif]-->`,
-		)
-		ctx.Next()
-	})
+	e.UseGlobal(globalData(svc, cfg))
 	// Swagger
 	handle := mdw.SwaggerHandler("http://127.0.0.1:8000/swagger/doc.json")
 	e.Get("/swagger/*any", handle)
@@ -109,4 +92,25 @@ func dateFormat(t time.Time, format string) (template.HTML, error) {
 
 func str2html(str string) (template.HTML, error) {
 	return template.HTML(str), nil
+}
+
+func globalData(svc service.Service, cfg *config.Config) iris.Handler {
+	return func(ctx iris.Context) {
+		res, err := svc.GetSiteOptions()
+		if err != nil {
+			ctx.JSON(resp.PlusJson(nil, err))
+			ctx.StopExecution()
+			return
+		}
+		//ctx.ViewData("options", res)
+		path, _ := getDefaultStaticDir(cfg.StaticDir)
+		ctx.ViewData("theme",
+			fmt.Sprintf("/%s/theme/%s/", path, res["theme"]),
+		)
+		ctx.ViewData("hidejs", `<!--[if lt IE 9]>
+	<script src="/static/js/html5shiv.min.js"></script>
+	<![endif]-->`,
+		)
+		ctx.Next()
+	}
 }

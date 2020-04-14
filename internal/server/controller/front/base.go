@@ -1,7 +1,6 @@
 package front
 
 import (
-	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
@@ -20,7 +19,16 @@ func New(s service.Service) *CFront {
 	}
 }
 
+func (c *CFront) IsLogin() bool {
+	userId := c.Session.Get("userId")
+	if userId != nil && userId.(int64) > 0 {
+		return true
+	}
+	return false
+}
+
 func (c *CFront) setHeadMetas(params ...string) {
+	c.Ctx.ViewData("IsLogin", c.IsLogin())
 	titleBuf := make([]string, 0, 3)
 	options, _ := c.Svc.GetSiteOptions()
 	if len(params) == 0 && options["sitename"] != "" {
@@ -41,13 +49,4 @@ func (c *CFront) setHeadMetas(params ...string) {
 	} else {
 		c.Ctx.ViewData("description", options["description"])
 	}
-}
-
-func (c *CFront) Get() {
-	data := model.GiNana{
-		Hello: "Hello GiNana!",
-	}
-	c.setHeadMetas()
-	c.Ctx.ViewData("data", data)
-	c.Ctx.View("front/index.html")
 }
