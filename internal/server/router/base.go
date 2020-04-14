@@ -44,7 +44,15 @@ func NewIris(svc service.Service, cfg *config.Config) (e *iris.Application) {
 			ctx.StopExecution()
 			return
 		}
-		ctx.ViewData("siteOptions", res)
+		//ctx.ViewData("options", res)
+		path, _ := getDefaultStaticDir(cfg.StaticDir)
+		ctx.ViewData("theme",
+			fmt.Sprintf("/%s/theme/%s/", path, res["theme"]),
+		)
+		ctx.ViewData("hidejs", `<!--[if lt IE 9]>
+	<script src="/static/js/html5shiv.min.js"></script>
+	<![endif]-->`,
+		)
 		ctx.Next()
 	})
 	// Swagger
@@ -62,6 +70,7 @@ func initTemplate(e *iris.Application, cfg *config.Config) {
 	tmpl.AddFunc("date", dateFormat)
 	tmpl.AddFunc("str2html", str2html)
 	e.RegisterView(tmpl)
+	return
 }
 
 func initStaticDir(e *iris.Application, cfg *config.Config) {
@@ -79,6 +88,18 @@ func initStaticDir(e *iris.Application, cfg *config.Config) {
 			e.HandleDir(path[0], path[1], iris.DirOptions{Gzip: true})
 		}
 	}
+	return
+}
+
+func getDefaultStaticDir(conf string) (path, dir string) {
+	staticDirList := strings.Split(conf, " ")
+	if len(staticDirList) > 0 {
+		def := strings.Split(staticDirList[0], ":")
+		if len(def) == 2 {
+			return def[0], def[1]
+		}
+	}
+	return
 }
 
 // template function

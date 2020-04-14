@@ -2,9 +2,15 @@
 <html lang="zh_CN">
 <head>
     <meta charset="UTF-8">
-    <title>{{.Hello}}</title>
+    <title>{{.data.Hello}}{{.title}}</title>
+    <link href="{{.theme}}css/base.css" rel="stylesheet" type="text/css">
+    {{str2html .hidejs}}
 </head>
 <body>
+{{ render "front/head.html" }}
+{{ render "front/banner.html" }}
 {{ yield }}
+{{ render "front/right.html" }}
+{{ render "front/foot.html" }}
 </body>
 </html>

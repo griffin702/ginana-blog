@@ -16,7 +16,7 @@ import (
 )
 
 var initProvider = wire.NewSet(config.NewConfig, db.NewDB, db.NewMC)
-var svcProvider = wire.NewSet(service.New, db.NewCasbin)
+var svcProvider = wire.NewSet(service.NewErrHelper, service.New, db.NewCasbin)
 var cProvider = wire.NewSet(front.New, admin.New, api.New)
 var httpProvider = wire.NewSet(router.InitRouter, server.NewHttpServer)
 

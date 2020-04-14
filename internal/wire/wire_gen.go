@@ -32,7 +32,11 @@ func InitApp() (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	serviceService, err := service.New(configConfig, gormDB, memcache)
+	v, err := service.NewErrHelper()
+	if err != nil {
+		return nil, nil, err
+	}
+	serviceService, err := service.New(configConfig, gormDB, memcache, v)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -57,7 +61,7 @@ func InitApp() (*App, func(), error) {
 
 var initProvider = wire.NewSet(config.NewConfig, db.NewDB, db.NewMC)
 
-var svcProvider = wire.NewSet(service.New, db.NewCasbin)
+var svcProvider = wire.NewSet(service.NewErrHelper, service.New, db.NewCasbin)
 
 var cProvider = wire.NewSet(front.New, admin.New, api.New)
 
