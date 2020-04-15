@@ -37,12 +37,19 @@ func InitApp() (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	application := router.InitRouter(serviceService, configConfig)
+	application, err := router.InitRouter(serviceService, configConfig)
+	if err != nil {
+		return nil, nil, err
+	}
 	httpServer, err := server.NewHttpServer(application, configConfig)
 	if err != nil {
 		return nil, nil, err
 	}
-	app, cleanup, err := NewApp(serviceService, httpServer)
+	syncedEnforcer, err := db.NewCasbin(serviceService, configConfig)
+	if err != nil {
+		return nil, nil, err
+	}
+	app, cleanup, err := NewApp(httpServer, serviceService, syncedEnforcer)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application) {
+func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, err error) {
 	e = NewIris(cfg)
 
 	e.Use(func(ctx iris.Context) {
