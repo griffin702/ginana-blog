@@ -9,10 +9,11 @@ import (
 )
 
 type CFront struct {
-	Ctx     iris.Context
-	Session *sessions.Session
-	Svc     service.Service
-	Page    *model.Pagination
+	Ctx       iris.Context
+	Session   *sessions.Session
+	Svc       service.Service
+	GetOption func(name string) string
+	Page      *model.Pagination
 }
 
 func (c *CFront) IsLogin() bool {
@@ -26,23 +27,22 @@ func (c *CFront) IsLogin() bool {
 func (c *CFront) setHeadMetas(params ...string) {
 	c.Ctx.ViewData("IsLogin", c.IsLogin())
 	titleBuf := make([]string, 0, 3)
-	options, _ := c.Svc.GetSiteOptions()
-	if len(params) == 0 && options["sitename"] != "" {
-		titleBuf = append(titleBuf, options["sitename"])
+	if len(params) == 0 && c.GetOption("sitename") != "" {
+		titleBuf = append(titleBuf, c.GetOption("sitename"))
 	}
 	if len(params) > 0 {
 		titleBuf = append(titleBuf, params[0])
 	}
-	titleBuf = append(titleBuf, options["subtitle"])
+	titleBuf = append(titleBuf, c.GetOption("subtitle"))
 	c.Ctx.ViewData("title", strings.Join(titleBuf, " - "))
 	if len(params) > 1 {
 		c.Ctx.ViewData("keywords", params[1])
 	} else {
-		c.Ctx.ViewData("keywords", options["keywords"])
+		c.Ctx.ViewData("keywords", c.GetOption("keywords"))
 	}
 	if len(params) > 2 {
 		c.Ctx.ViewData("description", params[2])
 	} else {
-		c.Ctx.ViewData("description", options["description"])
+		c.Ctx.ViewData("description", c.GetOption("description"))
 	}
 }

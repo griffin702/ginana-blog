@@ -3,9 +3,6 @@ package router
 import (
 	"fmt"
 	"ginana-blog/internal/config"
-	"ginana-blog/internal/server/resp"
-	"ginana-blog/internal/service"
-	"ginana-blog/library/ecode"
 	"ginana-blog/library/log"
 	"ginana-blog/library/mdw"
 	"ginana-blog/library/tools"
@@ -18,7 +15,7 @@ import (
 	"time"
 )
 
-func NewIris(svc service.Service, cfg *config.Config) (e *iris.Application) {
+func NewIris(cfg *config.Config) (e *iris.Application) {
 	e = iris.New()
 	//e.Use(iris.Cache304(10 * time.Second))
 	golog.Install(log.GetLogger())
@@ -26,19 +23,12 @@ func NewIris(svc service.Service, cfg *config.Config) (e *iris.Application) {
 		Status: true, IP: true, Method: true, Path: true, Query: true,
 		//MessageHeaderKeys: []string{"User-Agent"},
 	})
+	e.OnAnyErrorCode(customLogger)
 	e.Use(customLogger, recover.New())
 	e.Logger().SetLevel(cfg.IrisLogLevel)
 	initTemplate(e, cfg)
 	initStaticDir(e, cfg)
-	e.Use(func(ctx iris.Context) {
-		ctx.Gzip(cfg.EnableGzip)
-		ctx.Next()
-	})
-	e.OnAnyErrorCode(customLogger, func(ctx iris.Context) {
-		ctx.JSON(resp.PlusJson(nil, ecode.Errorf(ctx.GetStatusCode())))
-	})
-	e.UseGlobal(globalData(svc, cfg))
-	// Swagger
+	// swagger
 	handle := mdw.SwaggerHandler("http://127.0.0.1:8000/swagger/doc.json")
 	e.Get("/swagger/*any", handle)
 	return
@@ -96,25 +86,4 @@ func dateFormat(t time.Time, format string) (template.HTML, error) {
 
 func str2html(str string) (template.HTML, error) {
 	return template.HTML(str), nil
-}
-
-func globalData(svc service.Service, cfg *config.Config) iris.Handler {
-	return func(ctx iris.Context) {
-		res, err := svc.GetSiteOptions()
-		if err != nil {
-			ctx.JSON(resp.PlusJson(nil, err))
-			ctx.StopExecution()
-			return
-		}
-		//ctx.ViewData("options", res)
-		path, _ := getDefaultStaticDir(cfg.StaticDir)
-		ctx.ViewData("theme",
-			fmt.Sprintf("/%s/theme/%s/", path, res["theme"]),
-		)
-		ctx.ViewData("hidejs", `<!--[if lt IE 9]>
-	<script src="/static/js/html5shiv.min.js"></script>
-	<![endif]-->`,
-		)
-		ctx.Next()
-	}
 }
