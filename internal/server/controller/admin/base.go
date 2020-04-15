@@ -9,9 +9,3 @@ type CAdmin struct {
 	Ctx iris.Context
 	Svc service.Service
 }
-
-func New(s service.Service) *CAdmin {
-	return &CAdmin{
-		Svc: s,
-	}
-}

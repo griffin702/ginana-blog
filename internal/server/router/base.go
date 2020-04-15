@@ -68,7 +68,11 @@ func initStaticDir(e *iris.Application, cfg *config.Config) {
 	for _, v := range staticDirList {
 		path := strings.Split(v, ":")
 		if len(path) == 2 {
-			e.HandleDir(path[0], path[1], iris.DirOptions{Gzip: true})
+			e.HandleDir(path[0], path[1], iris.DirOptions{
+				Gzip:     true,
+				ShowList: false,
+				//IndexName: "/index.html",
+			})
 		}
 	}
 	return

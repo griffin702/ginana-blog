@@ -8,14 +8,8 @@ import (
 )
 
 type CApi struct {
-	//Ctx iris.Context
+	Ctx iris.Context
 	Svc service.Service
-}
-
-func New(s service.Service) *CApi {
-	return &CApi{
-		Svc: s,
-	}
 }
 
 // GetUsers godoc
@@ -28,9 +22,9 @@ func New(s service.Service) *CApi {
 // @Success 200 {object} model.User
 // @Failure 500 {object} resp.JSON
 // @Router /users [get]
-func (c *CApi) GetUsers(ctx iris.Context) {
+func (c *CApi) GetUsers() {
 	data := model.GiNana{
 		Hello: "Hello GiNana!",
 	}
-	ctx.JSON(resp.PlusJson(data, nil))
+	c.Ctx.JSON(resp.PlusJson(data, nil))
 }

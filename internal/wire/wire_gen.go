@@ -9,9 +9,6 @@ import (
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/db"
 	"ginana-blog/internal/server"
-	"ginana-blog/internal/server/controller/admin"
-	"ginana-blog/internal/server/controller/api"
-	"ginana-blog/internal/server/controller/front"
 	"ginana-blog/internal/server/router"
 	"ginana-blog/internal/service"
 	"github.com/google/wire"
@@ -40,10 +37,7 @@ func InitApp() (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	cApi := api.New(serviceService)
-	cFront := front.New(serviceService)
-	cAdmin := admin.New(serviceService)
-	application := router.InitRouter(serviceService, configConfig, cApi, cFront, cAdmin)
+	application := router.InitRouter(serviceService, configConfig)
 	httpServer, err := server.NewHttpServer(application, configConfig)
 	if err != nil {
 		return nil, nil, err
@@ -62,7 +56,5 @@ func InitApp() (*App, func(), error) {
 var initProvider = wire.NewSet(config.NewConfig, db.NewDB, db.NewMC)
 
 var svcProvider = wire.NewSet(service.NewErrHelper, service.New, db.NewCasbin)
-
-var cProvider = wire.NewSet(front.New, admin.New, api.New)
 
 var httpProvider = wire.NewSet(router.InitRouter, server.NewHttpServer)
