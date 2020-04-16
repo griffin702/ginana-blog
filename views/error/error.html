@@ -1,3 +1,17 @@
-{{define "content"}}
-    <h3>code: {{ .code }} error: {{ .error }}111</h3>
-{{ end }}
+<h1 class="t_nav">
+    <a href="/" class="n1">网站首页</a>
+    <a href="/" class="n2">{{ .error.Code }}</a>
+    <p><span class="glyphicon glyphicon-map-marker"></span> 抱歉，服务器有错误信息返回</p>
+</h1>
+<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">code: {{ .error.Code }}</div>
+        <div class="panel-body">
+            <p>message:</p>
+            <p>{{ .error.Message }}</p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+    <img src="{{.theme}}images/404.png" alt=""/>
+</div>

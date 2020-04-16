@@ -30,6 +30,13 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 	})
 
 	group := mvc.New(e.Party("/"))
+
+	group.HandleError(func(ctx iris.Context, err error) {
+		ctx.ViewData("DisableRight", true)
+		ctx.ViewData("error", resp.PlusJson(nil, err))
+		ctx.View("error/error.html")
+	})
+
 	group.Register(
 		svc, session.Start,
 		getSiteOptions(svc, cfg),
@@ -81,9 +88,3 @@ func getSiteOptions(svc service.Service, cfg *config.Config) func(ctx iris.Conte
 		}
 	}
 }
-
-//func setHeadMetas(svc service.Service,cfg *config.Config) func(ctx iris.Context) func(name string) string {
-//	return func(ctx iris.Context) func(name string) string {
-//
-//	}
-//}
