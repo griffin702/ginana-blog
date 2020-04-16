@@ -11,8 +11,8 @@ import (
 )
 
 type casbinService interface {
-	GetAllRoles(ctx context.Context) (roles []CasbinRole, err error)
-	GetAllUsers(ctx context.Context) (roles []CasbinUser, err error)
+	GetAllRoles(ctx context.Context) (roles []*CasbinRole, err error)
+	GetAllUsers(ctx context.Context) (users []*CasbinUser, err error)
 }
 
 type CasbinRole struct {
@@ -22,8 +22,8 @@ type CasbinRole struct {
 }
 
 type CasbinUser struct {
-	ID       int64
-	RoleName string
+	ID        int64
+	RoleNames []string
 }
 
 // Config casbin config.
@@ -111,8 +111,11 @@ func (a *CasbinAdapter) loadUserPolicy(ctx context.Context, model model.Model) e
 		return err
 	}
 	for _, user := range users {
-		line := fmt.Sprintf("g,%d,%s", user.ID, user.RoleName)
-		persist.LoadPolicyLine(line, model)
+		for _, roleName := range user.RoleNames {
+			line := fmt.Sprintf("g,%d,%s", user.ID, roleName)
+			fmt.Println(line)
+			persist.LoadPolicyLine(line, model)
+		}
 	}
 	return nil
 }
