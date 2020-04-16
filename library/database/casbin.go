@@ -113,7 +113,6 @@ func (a *CasbinAdapter) loadUserPolicy(ctx context.Context, model model.Model) e
 	for _, user := range users {
 		for _, roleName := range user.RoleNames {
 			line := fmt.Sprintf("g,%d,%s", user.ID, roleName)
-			fmt.Println(line)
 			persist.LoadPolicyLine(line, model)
 		}
 	}
