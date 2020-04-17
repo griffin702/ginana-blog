@@ -100,7 +100,6 @@ func (a *CasbinAdapter) loadRolePolicy(ctx context.Context, model model.Model) e
 		}
 		line := fmt.Sprintf("p,%s,%s,%s", role.RoleName, role.Router, role.Method)
 		persist.LoadPolicyLine(line, model)
-		fmt.Println(line)
 	}
 	return nil
 }
@@ -114,7 +113,6 @@ func (a *CasbinAdapter) loadUserPolicy(ctx context.Context, model model.Model) e
 	for _, user := range users {
 		line := fmt.Sprintf("g,%d,%s", user.UserID, user.RoleName)
 		persist.LoadPolicyLine(line, model)
-		fmt.Println(line)
 	}
 	return nil
 }
