@@ -16,8 +16,8 @@ type Service interface {
 	Close()
 	GetError(i int, str ...string) (int, error)
 	SetEnforcer(ef *casbin.SyncedEnforcer) (err error)
-	GetEFRoles(ctx context.Context) (roles []*database.CasbinRole, err error)
-	GetEFUsers(ctx context.Context) (users []*database.CasbinUser, err error)
+	GetEFRoles(ctx context.Context) (roles []*database.EFRolePolicy, err error)
+	GetEFUsers(ctx context.Context) (users []*database.EFUseRole, err error)
 	GetSiteOptions() (res map[string]string, err error)
 }
 
