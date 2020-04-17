@@ -9,11 +9,7 @@ import (
 	"sync"
 )
 
-func (s *service) GetAllRoles(ctx context.Context) (roles []*database.CasbinRole, err error) {
-	return
-}
-
-func (s *service) GetAllUsers(c context.Context) (users []*database.CasbinUser, err error) {
+func (s *service) GetEFUsers(c context.Context) (users []*database.CasbinUser, err error) {
 	var userIdList []int64
 	s.db.Model(&model.User{}).Select("id").Pluck("id", &userIdList)
 	var wg sync.WaitGroup
@@ -21,11 +17,11 @@ func (s *service) GetAllUsers(c context.Context) (users []*database.CasbinUser, 
 	wg.Add(len(userIdList))
 	for _, userId := range userIdList {
 		go func(userId int64, users *[]*database.CasbinUser, wg *sync.WaitGroup) {
-			user := new(database.CasbinUser)
 			u, err := s.GetUser(c, userId)
 			if err != nil {
 				return
 			}
+			user := new(database.CasbinUser)
 			user.ID = u.ID
 			for _, role := range u.Roles {
 				user.RoleNames = append(user.RoleNames, role.RoleName)
@@ -37,21 +33,20 @@ func (s *service) GetAllUsers(c context.Context) (users []*database.CasbinUser, 
 		}(userId, &users, &wg)
 	}
 	wg.Wait()
-	fmt.Println(users[0])
 	return
 }
 
 func (s *service) GetUser(ctx context.Context, id int64) (user *model.User, err error) {
 	key := fmt.Sprintf("user_%d", id)
 	user = new(model.User)
-	err = s.mc.Get(key, &user)
+	err = s.mc.Get(key, user)
 	if err != nil {
 		user.ID = id
 		if err = s.db.Find(user).Related(&user.Roles, "Roles").Error; err != nil {
 			err = ecode.Errorf(s.GetError(1001, err.Error()))
 			return
 		}
-		if err = s.mc.Set(key, &user); err != nil {
+		if err = s.mc.Set(key, user); err != nil {
 			err = ecode.Errorf(s.GetError(1002, err.Error()))
 			return
 		}

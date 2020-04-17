@@ -11,8 +11,8 @@ type Role struct {
 
 type Policy struct {
 	ID     int64  `json:"id" gorm:"primary_key;comment:'规则ID'"`
-	Method string `json:"method" gorm:"type:VARCHAR(30);not null;comment:'请求方式'"`
 	Router string `json:"router" gorm:"type:VARCHAR(191);not null;comment:'请求路由'"`
+	Method string `json:"method" gorm:"type:VARCHAR(30);not null;comment:'请求方式'"`
 }
 
 type RolePolicys struct {
