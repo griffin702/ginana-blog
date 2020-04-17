@@ -1,6 +1,8 @@
 package model
 
-import "ginana-blog/library/time"
+import (
+	"time"
+)
 
 type Role struct {
 	ID        int64     `json:"id" gorm:"primary_key;comment:'角色ID'"`
