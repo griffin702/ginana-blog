@@ -19,10 +19,10 @@ import (
 func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, err error) {
 	e = NewIris(cfg)
 
-	e.Use(func(ctx iris.Context) {
-		ctx.Gzip(cfg.EnableGzip)
-		ctx.Next()
-	})
+	//e.Use(func(ctx iris.Context) {
+	//	ctx.Gzip(cfg.EnableGzip)
+	//	ctx.Next()
+	//})
 
 	session := sessions.New(sessions.Config{
 		Cookie:  "GiNana_Session",
@@ -49,7 +49,7 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 	adminParty.Router.Layout("layouts/admin.html")
 	adminParty.Handle(new(admin.CAdmin))
 
-	apiParty := mvc.New(e.Party("/api", mdw.CORS([]string{"*"})).AllowMethods(iris.MethodOptions)) // <- important for the penlight.
+	apiParty := mvc.New(e.Party("/api", mdw.Cors([]string{"*"})).AllowMethods(iris.MethodOptions)) // <- important for the penlight.
 	apiParty.Register(svc)
 	apiParty.Handle(new(api.CApi))
 
