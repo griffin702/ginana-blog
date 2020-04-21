@@ -14,13 +14,14 @@ func (s *service) GetSiteOptions() (res map[string]string, err error) {
 			err = ecode.Errorf(s.GetError(1001, err.Error()))
 			return
 		}
+		if len(options) == 0 {
+			err = ecode.Errorf(s.GetError(500, "站点设置异常"))
+			return
+		}
 		if err = s.mc.Set(key, &options); err != nil {
 			err = ecode.Errorf(s.GetError(1002, err.Error()))
 			return
 		}
-	}
-	if len(options) == 0 {
-		err = ecode.Errorf(s.GetError(500, "站点设置异常"))
 	}
 	res = make(map[string]string)
 	for _, v := range options {
