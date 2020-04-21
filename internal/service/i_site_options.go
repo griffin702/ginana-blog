@@ -19,6 +19,9 @@ func (s *service) GetSiteOptions() (res map[string]string, err error) {
 			return
 		}
 	}
+	if len(options) == 0 {
+		err = ecode.Errorf(s.GetError(500, "站点设置异常"))
+	}
 	res = make(map[string]string)
 	for _, v := range options {
 		res[v.Name] = v.Value
