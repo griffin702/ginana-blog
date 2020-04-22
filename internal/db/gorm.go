@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/model"
 	"ginana-blog/library/conf/paladin"
@@ -31,6 +32,9 @@ func initTable(db *gorm.DB) {
 		new(model.User),
 		new(model.Role),
 		new(model.Policy),
+		new(model.Article),
+		new(model.Tag),
+		new(model.Link),
 	)
 }
 
@@ -43,5 +47,15 @@ func initTableData(db *gorm.DB) {
 		admin.Nickname = "admin"
 		admin.IsAuth = true
 		db.Create(admin)
+	}
+	article := new(model.Article)
+	if err := db.Find(article, "id = 1").Error; err != nil {
+		for i := 0; i < 20; i++ {
+			article = new(model.Article)
+			article.Title = fmt.Sprintf("标题-%d", i)
+			article.Content = fmt.Sprintf("内容-%d", i)
+			article.Status = 1
+			db.Create(article)
+		}
 	}
 }
