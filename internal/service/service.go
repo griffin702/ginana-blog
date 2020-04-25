@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"ginana-blog/internal/config"
+	"ginana-blog/internal/model"
 	"ginana-blog/library/cache/memcache"
 	"ginana-blog/library/database"
 	"ginana-blog/library/tools"
@@ -19,6 +20,8 @@ type Service interface {
 	GetEFRoles(ctx context.Context) (roles []*database.EFRolePolicy, err error)
 	GetEFUsers(ctx context.Context) (users []*database.EFUseRole, err error)
 	GetSiteOptions() (res map[string]string, err error)
+
+	GetArticles(p *model.Pager) (res *model.Articles, err error)
 }
 
 func New(cfg *config.Config, db *gorm.DB, mc memcache.Memcache, eh *map[int]string) (s Service, err error) {

@@ -814,9 +814,10 @@ h2.title_tj span {
     color: #FE5187
 }
 
-h2.title_tj p {
+h2.title_tj div {
     background: #fff;
-    width: 80px
+    width: 80px;
+    margin-bottom: 10px;
 }
 
 .avatar {

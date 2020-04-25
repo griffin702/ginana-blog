@@ -13,7 +13,7 @@ type CFront struct {
 	Session      *sessions.Session
 	Svc          service.Service
 	GetOption    func(name string) string
-	Page         *model.Pagination
+	Pager        *model.Pager
 	DisableRight bool
 }
 
@@ -26,8 +26,8 @@ func (c *CFront) IsLogin() bool {
 }
 
 func (c *CFront) setHeadMetas(params ...string) {
-	c.Ctx.ViewData("IsLogin", c.IsLogin())
-	c.Ctx.ViewData("DisableRight", c.DisableRight)
+	c.Ctx.ViewData("isLogin", c.IsLogin())
+	c.Ctx.ViewData("disableRight", c.DisableRight)
 	titleBuf := make([]string, 0, 3)
 	if len(params) == 0 && c.GetOption("sitename") != "" {
 		titleBuf = append(titleBuf, c.GetOption("sitename"))

@@ -1,11 +1,15 @@
 package model
 
+import (
+	"net/url"
+	"strings"
+)
+
 // BlogGin hello BlogGin.
 type GiNana struct {
 	Hello string
 }
 
-type Pagination struct {
-	Page     int64
-	PageSize int64
+func Rawurlencode(str string) string {
+	return strings.Replace(url.QueryEscape(str), "+", "%20", -1)
 }

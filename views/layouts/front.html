@@ -29,7 +29,7 @@
     {{ render "front/banner.html" }}
     <div class="col-lg-1 col-md-1 hidden-sm hidden-xs column"></div>
     <article class="col-lg-10 col-md-10 col-sm-12 col-xs-12 column">
-        {{ yield }}{{if not .DisableRight}}
+        {{ yield }}{{if not .disableRight}}
             {{ render "front/right.html" }}{{end}}
     </article>
     <div class="col-lg-1 col-md-1 hidden-sm hidden-xs column"></div>

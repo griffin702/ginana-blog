@@ -32,7 +32,7 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 	group := mvc.New(e.Party("/"))
 
 	group.HandleError(func(ctx iris.Context, err error) {
-		ctx.ViewData("DisableRight", true)
+		ctx.ViewData("disableRight", true)
 		ctx.ViewData("error", resp.PlusJson(nil, err))
 		ctx.View("error/error.html")
 	})
@@ -56,8 +56,8 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 	return
 }
 
-func getPagination(ctx iris.Context) *model.Pagination {
-	return &model.Pagination{
+func getPagination(ctx iris.Context) *model.Pager {
+	return &model.Pager{
 		Page:     ctx.URLParamInt64Default("page", 1),
 		PageSize: ctx.URLParamInt64Default("pagesize", 10),
 	}

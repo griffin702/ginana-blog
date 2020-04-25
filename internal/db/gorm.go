@@ -52,6 +52,7 @@ func initTableData(db *gorm.DB) {
 	if err := db.Find(article, "id = 1").Error; err != nil {
 		for i := 0; i < 20; i++ {
 			article = new(model.Article)
+			article.UserID = 1
 			article.Title = fmt.Sprintf("标题-%d", i)
 			article.Content = fmt.Sprintf("内容-%d", i)
 			article.Status = 1
