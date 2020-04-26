@@ -153,7 +153,7 @@ h1.t_nav p {
 }
 
 @media (min-width: 992px) {
-    h1.t_nav p {
+    h1.t_nav div {
         padding-left: 5%;
         display: inline;
         vertical-align: text-top;
@@ -469,6 +469,10 @@ aside .rnav ul li a:hover {
     color: #999;
     line-height: 26px;
     margin: 35px 0 15px 0;
+}
+
+.about_c p {
+    white-space: pre-line;
 }
 
 .about_c img {
