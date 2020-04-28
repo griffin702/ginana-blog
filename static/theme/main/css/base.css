@@ -147,13 +147,14 @@ footer {
     margin-right: 5px
 }
 
-h1.t_nav p {
+h1.t_nav strong {
+    color: #666666;
     margin: 0;
     font-size: 12px;
 }
 
 @media (min-width: 992px) {
-    h1.t_nav div {
+    h1.t_nav strong {
         padding-left: 5%;
         display: inline;
         vertical-align: text-top;
@@ -162,7 +163,7 @@ h1.t_nav p {
 }
 
 @media (max-width: 991px) {
-    h1.t_nav p {
+    h1.t_nav strong {
         float: left;
         line-height: 20px;
         padding: 5px 5px;
@@ -170,7 +171,7 @@ h1.t_nav p {
     }
 }
 
-h1.t_nav p span {
+h1.t_nav strong span {
     vertical-align: text-top;
     font-size: 14px;
     color: #999;
@@ -469,6 +470,10 @@ aside .rnav ul li a:hover {
     color: #999;
     line-height: 26px;
     margin: 35px 0 15px 0;
+}
+
+.about_c p {
+    white-space:pre-line;
 }
 
 .about_c img {
