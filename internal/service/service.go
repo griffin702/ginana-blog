@@ -21,7 +21,7 @@ type Service interface {
 	GetEFUsers(ctx context.Context) (users []*database.EFUseRole, err error)
 	GetSiteOptions() (res map[string]string, err error)
 
-	GetArticles(p *model.Pager) (res *model.Articles, err error)
+	GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (res *model.Articles, err error)
 }
 
 func New(cfg *config.Config, db *gorm.DB, mc memcache.Memcache, eh *map[int]string) (s Service, err error) {

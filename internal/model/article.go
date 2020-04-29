@@ -37,6 +37,10 @@ type ArticleTags struct {
 	TagID     int64 `json:"tag_id"`     //标签ID
 }
 
+type ArticleQueryParam struct {
+	Order string
+}
+
 // 带颜色的标题
 func (a *Article) ColorTitle() string {
 	if a.Color != "" {
