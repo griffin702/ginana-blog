@@ -9,6 +9,7 @@ func (c *CFront) BeforeActivation(b mvc.BeforeActivation) {
 	b.Handle("GET", "/life.html", "GetLife")
 	b.Handle("GET", "/category.html", "GetTags")
 	b.Handle("GET", "/mood.html", "GetMoods")
+	b.Handle("GET", "/links.html", "GetLinks")
 }
 
 func (c *CFront) Get() (err error) {
@@ -60,5 +61,17 @@ func (c *CFront) GetMoods() (err error) {
 	c.DisableRight = true
 	c.setHeadMetas("碎言碎语")
 	c.Ctx.View("front/mood.html")
+	return
+}
+
+func (c *CFront) GetLinks() (err error) {
+	comments, err := c.Svc.GetComments(c.Pager, 0)
+	if err != nil {
+		return
+	}
+	c.Ctx.ViewData("comments", comments)
+	c.DisableRight = true
+	c.setHeadMetas("友情链接")
+	c.Ctx.View("front/links.html")
 	return
 }

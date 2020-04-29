@@ -13,6 +13,7 @@ type CFront struct {
 	Session      *sessions.Session
 	Svc          service.Service
 	GetOption    func(name string) string
+	Links        *model.Links
 	Pager        *model.Pager
 	DisableRight bool
 }

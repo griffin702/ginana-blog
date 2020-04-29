@@ -24,6 +24,8 @@ type Service interface {
 	GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (res *model.Articles, err error)
 	GetTags() (res *model.Tags, err error)
 	GetMoods(p *model.Pager) (res *model.Moods, err error)
+	GetLinks() (res *model.Links, err error)
+	GetComments(p *model.Pager, objPK int64) (res *model.Comments, err error)
 }
 
 func New(cfg *config.Config, db *gorm.DB, mc memcache.Memcache, eh *map[int]string) (s Service, err error) {

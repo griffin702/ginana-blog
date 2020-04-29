@@ -39,8 +39,8 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 
 	group.Register(
 		svc, session.Start,
-		getSiteOptions(svc, cfg),
 		getPagination,
+		getSiteOptions(svc, cfg),
 	)
 
 	group.Router.Layout("layouts/front.html")
@@ -64,28 +64,38 @@ func getPagination(ctx iris.Context) *model.Pager {
 	}
 }
 
-func getSiteOptions(svc service.Service, cfg *config.Config) func(ctx iris.Context) (getOption func(name string) string) {
-	return func(ctx iris.Context) func(name string) string {
+func getSiteOptions(svc service.Service, cfg *config.Config) func(ctx iris.Context) (getOption func(name string) string, err error) {
+	return func(ctx iris.Context) (func(name string) string, error) {
 		options, err := svc.GetSiteOptions()
 		if err != nil {
-			ctx.JSON(resp.PlusJson(nil, err))
-			ctx.StopExecution()
-			return nil
+			return nil, err
 		}
 		ctx.ViewData("options", options)
 		path, _ := getDefaultStaticDir(cfg.StaticDir)
 		ctx.ViewData("theme",
 			fmt.Sprintf("/%s/theme/%s/", path, options["theme"]),
 		)
-		ctx.ViewData("hidejs", `<!--[if lt IE 9]>
-	<script src="/static/js/html5shiv.min.js"></script>
-	<![endif]-->`,
-		)
+		if err = makeGlobalData(ctx, svc); err != nil {
+			return nil, err
+		}
 		return func(name string) string {
 			if value, ok := options[name]; ok {
 				return value
 			}
 			return ""
-		}
+		}, nil
 	}
+}
+
+func makeGlobalData(ctx iris.Context, svc service.Service) (err error) {
+	ctx.ViewData("hidejs", `<!--[if lt IE 9]>
+	<script src="/static/js/html5shiv.min.js"></script>
+	<![endif]-->`,
+	)
+	links, err := svc.GetLinks()
+	if err != nil {
+		return
+	}
+	ctx.ViewData("links", links)
+	return
 }
