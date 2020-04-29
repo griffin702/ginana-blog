@@ -34,6 +34,7 @@ func initTable(db *gorm.DB) {
 		new(model.Policy),
 		new(model.Article),
 		new(model.Tag),
+		new(model.Mood),
 		new(model.Link),
 	)
 }

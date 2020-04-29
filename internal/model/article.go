@@ -27,7 +27,7 @@ type Article struct {
 }
 
 type Articles struct {
-	List  []*Article `json:"article_list"`
+	List  []*Article `json:"list"`
 	Pager string     `json:"pager"`
 }
 

@@ -1,0 +1,16 @@
+<h1 class="t_nav">
+    <a href="/" class="n1">网站首页</a>
+    <a href="/category.html" class="n2">归类归档</a>
+    <p><span class="glyphicon glyphicon-map-marker"></span> 归类就像规划人生一样，定位、正确、坚持。</p>
+</h1>
+
+<div class="tags-body col-lg-9 col-md-9 col-sm-12 col-xs-12 column" id="wy-delegate-all">
+    <blockquote><p>归类</p></blockquote>
+    <div class="tags">
+        {{range $k, $v := .data.List}}
+            <a href="/category/{{$v.ID}}" class="btn btn-default">
+                <div style="color: {{$v.RangeColor}};">{{$v.Name}}<span class="badge">{{$v.CountArticles}}</span></div>
+            </a>
+        {{end}}
+    </div>
+</div>
