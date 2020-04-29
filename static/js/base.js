@@ -1,5 +1,5 @@
 function sure_logout() {
-    return confirm('确定退出登录吗？');
+    return confirm("确定退出登录吗？");
 }
 
 $(document).ready(function () {
