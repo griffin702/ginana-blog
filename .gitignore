@@ -12,3 +12,7 @@
 *.out
 .idea
 *.log
+static/upload/bigpic
+static/upload/bigsmallpic
+static/upload/smallpic
+static/upload/media
