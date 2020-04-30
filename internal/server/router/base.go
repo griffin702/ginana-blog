@@ -5,14 +5,11 @@ import (
 	"ginana-blog/internal/config"
 	"ginana-blog/library/log"
 	"ginana-blog/library/mdw"
-	"ginana-blog/library/tools"
 	"github.com/kataras/golog"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/logger"
 	"github.com/kataras/iris/v12/middleware/recover"
-	"html/template"
 	"strings"
-	"time"
 )
 
 func NewIris(cfg *config.Config) (e *iris.Application) {
@@ -31,18 +28,6 @@ func NewIris(cfg *config.Config) (e *iris.Application) {
 	// swagger
 	handle := mdw.SwaggerHandler("http://127.0.0.1:8000/swagger/doc.json")
 	e.Get("/swagger/*any", handle)
-	return
-}
-
-func initTemplate(e *iris.Application, cfg *config.Config) {
-	if !cfg.EnableTemplate {
-		return
-	}
-	tmpl := iris.HTML(cfg.ViewsPath, ".html").
-		Reload(cfg.ReloadTemplate)
-	tmpl.AddFunc("date", dateFormat)
-	tmpl.AddFunc("str2html", str2html)
-	e.RegisterView(tmpl)
 	return
 }
 
@@ -77,13 +62,4 @@ func getDefaultStaticDir(conf string) (path, dir string) {
 		}
 	}
 	return
-}
-
-// template function
-func dateFormat(t time.Time, format string) (template.HTML, error) {
-	return template.HTML(tools.New().TimeFormat(&t, format)), nil
-}
-
-func str2html(str string) (template.HTML, error) {
-	return template.HTML(str), nil
 }
