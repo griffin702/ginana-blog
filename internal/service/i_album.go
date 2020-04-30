@@ -10,7 +10,7 @@ func (s *service) GetAlbums(p *model.Pager) (res *model.Albums, err error) {
 	query := s.db.Model(&res.List).Count(&p.AllCount)
 	query = query.Order("created_at desc").Preload("Photos")
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
-		err = ecode.Errorf(s.GetError(501, err.Error()))
+		err = ecode.Errorf(s.hm.GetError(501, err.Error()))
 		return nil, err
 	}
 	res.Pager = p.NewPager(p.UrlPath)
@@ -21,7 +21,7 @@ func (s *service) GetAlbum(id int64) (album *model.Album, err error) {
 	album = new(model.Album)
 	album.ID = id
 	if err = s.db.Find(album).Error; err != nil {
-		err = ecode.Errorf(s.GetError(501, err.Error()))
+		err = ecode.Errorf(s.hm.GetError(501, err.Error()))
 		return nil, err
 	}
 	return
@@ -32,7 +32,7 @@ func (s *service) GetPhotos(p *model.Pager, albumId int64) (res *model.Photos, e
 	query := s.db.Model(&res.List).Where("album_id = ?", albumId).Count(&p.AllCount)
 	query = query.Order("created_at desc")
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
-		err = ecode.Errorf(s.GetError(501, err.Error()))
+		err = ecode.Errorf(s.hm.GetError(501, err.Error()))
 		return nil, err
 	}
 	res.Pager = p.NewPager(p.UrlPath)

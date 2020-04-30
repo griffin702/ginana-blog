@@ -22,7 +22,7 @@ func (s *service) GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (r
 	query.Count(&p.AllCount)
 	query = query.Order(pr.Order).Preload("User").Preload("Tags")
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
-		err = ecode.Errorf(s.GetError(501, err.Error()))
+		err = ecode.Errorf(s.hm.GetError(501, err.Error()))
 		return nil, err
 	}
 	res.Pager = p.NewPager(p.UrlPath)
@@ -34,7 +34,7 @@ func (s *service) GetArticle(id int64) (article *model.Article, err error) {
 	article.ID = id
 	if err = s.db.Model(article).Preload("User").Preload("Tags").
 		Find(article).Error; err != nil {
-		err = ecode.Errorf(s.GetError(501, err.Error()))
+		err = ecode.Errorf(s.hm.GetError(501, err.Error()))
 		return nil, err
 	}
 	var prev, next model.Article
@@ -56,15 +56,15 @@ func (s *service) GetArticle(id int64) (article *model.Article, err error) {
 }
 
 func (s *service) GetLatestArticles(limit int) (articles []*model.Article, err error) {
-	key := "latestArticles"
+	key := s.hm.GetCacheKey(2)
 	err = s.mc.Get(key, &articles)
 	if err != nil {
 		if err = s.db.Model(&articles).Order("created_at desc").Limit(limit).Find(&articles).Error; err != nil {
-			err = ecode.Errorf(s.GetError(1001, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1001, err.Error()))
 			return
 		}
 		if err = s.mc.Set(key, &articles); err != nil {
-			err = ecode.Errorf(s.GetError(1002, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1002, err.Error()))
 			return
 		}
 	}
@@ -72,15 +72,15 @@ func (s *service) GetLatestArticles(limit int) (articles []*model.Article, err e
 }
 
 func (s *service) GetHotArticles(limit int) (articles []*model.Article, err error) {
-	key := "hotArticles"
+	key := s.hm.GetCacheKey(3)
 	err = s.mc.Get(key, &articles)
 	if err != nil {
 		if err = s.db.Model(&articles).Order("views desc").Limit(limit).Find(&articles).Error; err != nil {
-			err = ecode.Errorf(s.GetError(1001, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1001, err.Error()))
 			return
 		}
 		if err = s.mc.Set(key, &articles); err != nil {
-			err = ecode.Errorf(s.GetError(1002, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1002, err.Error()))
 			return
 		}
 	}

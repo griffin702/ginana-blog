@@ -29,11 +29,11 @@ func InitApp() (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	v, err := service.NewErrHelper()
+	helperMap, err := service.NewHelperMap()
 	if err != nil {
 		return nil, nil, err
 	}
-	serviceService, err := service.New(configConfig, gormDB, memcache, v)
+	serviceService, err := service.New(configConfig, gormDB, memcache, helperMap)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -62,6 +62,6 @@ func InitApp() (*App, func(), error) {
 
 var initProvider = wire.NewSet(config.NewConfig, db.NewDB, db.NewMC)
 
-var svcProvider = wire.NewSet(service.NewErrHelper, service.New, db.NewCasbin)
+var svcProvider = wire.NewSet(service.NewHelperMap, service.New, db.NewCasbin)
 
 var httpProvider = wire.NewSet(router.InitRouter, server.NewHttpServer)

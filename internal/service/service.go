@@ -10,12 +10,10 @@ import (
 	"ginana-blog/library/tools"
 	"github.com/casbin/casbin/v2"
 	"github.com/jinzhu/gorm"
-	"github.com/pkg/errors"
 )
 
 type Service interface {
 	Close()
-	GetError(i int, str ...string) (int, error)
 	SetEnforcer(ef *casbin.SyncedEnforcer) (err error)
 	GetEFRoles(ctx context.Context) (roles []*database.EFRolePolicy, err error)
 	GetEFUsers(ctx context.Context) (users []*database.EFUseRole, err error)
@@ -36,12 +34,12 @@ type Service interface {
 	GetPhotos(p *model.Pager, albumId int64) (res *model.Photos, err error)
 }
 
-func New(cfg *config.Config, db *gorm.DB, mc memcache.Memcache, eh *map[int]string) (s Service, err error) {
+func New(cfg *config.Config, db *gorm.DB, mc memcache.Memcache, hm HelperMap) (s Service, err error) {
 	s = &service{
 		cfg:  cfg,
 		db:   db,
 		mc:   mc,
-		eh:   eh,
+		hm:   hm,
 		tool: tools.Tools,
 	}
 	_, err = s.GetSiteOptions()
@@ -53,24 +51,12 @@ type service struct {
 	db   *gorm.DB
 	ef   *casbin.SyncedEnforcer
 	mc   memcache.Memcache
-	eh   *map[int]string
+	hm   HelperMap
 	tool *tools.Tool
 }
 
 func (s *service) Close() {
 	_ = s.db.Close()
-}
-
-func (s *service) GetError(i int, args ...string) (int, error) {
-	if len(args) > 1 {
-		panic("too many arguments")
-	}
-	errHelper := *s.eh
-	msg := errHelper[i]
-	if len(args) == 1 {
-		msg = args[0]
-	}
-	return i, errors.New(msg)
 }
 
 // Close close the resource.

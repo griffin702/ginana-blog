@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"ginana-blog/internal/model"
 	"ginana-blog/library/database"
 	"ginana-blog/library/ecode"
@@ -37,17 +36,17 @@ func (s *service) GetEFUsers(c context.Context) (users []*database.EFUseRole, er
 }
 
 func (s *service) GetUser(ctx context.Context, id int64) (user *model.User, err error) {
-	key := fmt.Sprintf("user_%d", id)
+	key := s.hm.GetCacheKey(6, id)
 	user = new(model.User)
 	err = s.mc.Get(key, user)
 	if err != nil {
 		user.ID = id
 		if err = s.db.Find(user).Related(&user.Roles, "Roles").Error; err != nil {
-			err = ecode.Errorf(s.GetError(1001, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1001, err.Error()))
 			return
 		}
 		if err = s.mc.Set(key, user); err != nil {
-			err = ecode.Errorf(s.GetError(1002, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1002, err.Error()))
 			return
 		}
 	}
