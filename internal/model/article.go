@@ -28,7 +28,7 @@ type Article struct {
 
 type Articles struct {
 	List  []*Article `json:"list"`
-	Pager string     `json:"pager"`
+	Pager *Pager     `json:"pager"`
 }
 
 //管理员角色关联

@@ -37,6 +37,8 @@ func initTable(db *gorm.DB) {
 		new(model.Mood),
 		new(model.Link),
 		new(model.Comment),
+		new(model.Album),
+		new(model.Photo),
 	)
 }
 

@@ -59,7 +59,7 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 func getPagination(ctx iris.Context) *model.Pager {
 	return &model.Pager{
 		Page:     ctx.URLParamInt64Default("page", 1),
-		PageSize: ctx.URLParamInt64Default("pagesize", 10),
+		PageSize: ctx.URLParamInt64Default("pagesize", 15),
 		UrlPath:  ctx.Path(),
 	}
 }

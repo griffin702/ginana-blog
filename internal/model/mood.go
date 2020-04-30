@@ -16,7 +16,7 @@ type Mood struct {
 
 type Moods struct {
 	List  []*Mood `json:"list"`
-	Pager string  `json:"pager"`
+	Pager *Pager  `json:"pager"`
 }
 
 func (m *Mood) ChangetoSmall() string {

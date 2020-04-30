@@ -1,6 +1,7 @@
 package front
 
 import (
+	"fmt"
 	"github.com/kataras/iris/v12/mvc"
 )
 
@@ -10,6 +11,7 @@ func (c *CFront) BeforeActivation(b mvc.BeforeActivation) {
 	b.Handle("GET", "/category.html", "GetTags")
 	b.Handle("GET", "/mood.html", "GetMoods")
 	b.Handle("GET", "/links.html", "GetLinks")
+	b.Handle("GET", "/album.html", "GetAlbums")
 }
 
 func (c *CFront) Get() (err error) {
@@ -42,22 +44,22 @@ func (c *CFront) GetLife() (err error) {
 }
 
 func (c *CFront) GetTags() (err error) {
-	resp, err := c.Svc.GetTags()
+	tags, err := c.Svc.GetTags()
 	if err != nil {
 		return
 	}
-	c.Ctx.ViewData("data", resp)
+	c.Ctx.ViewData("data", tags)
 	c.setHeadMetas("归类归档")
 	c.Ctx.View("front/category.html")
 	return
 }
 
 func (c *CFront) GetMoods() (err error) {
-	resp, err := c.Svc.GetMoods(c.Pager)
+	moods, err := c.Svc.GetMoods(c.Pager)
 	if err != nil {
 		return
 	}
-	c.Ctx.ViewData("data", resp)
+	c.Ctx.ViewData("data", moods)
 	c.DisableRight = true
 	c.setHeadMetas("碎言碎语")
 	c.Ctx.View("front/mood.html")
@@ -70,8 +72,35 @@ func (c *CFront) GetLinks() (err error) {
 		return
 	}
 	c.Ctx.ViewData("comments", comments)
-	c.DisableRight = true
 	c.setHeadMetas("友情链接")
 	c.Ctx.View("front/links.html")
+	return
+}
+
+func (c *CFront) GetAlbums() (err error) {
+	albums, err := c.Svc.GetAlbums(c.Pager)
+	if err != nil {
+		return
+	}
+	c.Ctx.ViewData("data", albums)
+	c.DisableRight = true
+	c.setHeadMetas("光影瞬间")
+	c.Ctx.View("front/album.html")
+	return
+}
+
+func (c *CFront) GetAlbumBy(id int64) (err error) {
+	album, err := c.Svc.GetAlbum(id)
+	if err != nil {
+		return
+	}
+	photos, err := c.Svc.GetPhotos(c.Pager, id)
+	if err != nil {
+		return
+	}
+	c.Ctx.ViewData("data", photos)
+	c.DisableRight = true
+	c.setHeadMetas(fmt.Sprintf("相册 %s 内的照片", album.Name))
+	c.Ctx.View("front/photo.html")
 	return
 }

@@ -16,11 +16,11 @@ func (s *service) GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (r
 	res = new(model.Articles)
 	query := s.db.Model(&res.List).Count(&p.AllCount)
 	query = query.Order(pr.Order)
-	if err := query.Preload("User").Preload("Tags").
+	if err = query.Preload("User").Preload("Tags").
 		Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
 		err = ecode.Errorf(s.GetError(501, err.Error()))
 		return nil, err
 	}
-	res.Pager = p.NewPager(p.UrlPath).ToString()
+	res.Pager = p.NewPager(p.UrlPath)
 	return
 }

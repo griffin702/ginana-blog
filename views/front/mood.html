@@ -54,5 +54,5 @@
             <span class="dateview col-lg-2 col-md-2 col-sm-2 col-xs-2 column">{{date $v.CreatedAt "y-m-j H:i"}}</span>
         {{end}}
     </div>
-    {{str2html .data.Pager}}
+    {{str2html .data.Pager.ToString}}
 </div>

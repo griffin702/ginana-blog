@@ -8,7 +8,7 @@ import (
 
 //评论模型
 type Comment struct {
-	ID        int64      `json:"id" gorm:"primary_key;comment:'文章ID'"`
+	ID        int64      `json:"id" gorm:"primary_key;comment:'评论ID'"`
 	CreatedAt time.Time  `json:"created_at" gorm:"comment:'创建时间'"`
 	DeletedAt *time.Time `json:"-" sql:"index" gorm:"comment:'删除时间戳'"`
 	ObjPK     int64      `json:"obj_pk" gorm:"comment:'article_id'"`
