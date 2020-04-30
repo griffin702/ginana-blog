@@ -21,6 +21,7 @@ type Service interface {
 	GetEFUsers(ctx context.Context) (users []*database.EFUseRole, err error)
 	GetSiteOptions() (res map[string]string, err error)
 
+	GetArticle(id int64) (article *model.Article, err error)
 	GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (res *model.Articles, err error)
 	GetTags() (res *model.Tags, err error)
 	GetMoods(p *model.Pager) (res *model.Moods, err error)

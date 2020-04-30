@@ -2,24 +2,25 @@ package front
 
 import (
 	"fmt"
+	"ginana-blog/internal/model"
 	"github.com/kataras/iris/v12/mvc"
 )
 
 func (c *CFront) BeforeActivation(b mvc.BeforeActivation) {
 	b.Handle("GET", "/about.html", "GetAbout")
 	b.Handle("GET", "/life.html", "GetLife")
-	b.Handle("GET", "/category.html", "GetTags")
+	b.Handle("GET", "/category.html", "GetCategorys")
 	b.Handle("GET", "/mood.html", "GetMoods")
 	b.Handle("GET", "/links.html", "GetLinks")
 	b.Handle("GET", "/album.html", "GetAlbums")
 }
 
 func (c *CFront) Get() (err error) {
-	resp, err := c.Svc.GetArticles(c.Pager)
+	articles, err := c.Svc.GetArticles(c.Pager)
 	if err != nil {
 		return
 	}
-	c.Ctx.ViewData("data", resp)
+	c.Ctx.ViewData("data", articles)
 	c.setHeadMetas("首页")
 	c.Ctx.View("front/index.html")
 	return
@@ -32,18 +33,34 @@ func (c *CFront) GetAbout() (err error) {
 	return
 }
 
-func (c *CFront) GetLife() (err error) {
-	resp, err := c.Svc.GetArticles(c.Pager)
+func (c *CFront) GetArticleBy(id int64) (err error) {
+	article, err := c.Svc.GetArticle(id)
 	if err != nil {
 		return
 	}
-	c.Ctx.ViewData("data", resp)
+	c.Ctx.ViewData("data", article)
+	comments, err := c.Svc.GetComments(c.Pager, id)
+	if err != nil {
+		return
+	}
+	c.Ctx.ViewData("comments", comments)
+	c.setHeadMetas(article.Title)
+	c.Ctx.View("front/article.html")
+	return
+}
+
+func (c *CFront) GetLife() (err error) {
+	articles, err := c.Svc.GetArticles(c.Pager)
+	if err != nil {
+		return
+	}
+	c.Ctx.ViewData("data", articles)
 	c.setHeadMetas("成长录")
 	c.Ctx.View("front/life.html")
 	return
 }
 
-func (c *CFront) GetTags() (err error) {
+func (c *CFront) GetCategorys() (err error) {
 	tags, err := c.Svc.GetTags()
 	if err != nil {
 		return
@@ -51,6 +68,17 @@ func (c *CFront) GetTags() (err error) {
 	c.Ctx.ViewData("data", tags)
 	c.setHeadMetas("归类归档")
 	c.Ctx.View("front/category.html")
+	return
+}
+
+func (c *CFront) GetCategoryBy(id int64) (err error) {
+	articles, err := c.Svc.GetArticles(c.Pager, model.ArticleQueryParam{TagID: id})
+	if err != nil {
+		return
+	}
+	c.Ctx.ViewData("data", articles)
+	c.setHeadMetas("归类归档")
+	c.Ctx.View("front/categoryList.html")
 	return
 }
 

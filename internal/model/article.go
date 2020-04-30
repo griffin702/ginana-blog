@@ -24,6 +24,8 @@ type Article struct {
 	UserID    int64     `json:"user_id" gorm:"comment:'关联用户ID'"`
 	User      *User     `json:"user" gorm:"ForeignKey:UserID"`
 	Tags      []*Tag    `json:"tags" gorm:"many2many:article_tags"`
+	Prev      *Article  `json:"prev" gorm:"-"`
+	Next      *Article  `json:"next" gorm:"-"`
 }
 
 type Articles struct {
@@ -39,6 +41,7 @@ type ArticleTags struct {
 
 type ArticleQueryParam struct {
 	Order string
+	TagID int64
 }
 
 // 带颜色的标题

@@ -1,19 +1,67 @@
+<script src="/static/lightgallery/js/picturefill.min.js"></script>
+<script src="/static/lightgallery/dist/js/lightgallery.js"></script>
+<script src="/static/lightgallery/js/lg-pager.js"></script>
+<script src="/static/lightgallery/js/lg-autoplay.js"></script>
+<script src="/static/lightgallery/js/lg-fullscreen.js"></script>
+<script src="/static/lightgallery/js/lg-zoom.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/lightgallery/dist/css/lightgallery.min.css">
+<link href="{{.theme}}css/photo.css" rel="stylesheet">
+<script src="/static/markdown/lib/marked.min.js"></script>
+<script src="/static/markdown/lib/prettify.min.js"></script>
+<script src="/static/markdown/lib/raphael.min.js"></script>
+<script src="/static/markdown/lib/underscore.min.js"></script>
+<script src="/static/markdown/lib/sequence-diagram.min.js"></script>
+<script src="/static/markdown/lib/flowchart.min.js"></script>
+<script src="/static/markdown/lib/jquery.flowchart.min.js"></script>
+<script src="/static/markdown/editormd.min.js"></script>
+
 <h1 class="t_nav">
     <a href="/" class="n1">网站首页</a>
-    <a href="/links.html" class="n2">友情链接</a>
-    <strong><span class="glyphicon glyphicon-map-marker"></span> 人生贵知心，定交无暮早。</strong>
+    <a href="/life.html" class="n2">返回列表</a>
+    <strong><span class="glyphicon glyphicon-map-marker"></span> 像“草根”一样，紧贴着地面，低调的存在，冬去春来，枯荣无恙。</strong>
 </h1>
 
-<div class="link-friends-body col-lg-9 col-md-9 col-sm-12 col-xs-12 column" id="wy-delegate-all">
-    <blockquote><p>请先做好本站链接再申请，发现没有链接到本站的一律删除不做通知！</p></blockquote>
-    <blockquote><p>中国好伙伴</p></blockquote>
-    <div class="link-friends">{{range $k, $v := .links.List}}
-            <span>
-            <a rel="link" href="{{$v.Url}}" title="{{$v.SiteName}}" target="_blank">
-            <img alt='' src='{{$v.SiteAvatar}}' class='wyavater' height='40' width='40' title="{{$v.SiteDesc}}"/>
-            <span class="sitename">{{$v.SiteName}}</span>
-            </a>
-        </span>{{end}}
+<div class="index_about col-lg-9 col-md-9 col-sm-12 col-xs-12 column" id="wy-delegate-all">
+    <div class="article_all col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+        <h2 class="c_titile">{{str2html .data.ColorTitle}}</h2>
+        <p class="box_c">
+            <span class="glyphicon glyphicon-time"></span>{{date .data.CreatedAt "y-m-j H:i:s"}}
+            <span class="glyphicon glyphicon-user"></span>{{.data.User.Nickname}}
+            <span class="glyphicon glyphicon-eye-open"></span>{{.data.Views}}
+        </p>
+        <div id="mdinfos" class="infos col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+            <textarea placeholder="markdown语言">{{.data.Content}}</textarea>
+        </div>
+        <script>
+            editormd.markdownToHTML("mdinfos", {
+                htmlDecode: "style,script,iframe",
+                emoji: true,
+                taskList: true,
+                tex: true,  // 默认不解析
+                flowChart: true,  // 默认不解析
+                sequenceDiagram: true  // 默认不解析
+            });
+        </script>
+        <div class="keybq col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+            <p><span class="glyphicon glyphicon-tag"></span><span>关键字词</span>{{str2html .data.TagsLink}}</p>
+        </div>
+        <div class="bdsharebuttonbox bdshare-button-style0-24">
+            <span>分享到：</span>
+            <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+            <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+            <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+            <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+            <a href="#" class="bds_more" data-cmd="more"></a>
+        </div>
+        <div class="nextinfo">
+            {{if .data.Prev}}
+                <p>上一篇：<a href="{{.data.Prev.Link}}">{{str2html .data.Prev.Title}}</a></p>
+            {{end}}
+            {{if .data.Next}}
+                <p>下一篇：<a href="{{.data.Next.Link}}">{{str2html .data.Next.Title}}</a></p>
+            {{end}}
+        </div>
     </div>
     <script src="/static/js/mycomments.js"></script>
     <script src="/static/js/md5.js"></script>

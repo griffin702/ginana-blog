@@ -42,11 +42,11 @@
             <p>友情<span>链接</span></p>
         </h3>
         <div class="link-friends">
-            {{range $k,$v := .links}}
+            {{range $k, $v := .links.List}}
                 <span>
-                <a rel="link" href="{{$v.Url}}" title="{{$v.Sitename}}" target="_blank">
-                <img alt='' src='{{$v.Siteavator}}' class='wyavater' height='40' width='40' title="{{$v.Sitedesc}}"/>
-                <span class="sitename">{{$v.Sitename}}</span>
+                <a rel="link" href="{{$v.Url}}" title="{{$v.SiteName}}" target="_blank">
+                <img alt='' src='{{$v.SiteAvatar}}' class='wyavater' height='40' width='40' title="{{$v.SiteDesc}}"/>
+                <span class="sitename">{{$v.SiteName}}</span>
                 </a>
 		    </span>
             {{end}}
