@@ -43,11 +43,11 @@ func (s *service) GetRole(ctx context.Context, id int64) (role *model.Role, err 
 	if err != nil {
 		role.ID = id
 		if err = s.db.Find(role).Related(&role.Policys, "Policys").Error; err != nil {
-			err = ecode.Errorf(s.hm.GetError(1001, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1001, err))
 			return
 		}
 		if err = s.mc.Set(key, role); err != nil {
-			err = ecode.Errorf(s.hm.GetError(1002, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1002, err))
 			return
 		}
 	}

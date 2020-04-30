@@ -28,7 +28,7 @@ func NewHelperMap() (hm HelperMap, err error) {
 }
 
 type HelperMap interface {
-	GetError(i int, args ...string) (int, error)
+	GetError(i int, args ...interface{}) (int, error)
 	GetCacheKey(i int, args ...int64) string
 }
 
@@ -37,13 +37,13 @@ type helperMap struct {
 	CacheKey    map[int]string
 }
 
-func (hm *helperMap) GetError(i int, args ...string) (int, error) {
+func (hm *helperMap) GetError(i int, args ...interface{}) (int, error) {
 	if len(args) > 1 {
 		panic("too many arguments")
 	}
 	msg := hm.ErrorHelper[i]
 	if len(args) == 1 {
-		msg = args[0]
+		msg = fmt.Sprintf("%v", args[0])
 	}
 	return i, errors.New(msg)
 }

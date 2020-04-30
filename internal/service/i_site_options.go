@@ -11,7 +11,7 @@ func (s *service) GetSiteOptions() (res map[string]string, err error) {
 	err = s.mc.Get(key, &options)
 	if err != nil {
 		if err = s.db.Find(&options).Error; err != nil {
-			err = ecode.Errorf(s.hm.GetError(1001, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1001, err))
 			return
 		}
 		if len(options) == 0 {
@@ -19,7 +19,7 @@ func (s *service) GetSiteOptions() (res map[string]string, err error) {
 			return
 		}
 		if err = s.mc.Set(key, &options); err != nil {
-			err = ecode.Errorf(s.hm.GetError(1002, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1002, err))
 			return
 		}
 	}

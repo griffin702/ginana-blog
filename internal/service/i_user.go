@@ -42,11 +42,11 @@ func (s *service) GetUser(ctx context.Context, id int64) (user *model.User, err 
 	if err != nil {
 		user.ID = id
 		if err = s.db.Find(user).Related(&user.Roles, "Roles").Error; err != nil {
-			err = ecode.Errorf(s.hm.GetError(1001, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1001, err))
 			return
 		}
 		if err = s.mc.Set(key, user); err != nil {
-			err = ecode.Errorf(s.hm.GetError(1002, err.Error()))
+			err = ecode.Errorf(s.hm.GetError(1002, err))
 			return
 		}
 	}
