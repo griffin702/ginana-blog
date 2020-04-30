@@ -31,3 +31,21 @@ func (s *service) GetComments(p *model.Pager, objPK int64) (res *model.Comments,
 	}
 	return
 }
+
+func (s *service) GetLatestComments(limit int) (comments []*model.Comment, err error) {
+	key := "latestComments"
+	err = s.mc.Get(key, &comments)
+	if err != nil {
+		if err = s.db.Model(&comments).Order("created_at desc").
+			Preload("User").Preload("Article").
+			Limit(limit).Find(&comments).Error; err != nil {
+			err = ecode.Errorf(s.GetError(1001, err.Error()))
+			return
+		}
+		if err = s.mc.Set(key, &comments); err != nil {
+			err = ecode.Errorf(s.GetError(1002, err.Error()))
+			return
+		}
+	}
+	return
+}

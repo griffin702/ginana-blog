@@ -21,11 +21,15 @@ type Service interface {
 	GetEFUsers(ctx context.Context) (users []*database.EFUseRole, err error)
 	GetSiteOptions() (res map[string]string, err error)
 
+	GetLatestArticles(limit int) (articles []*model.Article, err error)
+	GetHotArticles(limit int) (articles []*model.Article, err error)
+	GetLatestComments(limit int) (comments []*model.Comment, err error)
+
 	GetArticle(id int64) (article *model.Article, err error)
 	GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (res *model.Articles, err error)
 	GetTags() (res *model.Tags, err error)
 	GetMoods(p *model.Pager) (res *model.Moods, err error)
-	GetLinks() (res *model.Links, err error)
+	GetLinks() (links []*model.Link, err error)
 	GetComments(p *model.Pager, objPK int64) (res *model.Comments, err error)
 	GetAlbums(p *model.Pager) (res *model.Albums, err error)
 	GetAlbum(id int64) (album *model.Album, err error)

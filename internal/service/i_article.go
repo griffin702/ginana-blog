@@ -54,3 +54,35 @@ func (s *service) GetArticle(id int64) (article *model.Article, err error) {
 	}
 	return
 }
+
+func (s *service) GetLatestArticles(limit int) (articles []*model.Article, err error) {
+	key := "latestArticles"
+	err = s.mc.Get(key, &articles)
+	if err != nil {
+		if err = s.db.Model(&articles).Order("created_at desc").Limit(limit).Find(&articles).Error; err != nil {
+			err = ecode.Errorf(s.GetError(1001, err.Error()))
+			return
+		}
+		if err = s.mc.Set(key, &articles); err != nil {
+			err = ecode.Errorf(s.GetError(1002, err.Error()))
+			return
+		}
+	}
+	return
+}
+
+func (s *service) GetHotArticles(limit int) (articles []*model.Article, err error) {
+	key := "hotArticles"
+	err = s.mc.Get(key, &articles)
+	if err != nil {
+		if err = s.db.Model(&articles).Order("views desc").Limit(limit).Find(&articles).Error; err != nil {
+			err = ecode.Errorf(s.GetError(1001, err.Error()))
+			return
+		}
+		if err = s.mc.Set(key, &articles); err != nil {
+			err = ecode.Errorf(s.GetError(1002, err.Error()))
+			return
+		}
+	}
+	return
+}

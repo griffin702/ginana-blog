@@ -49,5 +49,20 @@ func makeGlobalData(ctx iris.Context, svc service.Service) (err error) {
 		return
 	}
 	ctx.ViewData("links", links)
+	latestArticles, err := svc.GetLatestArticles(5)
+	if err != nil {
+		return
+	}
+	ctx.ViewData("latestArticles", latestArticles)
+	hotArticles, err := svc.GetHotArticles(5)
+	if err != nil {
+		return
+	}
+	ctx.ViewData("hotArticles", hotArticles)
+	latestComments, err := svc.GetLatestComments(5)
+	if err != nil {
+		return
+	}
+	ctx.ViewData("latestComments", latestComments)
 	return
 }

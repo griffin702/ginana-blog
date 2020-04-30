@@ -19,9 +19,9 @@ type Comment struct {
 	IPAddress string     `json:"ip_address" gorm:"type:VARCHAR(255);comment:'IP地址'"`
 	ObjPKType int8       `json:"obj_pk_type" gorm:"index;not null;comment:'评论类型'"` //0-文章评论，1-友链评论
 	User      *User      `json:"user" gorm:"ForeignKey:UserID"`
-	//Article     *Article  `json:"article" gorm:"ForeignKey:ObjPK"`
-	Parent   *Comment   `json:"parent" gorm:"ForeignKey:ID;AssociationForeignKey:ReplyPK"`
-	Children []*Comment `json:"children" gorm:"ForeignKey:ReplyFK;AssociationForeignKey:ID"`
+	Article   *Article   `json:"article" gorm:"ForeignKey:ObjPK"`
+	Parent    *Comment   `json:"parent" gorm:"ForeignKey:ID;AssociationForeignKey:ReplyPK"`
+	Children  []*Comment `json:"children" gorm:"ForeignKey:ReplyFK;AssociationForeignKey:ID"`
 }
 
 type Comments struct {

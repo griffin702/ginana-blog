@@ -5,13 +5,18 @@ import (
 	"ginana-blog/library/ecode"
 )
 
-func (s *service) GetLinks() (res *model.Links, err error) {
-	res = new(model.Links)
-	query := s.db.Model(&res.List)
-	query = query.Order("rank desc")
-	if err = query.Find(&res.List).Error; err != nil {
-		err = ecode.Errorf(s.GetError(501, err.Error()))
-		return nil, err
+func (s *service) GetLinks() (links []*model.Link, err error) {
+	key := "AllLinks"
+	err = s.mc.Get(key, &links)
+	if err != nil {
+		if err = s.db.Model(&links).Order("created_at desc").Find(&links).Error; err != nil {
+			err = ecode.Errorf(s.GetError(1001, err.Error()))
+			return
+		}
+		if err = s.mc.Set(key, &links); err != nil {
+			err = ecode.Errorf(s.GetError(1002, err.Error()))
+			return
+		}
 	}
 	return
 }
