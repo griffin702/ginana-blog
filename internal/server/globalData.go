@@ -6,6 +6,7 @@ import (
 	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
 	"github.com/kataras/iris/v12"
+	"strings"
 )
 
 func getPagination(ctx iris.Context) *model.Pager {
@@ -65,4 +66,22 @@ func makeGlobalData(ctx iris.Context, svc service.Service) (err error) {
 	}
 	ctx.ViewData("latestComments", latestComments)
 	return
+}
+
+func getClientIP(ctx iris.Context) model.GetClientIP {
+	return func() string {
+		s := ctx.GetHeader("X-Real-IP")
+		if s == "" {
+			forwarded := ctx.GetHeader("X-Forwarded-For")
+			if forwarded != "" {
+				list := strings.Split(forwarded, ":")
+				if len(list) > 0 {
+					s = list[0]
+				}
+			} else {
+				s = strings.Split(ctx.RemoteAddr(), ":")[0]
+			}
+		}
+		return s
+	}
 }

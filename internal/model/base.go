@@ -44,6 +44,8 @@ func PlusHtmlErr(ctx iris.Context, err error) mvc.Result {
 }
 
 // 一些自定义的类型
+type GetClientIP func() string
+
 type GetOption func(name string) string
 
 type GetOptionHandler func(ctx iris.Context) (GetOption, error)

@@ -17,6 +17,7 @@ func NewHelperMap() (hm HelperMap, err error) {
 			1006: "验证码不存在",
 			1007: "验证码校验不正确",
 			1008: "密码校验不正确",
+			1009: "该帐号未激活",
 		},
 		CacheKey: map[int]string{
 			1: "user",

@@ -8,10 +8,11 @@ import (
 )
 
 type CApi struct {
-	Ctx     iris.Context
-	Session *sessions.Session
-	Svc     service.Service
-	Pager   *model.Pager
-	Hm      service.HelperMap
-	Valid   model.Validator
+	Ctx         iris.Context
+	Session     *sessions.Session
+	Svc         service.Service
+	Pager       *model.Pager
+	GetClientIP model.GetClientIP
+	Hm          service.HelperMap
+	Valid       model.Validator
 }

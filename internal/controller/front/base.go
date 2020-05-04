@@ -12,9 +12,10 @@ type CFront struct {
 	Ctx          iris.Context
 	Session      *sessions.Session
 	Svc          service.Service
+	Pager        *model.Pager
+	GetClientIP  model.GetClientIP
 	GetOption    model.GetOption
 	Links        *model.Links
-	Pager        *model.Pager
 	DisableRight bool
 	Hm           service.HelperMap
 	Valid        model.Validator

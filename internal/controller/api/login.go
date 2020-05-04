@@ -75,6 +75,7 @@ func (c *CApi) PostLogin() {
 		c.Ctx.JSON(model.PlusJson(nil, err))
 		return
 	}
+	req.LoginIP = c.GetClientIP()
 	user, err := c.Svc.PostLogin(req)
 	if err != nil {
 		c.Ctx.JSON(model.PlusJson(nil, err))
