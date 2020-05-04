@@ -19,7 +19,7 @@ type CApi struct {
 // @Tags Login
 // @Accept  json
 // @Produce  json
-// @Success 200 []byte "image/png"
+// @Success 200 {string} string "data:image/png;base64,U3dhZ2dlciByb2Nrcw=="
 // @Failure 500 {object} model.JSON
 // @Router /login/captcha [get]
 func (c *CApi) GetLoginCaptcha() {
@@ -43,8 +43,8 @@ func (c *CApi) GetTest() {
 // @Tags Login
 // @Accept  json
 // @Produce  json
-// @Param code body model.Captcha true "Check Captcha"
-// @Success 200 bool
+// @Param captcha body model.Captcha true "Check Captcha"
+// @Success 200 {object} model.JSON{data=bool}
 // @Failure 500 {object} model.JSON
 // @Router /login/captcha/check [post]
 func (c *CApi) PostLoginCaptchaCheck() {
