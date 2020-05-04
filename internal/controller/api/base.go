@@ -30,5 +30,11 @@ func (c *CApi) GetLoginCaptcha() {
 		return
 	}
 	c.Session.Set("Captcha", captcha.Code)
-	c.Ctx.JSON(model.PlusJson(captcha.Image, nil))
+	c.Ctx.ContentType("image/png")
+	c.Ctx.Write(captcha.Image)
+}
+
+func (c *CApi) GetTest() {
+	code := c.Session.Get("Captcha")
+	c.Ctx.JSON(model.PlusJson(code, nil))
 }

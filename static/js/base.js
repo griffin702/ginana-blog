@@ -1,12 +1,12 @@
-function sure_logout() {
+function sureLogout() {
     return confirm("确定退出登录吗？");
 }
 
 $(document).ready(function () {
-    var wy_delegate_all = $("#wy-delegate-all");
+    let wyDelegateAll = $("#wy-delegate-all");
     //修复导航栏active不自动切换
     $("ul:first.nav.navbar-nav").find("li").each(function () {
-        var a = $(this).find("a:first");
+        let a = $(this).find("a:first");
         if (a.attr("href") === location.pathname) {
             a.parent().addClass("active");
             a.parent().siblings().removeClass("active");
@@ -19,14 +19,14 @@ $(document).ready(function () {
         }
     });
     //处理分页ajax
-    wy_delegate_all.on("click", "ul.pagination li a", function (event) {
+    wyDelegateAll.on("click", "ul.pagination li a", function (event) {
         event.preventDefault();
-        var ourl = $(this).attr('href');
-        var otitle = document.title;
+        let ourl = $(this).attr('href');
+        let otitle = document.title;
         if (ourl) {
             ajax_Main("GET", {}, ourl, 50);
             if (history.pushState) {
-                var state = ({
+                let state = ({
                     url: ourl, title: otitle
                 });
                 window.history.pushState(state, state.title, state.url);
@@ -40,7 +40,7 @@ $(document).ready(function () {
     window.addEventListener('popstate', function (e) {
         if (history.state) {
             //取出上一次状态
-            var state = e.state;
+            let state = e.state;
             //修改当前标题为历史标题
             document.title = state.title;
             ajax_Main("GET", {}, state.url, 50);
@@ -60,8 +60,8 @@ $(document).ready(function () {
         }, 500);
     });
     window.addEventListener('scroll', function () {
-        var t = document.documentElement.scrollTop || document.body.scrollTop;
-        var s = document.body.scrollHeight * 0.5;
+        let t = document.documentElement.scrollTop || document.body.scrollTop;
+        let s = document.body.scrollHeight * 0.5;
         if (t < s) {
             $("#to_top").removeClass('show').addClass('hidden');
         } else {
@@ -79,7 +79,7 @@ $(document).ready(function () {
     });
     //图片加载失败处理
     $("img.img-thumbnail").error(function () {
-        var num = Math.floor(Math.random() * 9.9);
+        let num = Math.floor(Math.random() * 9.9);
         $(this).attr('src', '/static/upload/default/blog-default-' + num + '.png');
     });
     $("img.wyavater").error(function () {
@@ -125,7 +125,7 @@ $(document).ready(function () {
             username: {
                 validators: {
                     regexp: {
-                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                        regexp: /^[a-zA-Z0-9_.]+$/,
                         message: '用户名只允许英文字母、数字与"_"的组合'
                     }
                 }
@@ -205,7 +205,7 @@ $(document).ready(function () {
                         message: '用户名必须为大于6小于30的字符'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                        regexp: /^[a-zA-Z0-9_.]+$/,
                         message: '用户名只允许英文字母、数字与"_"的组合'
                     },
                     different: {
@@ -322,40 +322,40 @@ $(document).ready(function () {
     let captcha_click = 0;
     $("#captcha-img").on('click', function () {
         captcha_click++;
-        this.src = '/v1/login/captcha?num=' + captcha_click;
+        this.src = '/api/login/captcha?num=' + captcha_click;
         $("#captcha").val('');
         loginForm.data('bootstrapValidator').updateStatus("captcha", "NOT_VALIDATED", null);
     });
     $("#captcha-img2").on('click', function () {
         captcha_click++;
-        this.src = '/v1/login/captcha?num=' + captcha_click;
+        this.src = '/api/login/captcha?num=' + captcha_click;
         $("#captcha2").val('');
         registerForm.data('bootstrapValidator').updateStatus("captcha2", "NOT_VALIDATED", null);
     });
     //处理评论回复超过3条则隐藏
     initcommentslist();
-    wy_delegate_all.on("click", "#comments-list .comment_parent button.open-more", function (event) {
+    wyDelegateAll.on("click", "#comments-list .comment_parent button.open-more", function (event) {
         $(this).parent().siblings().removeClass('hidden');
-        var close_more = $("<button class='btn btn-info close-more'><<收起过往回复</button>");
+        let close_more = $("<button class='btn btn-info close-more'><<收起过往回复</button>");
         $(this).parent().append(close_more);
         $(this).remove();
     });
-    wy_delegate_all.on("click", "#comments-list .comment_parent button.close-more", function (event) {
-        var num = $(this).parent().siblings(".comment_child").length;
+    wyDelegateAll.on("click", "#comments-list .comment_parent button.close-more", function (event) {
+        let num = $(this).parent().siblings(".comment_child").length;
         $(this).parent().siblings(".comment_child").each(function () {
             if (num > 3) {
                 $(this).addClass('hidden');
             }
             num--;
         });
-        var more = $("<button class='btn btn-info open-more'>展开过往回复>></button>");
+        let more = $("<button class='btn btn-info open-more'>展开过往回复>></button>");
         $(this).parent().append(more);
         $(this).remove();
     });
     if (location.hash) {
-        var target = $(location.hash);
+        let target = $(location.hash);
         if (target.length === 1) {
-            var top = target.offset().top - 82;
+            let top = target.offset().top - 82;
             if (top > 0) {
                 $('html,body').animate({scrollTop: top}, 800);
             }
@@ -363,12 +363,12 @@ $(document).ready(function () {
         }
     }
     $("ul.newcomment li").find('a:last').on("click", function (event) {
-        var thispath = $(this).attr('href');
+        let thispath = $(this).attr('href');
         if (thispath.split('#')[0] === window.location.pathname) {
-            var target = $('#' + thispath.split('#')[1]);
+            let target = $('#' + thispath.split('#')[1]);
             if (target.length === 1) {
                 event.preventDefault();
-                var top = target.offset().top - 82;
+                let top = target.offset().top - 82;
                 if (top > 0) {
                     $('html,body').animate({scrollTop: top}, 300);
                 }
@@ -380,15 +380,15 @@ $(document).ready(function () {
     });
     //利用lightgallery处理文章页图片点击显示大图
     $("#mdinfos img").each(function (index) {
-        var is_emoji = $(this).hasClass('emoji');
+        let is_emoji = $(this).hasClass('emoji');
         if (!is_emoji) {
-            var smallsrc = $(this).attr('src');
-            var src = smallsrc.replace(/_small/, "");
-            var lightgallery = "<ul id=\"lightgallery-" + index + "\" class=\"list-unstyled\">" +
+            let smallsrc = $(this).attr('src');
+            let src = smallsrc.replace(/_small/, "");
+            let lightgallery = "<ul id=\"lightgallery-" + index + "\" class=\"list-unstyled\">" +
                 "<li data-src=\"" + src + "\"><a href=\"#\">" +
                 "<img src=\"" + smallsrc + "\" alt=\"\"></a></li></ul>" +
                 "<script>lightGallery(document.getElementById('lightgallery-" + index + "'));</script>";
-            var parent = $(this).parent();
+            let parent = $(this).parent();
             $(this).remove();
             parent.append(lightgallery);
         }
@@ -404,8 +404,8 @@ function ajax_Main(type, data, url, timewait) {
             cache: true,
             dataType: "html",
             success: function (data) {
-                var wrap_form_comment = $('#wrap-form-comment');
-                var has_form = wrap_form_comment.children('#form-comment').length;
+                let wrap_form_comment = $('#wrap-form-comment');
+                let has_form = wrap_form_comment.children('#form-comment').length;
                 if (has_form === 0) {
                     $('#form-comment').appendTo(wrap_form_comment);
                     $('#cancel_reply').hide();
@@ -422,13 +422,13 @@ function ajax_Main(type, data, url, timewait) {
 
 function initcommentslist() {
     $('.comment_parent').each(function () {
-        var num = $(this).children('.comment_child').length;
+        let num = $(this).children('.comment_child').length;
         $(this).find('.comment_child').each(function () {
             if (num > 3) {
                 $(this).addClass('hidden');
             }
             if (num === 3) {
-                var more = $("<div class='comment_child col-lg-11 col-md-11 col-sm-11 col-xs-11 column'><button class='btn btn-info open-more'>展开过往回复>></button></div>");
+                let more = $("<div class='comment_child col-lg-11 col-md-11 col-sm-11 col-xs-11 column'><button class='btn btn-info open-more'>展开过往回复>></button></div>");
                 $(this).parent().append(more);
             }
             num--;
