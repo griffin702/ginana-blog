@@ -17,3 +17,14 @@ func (s *service) GetCaptcha() (res *model.Captcha, err error) {
 	}
 	return
 }
+
+func (s *service) PostLogin(req *model.UserLoginReq) (user *model.User, err error) {
+	user, err = s.GetUserByUsername(req.Username)
+	if err != nil {
+		return nil, err
+	}
+	if !s.tool.BcryptHashCompare(user.Password, req.Password) {
+		return nil, ecode.Errorf(s.hm.GetError(1008))
+	}
+	return
+}

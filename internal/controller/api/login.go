@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"ginana-blog/internal/model"
 	"github.com/griffin702/ginana/library/ecode"
 )
@@ -74,4 +75,10 @@ func (c *CApi) PostLogin() {
 		c.Ctx.JSON(model.PlusJson(nil, err))
 		return
 	}
+	user, err := c.Svc.PostLogin(req)
+	if err != nil {
+		c.Ctx.JSON(model.PlusJson(nil, err))
+		return
+	}
+	fmt.Println(user)
 }

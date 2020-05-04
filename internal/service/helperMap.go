@@ -16,6 +16,7 @@ func NewHelperMap() (hm HelperMap, err error) {
 			1005: "生成验证码失败",
 			1006: "验证码不存在",
 			1007: "验证码校验不正确",
+			1008: "密码校验不正确",
 		},
 		CacheKey: map[int]string{
 			1: "user",
@@ -42,12 +43,16 @@ type helperMap struct {
 }
 
 func (hm *helperMap) GetError(i int, args ...interface{}) (int, error) {
-	if len(args) > 1 {
-		panic("too many arguments")
-	}
 	msg := hm.ErrorHelper[i]
-	if len(args) == 1 {
-		msg = fmt.Sprintf("%v", args[0])
+	var arg interface{}
+	if len(args) > 0 {
+		arg = args[0]
+		if err, ok := arg.(error); ok {
+			return i, err
+		}
+		if str, ok := arg.(string); ok {
+			msg = str
+		}
 	}
 	return i, errors.New(msg)
 }

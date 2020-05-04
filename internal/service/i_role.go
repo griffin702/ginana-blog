@@ -16,7 +16,7 @@ func (s *service) GetEFRoles(c context.Context) (roles []*database.EFRolePolicy,
 	wg.Add(len(roleIdList))
 	for _, roleId := range roleIdList {
 		go func(roleId int64, roles *[]*database.EFRolePolicy, wg *sync.WaitGroup) {
-			r, err := s.GetRole(c, roleId)
+			r, err := s.GetRole(roleId)
 			if err != nil {
 				return
 			}
@@ -36,7 +36,7 @@ func (s *service) GetEFRoles(c context.Context) (roles []*database.EFRolePolicy,
 	return
 }
 
-func (s *service) GetRole(ctx context.Context, id int64) (role *model.Role, err error) {
+func (s *service) GetRole(id int64) (role *model.Role, err error) {
 	key := s.hm.GetCacheKey(2, id)
 	role = new(model.Role)
 	err = s.mc.Get(key, role)

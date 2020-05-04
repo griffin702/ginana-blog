@@ -16,7 +16,7 @@ func (s *service) GetEFUsers(c context.Context) (users []*database.EFUseRole, er
 	wg.Add(len(userIdList))
 	for _, userId := range userIdList {
 		go func(userId int64, users *[]*database.EFUseRole, wg *sync.WaitGroup) {
-			u, err := s.GetUser(c, userId)
+			u, err := s.GetUser(userId)
 			if err != nil {
 				return
 			}
@@ -35,7 +35,7 @@ func (s *service) GetEFUsers(c context.Context) (users []*database.EFUseRole, er
 	return
 }
 
-func (s *service) GetUser(ctx context.Context, id int64) (user *model.User, err error) {
+func (s *service) GetUser(id int64) (user *model.User, err error) {
 	key := s.hm.GetCacheKey(1, id)
 	user = new(model.User)
 	err = s.mc.Get(key, user)
@@ -49,6 +49,15 @@ func (s *service) GetUser(ctx context.Context, id int64) (user *model.User, err 
 			err = ecode.Errorf(s.hm.GetError(1002, err))
 			return
 		}
+	}
+	return
+}
+
+func (s *service) GetUserByUsername(username string) (user *model.User, err error) {
+	user = new(model.User)
+	if err = s.db.Find(user, "username = ?", username).Error; err != nil {
+		err = ecode.Errorf(s.hm.GetError(1001, err))
+		return
 	}
 	return
 }

@@ -20,6 +20,11 @@ type Service interface {
 	GetSiteOptions() (res map[string]string, err error)
 	GetCaptcha() (res *model.Captcha, err error)
 
+	GetUser(id int64) (user *model.User, err error)
+	GetRole(id int64) (role *model.Role, err error)
+	GetUserByUsername(sername string) (user *model.User, err error)
+	PostLogin(req *model.UserLoginReq) (user *model.User, err error)
+
 	GetLatestArticles(limit int) (articles []*model.Article, err error)
 	GetHotArticles(limit int) (articles []*model.Article, err error)
 	GetLatestComments(limit int) (comments []*model.Comment, err error)
