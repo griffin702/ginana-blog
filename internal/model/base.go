@@ -19,10 +19,6 @@ type JSON struct {
 	Data    interface{} `json:"data,omitempty"`
 }
 
-type Validator func(obj interface{}) error
-
-type ValidatorHandler func(ctx iris.Context) Validator
-
 func Rawurlencode(str string) string {
 	return strings.Replace(url.QueryEscape(str), "+", "%20", -1)
 }
@@ -46,3 +42,12 @@ func PlusHtmlErr(ctx iris.Context, err error) mvc.Result {
 		Name: "error/error.html",
 	}
 }
+
+// 一些自定义的类型
+type GetOption func(name string) string
+
+type GetOptionHandler func(ctx iris.Context) (GetOption, error)
+
+type Validator func(obj interface{}) error
+
+type ValidatorHandler func(ctx iris.Context) (Validator, error)

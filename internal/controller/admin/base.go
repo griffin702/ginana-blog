@@ -13,7 +13,7 @@ type CAdmin struct {
 	Session   *sessions.Session
 	Svc       service.Service
 	Pager     *model.Pager
-	GetOption func(name string) string
+	GetOption model.GetOption
 	Links     *model.Links
 	Hm        service.HelperMap
 	Valid     model.Validator

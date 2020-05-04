@@ -12,7 +12,7 @@ type CFront struct {
 	Ctx          iris.Context
 	Session      *sessions.Session
 	Svc          service.Service
-	GetOption    func(name string) string
+	GetOption    model.GetOption
 	Links        *model.Links
 	Pager        *model.Pager
 	DisableRight bool

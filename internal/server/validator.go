@@ -7,8 +7,8 @@ import (
 )
 
 func NewValidator() (valid model.ValidatorHandler, err error) {
-	return func(ctx iris.Context) model.Validator {
+	return func(ctx iris.Context) (model.Validator, error) {
 		v := validator.NewValidator()
-		return v.ValidateStruct
+		return v.ValidateStruct, nil
 	}, nil
 }

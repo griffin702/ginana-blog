@@ -16,8 +16,8 @@ func getPagination(ctx iris.Context) *model.Pager {
 	}
 }
 
-func getSiteOptions(svc service.Service, cfg *config.Config) func(ctx iris.Context) (getOption func(name string) string, err error) {
-	return func(ctx iris.Context) (func(name string) string, error) {
+func getSiteOptions(svc service.Service, cfg *config.Config) model.GetOptionHandler {
+	return func(ctx iris.Context) (model.GetOption, error) {
 		options, err := svc.GetSiteOptions()
 		if err != nil {
 			return nil, err
