@@ -19,8 +19,7 @@ type CApi struct {
 // @Tags Login
 // @Accept  json
 // @Produce  json
-// @Param page query int true "页码"
-// @Success 200 {object} model.Captcha
+// @Success 200 []byte "image/png"
 // @Failure 500 {object} model.JSON
 // @Router /login/captcha [get]
 func (c *CApi) GetLoginCaptcha() {
@@ -29,7 +28,7 @@ func (c *CApi) GetLoginCaptcha() {
 		c.Ctx.JSON(model.PlusJson(nil, err))
 		return
 	}
-	c.Session.Set("Captcha", captcha.Code)
+	c.Session.Set("captchaCode", captcha.Code)
 	c.Ctx.ContentType("image/png")
 	c.Ctx.Write(captcha.Image)
 }
@@ -37,4 +36,32 @@ func (c *CApi) GetLoginCaptcha() {
 func (c *CApi) GetTest() {
 	code := c.Session.Get("Captcha")
 	c.Ctx.JSON(model.PlusJson(code, nil))
+}
+
+// PostLoginCaptchaCheck godoc
+// @Description 提前检查验证码
+// @Tags Login
+// @Accept  json
+// @Produce  json
+// @Param code body model.Captcha true "Check Captcha"
+// @Success 200 bool
+// @Failure 500 {object} model.JSON
+// @Router /login/captcha/check [post]
+func (c *CApi) PostLoginCaptchaCheck() {
+	captcha := new(model.Captcha)
+	if err := c.Ctx.ReadJSON(&captcha); err != nil {
+		c.Ctx.JSON(model.PlusJson(nil, err))
+		return
+	}
+	code := c.Session.Get("captchaCode")
+	if code == nil {
+		c.Ctx.JSON(model.PlusJson(nil, "验证码不存在"))
+		return
+	}
+	if captcha.Code == code {
+		c.Ctx.JSON(model.PlusJson(true, nil))
+		return
+	}
+	c.Ctx.JSON(model.PlusJson(false, nil))
+	return
 }

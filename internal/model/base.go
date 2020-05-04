@@ -23,7 +23,7 @@ func Rawurlencode(str string) string {
 	return strings.Replace(url.QueryEscape(str), "+", "%20", -1)
 }
 
-func PlusJson(data interface{}, err error) *JSON {
+func PlusJson(data interface{}, err interface{}) *JSON {
 	ec := ecode.Cause(err)
 	return &JSON{
 		Code:    ec.Code(),

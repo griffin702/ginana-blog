@@ -438,9 +438,9 @@ function initcommentslist() {
 
 // 检查验证码
 function checkLoginCode(value) {
-    let url = '/v1/login/captcha/check';
+    let url = '/api/login/captcha/check';
     let data = {
-        captcha: value
+        code: value
     };
     let isTrue = false;
     $.ajax({
@@ -452,7 +452,7 @@ function checkLoginCode(value) {
         url: url,
         data: JSON.stringify(data),
         success: function (data) {
-            isTrue = data.status
+            isTrue = data.data || data;
         },
         error: function () {
             confirm_alert('请求失败', false);

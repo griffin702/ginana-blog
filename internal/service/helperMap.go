@@ -23,7 +23,6 @@ func NewHelperMap() (hm HelperMap, err error) {
 			5: "hotArticles",
 			6: "latestComments",
 			7: "allLinks",
-			8: "captcha",
 		},
 	}
 	return
