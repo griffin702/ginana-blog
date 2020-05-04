@@ -2,12 +2,12 @@ package config
 
 import (
 	"context"
-	"ginana-blog/library/cache/memcache"
-	"ginana-blog/library/conf/paladin"
-	"ginana-blog/library/database"
-	"ginana-blog/library/log"
-	xtime "ginana-blog/library/time"
 	"github.com/BurntSushi/toml"
+	"github.com/griffin702/ginana/library/cache/memcache"
+	"github.com/griffin702/ginana/library/conf/paladin"
+	"github.com/griffin702/ginana/library/database"
+	"github.com/griffin702/ginana/library/log"
+	xtime "github.com/griffin702/ginana/library/time"
 )
 
 var (

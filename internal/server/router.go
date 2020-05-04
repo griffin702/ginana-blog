@@ -7,7 +7,7 @@ import (
 	"ginana-blog/internal/controller/front"
 	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
-	"ginana-blog/library/mdw"
+	"github.com/griffin702/ginana/library/mdw"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
 	"github.com/kataras/iris/v12/sessions"
@@ -43,7 +43,7 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 	adminParty.Router.Layout("layouts/admin.html")
 	adminParty.Handle(new(admin.CAdmin))
 
-	apiParty := mvc.New(e.Party("/api", mdw.Cors([]string{"*"})).AllowMethods(iris.MethodOptions))
+	apiParty := mvc.New(e.Party("/api", mdw.CORS([]string{"*"})).AllowMethods(iris.MethodOptions))
 	apiParty.Register(svc, getPagination)
 	apiParty.Handle(new(api.CApi))
 

@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"ginana-blog/internal/model"
-	"ginana-blog/library/database"
-	"ginana-blog/library/ecode"
+	"github.com/griffin702/ginana/library/database"
+	"github.com/griffin702/ginana/library/ecode"
 	"sync"
 )
 

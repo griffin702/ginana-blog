@@ -2,7 +2,7 @@ package service
 
 import (
 	"ginana-blog/internal/model"
-	"ginana-blog/library/ecode"
+	"github.com/griffin702/ginana/library/ecode"
 )
 
 func (s *service) GetComments(p *model.Pager, objPK int64) (res *model.Comments, err error) {

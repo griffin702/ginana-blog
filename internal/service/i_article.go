@@ -2,7 +2,7 @@ package service
 
 import (
 	"ginana-blog/internal/model"
-	"ginana-blog/library/ecode"
+	"github.com/griffin702/ginana/library/ecode"
 	"github.com/jinzhu/gorm"
 )
 

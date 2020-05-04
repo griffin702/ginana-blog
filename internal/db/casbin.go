@@ -4,10 +4,10 @@ import (
 	"context"
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/service"
-	"ginana-blog/library/conf/paladin"
-	"ginana-blog/library/database"
-	"ginana-blog/library/log"
 	"github.com/casbin/casbin/v2"
+	"github.com/griffin702/ginana/library/conf/paladin"
+	"github.com/griffin702/ginana/library/database"
+	"github.com/griffin702/ginana/library/log"
 	"time"
 )
 

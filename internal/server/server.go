@@ -3,9 +3,9 @@ package server
 import (
 	"fmt"
 	"ginana-blog/internal/config"
-	"ginana-blog/library/conf/paladin"
-	"ginana-blog/library/log"
-	"ginana-blog/library/mdw"
+	"github.com/griffin702/ginana/library/conf/paladin"
+	"github.com/griffin702/ginana/library/log"
+	"github.com/griffin702/ginana/library/mdw"
 	"github.com/kataras/golog"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/logger"

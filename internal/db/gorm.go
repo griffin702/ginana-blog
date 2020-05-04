@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/model"
-	"ginana-blog/library/conf/paladin"
-	"ginana-blog/library/database"
+	"github.com/griffin702/ginana/library/conf/paladin"
+	"github.com/griffin702/ginana/library/database"
 	"github.com/jinzhu/gorm"
 )
 

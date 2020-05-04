@@ -1,7 +1,7 @@
 package model
 
 import (
-	"ginana-blog/library/ecode"
+	"github.com/griffin702/ginana/library/ecode"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
 	"net/url"

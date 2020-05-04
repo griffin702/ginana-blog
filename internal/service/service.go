@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/model"
-	"ginana-blog/library/cache/memcache"
-	"ginana-blog/library/database"
-	"ginana-blog/library/tools"
 	"github.com/casbin/casbin/v2"
+	"github.com/griffin702/ginana/library/cache/memcache"
+	"github.com/griffin702/ginana/library/database"
+	"github.com/griffin702/ginana/library/tools"
 	"github.com/jinzhu/gorm"
 )
 

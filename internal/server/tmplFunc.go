@@ -2,7 +2,7 @@ package server
 
 import (
 	"ginana-blog/internal/config"
-	"ginana-blog/library/tools"
+	"github.com/griffin702/ginana/library/tools"
 	"github.com/kataras/iris/v12"
 	"html/template"
 	"time"

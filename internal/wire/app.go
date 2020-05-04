@@ -3,8 +3,8 @@ package wire
 import (
 	"context"
 	"ginana-blog/internal/service"
-	"ginana-blog/library/log"
 	"github.com/casbin/casbin/v2"
+	"github.com/griffin702/ginana/library/log"
 	"net/http"
 	"time"
 )
