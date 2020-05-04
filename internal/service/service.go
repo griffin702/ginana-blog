@@ -8,7 +8,7 @@ import (
 	"github.com/casbin/casbin/v2"
 	"github.com/griffin702/ginana/library/cache/memcache"
 	"github.com/griffin702/ginana/library/database"
-	"github.com/griffin702/ginana/library/tools"
+	"github.com/griffin702/service/tools"
 	"github.com/jinzhu/gorm"
 )
 
@@ -18,6 +18,7 @@ type Service interface {
 	GetEFRoles(ctx context.Context) (roles []*database.EFRolePolicy, err error)
 	GetEFUsers(ctx context.Context) (users []*database.EFUseRole, err error)
 	GetSiteOptions() (res map[string]string, err error)
+	GetCaptcha() (res *model.Captcha, err error)
 
 	GetLatestArticles(limit int) (articles []*model.Article, err error)
 	GetHotArticles(limit int) (articles []*model.Article, err error)

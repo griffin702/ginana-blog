@@ -13,6 +13,7 @@ func NewHelperMap() (hm HelperMap, err error) {
 			1002: "创建失败",
 			1003: "更新失败",
 			1004: "删除失败",
+			1005: "生成验证码失败",
 		},
 		CacheKey: map[int]string{
 			1: "user",
@@ -22,6 +23,7 @@ func NewHelperMap() (hm HelperMap, err error) {
 			5: "hotArticles",
 			6: "latestComments",
 			7: "allLinks",
+			8: "captcha",
 		},
 	}
 	return
@@ -29,7 +31,7 @@ func NewHelperMap() (hm HelperMap, err error) {
 
 type HelperMap interface {
 	GetError(i int, args ...interface{}) (int, error)
-	GetCacheKey(i int, args ...int64) string
+	GetCacheKey(i int, args ...interface{}) string
 }
 
 type helperMap struct {
@@ -48,13 +50,13 @@ func (hm *helperMap) GetError(i int, args ...interface{}) (int, error) {
 	return i, errors.New(msg)
 }
 
-func (hm *helperMap) GetCacheKey(i int, args ...int64) string {
+func (hm *helperMap) GetCacheKey(i int, args ...interface{}) string {
 	if len(args) > 1 {
 		panic("too many arguments")
 	}
 	key := hm.CacheKey[i]
 	if len(args) == 1 {
-		key = fmt.Sprintf("%s_%d", key, args[0])
+		key = fmt.Sprintf("%s_%v", key, args[0])
 	}
 	return key
 }

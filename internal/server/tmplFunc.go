@@ -2,7 +2,7 @@ package server
 
 import (
 	"ginana-blog/internal/config"
-	"github.com/griffin702/ginana/library/tools"
+	"github.com/griffin702/service/tools"
 	"github.com/kataras/iris/v12"
 	"html/template"
 	"time"
@@ -22,7 +22,7 @@ func initTemplate(e *iris.Application, cfg *config.Config) {
 
 // template function
 func dateFormat(t time.Time, format string) (template.HTML, error) {
-	return template.HTML(tools.New().TimeFormat(&t, format)), nil
+	return template.HTML(tools.New().TimeFormat(t, format)), nil
 }
 
 func str2html(str string) (template.HTML, error) {

@@ -41,8 +41,8 @@ func newIris(cfg *config.Config) (e *iris.Application) {
 		Status: true, IP: true, Method: true, Path: true, Query: true,
 		//MessageHeaderKeys: []string{"User-Agent"},
 	})
-	e.OnAnyErrorCode(customLogger)
 	e.Use(customLogger, recover.New())
+	e.OnAnyErrorCode(customLogger)
 	e.Logger().SetLevel(cfg.IrisLogLevel)
 	initTemplate(e, cfg)
 	initStaticDir(e, cfg)

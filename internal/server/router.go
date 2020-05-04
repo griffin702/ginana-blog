@@ -44,7 +44,7 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 	adminParty.Handle(new(admin.CAdmin))
 
 	apiParty := mvc.New(e.Party("/api", mdw.CORS([]string{"*"})).AllowMethods(iris.MethodOptions))
-	apiParty.Register(svc, getPagination)
+	apiParty.Register(svc, session.Start, getPagination)
 	apiParty.Handle(new(api.CApi))
 
 	return

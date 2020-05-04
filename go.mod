@@ -13,6 +13,7 @@ require (
 	github.com/google/uuid v1.1.1
 	github.com/google/wire v0.4.0
 	github.com/griffin702/ginana v1.2.2
+	github.com/griffin702/service v1.0.8
 	github.com/iris-contrib/middleware/cors v0.0.0-20191219204441-78279b78a367
 	github.com/jinzhu/gorm v1.9.11
 	github.com/kataras/golog v0.0.10
