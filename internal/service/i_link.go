@@ -6,7 +6,7 @@ import (
 )
 
 func (s *service) GetLinks() (links []*model.Link, err error) {
-	key := s.hm.GetCacheKey(5)
+	key := s.hm.GetCacheKey(7)
 	err = s.mc.Get(key, &links)
 	if err != nil {
 		if err = s.db.Model(&links).Order("created_at desc").Find(&links).Error; err != nil {

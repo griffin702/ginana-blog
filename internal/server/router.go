@@ -43,7 +43,7 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 	adminParty.Router.Layout("layouts/admin.html")
 	adminParty.Handle(new(admin.CAdmin))
 
-	apiParty := mvc.New(e.Party("/api", mdw.Cors([]string{"*"})).AllowMethods(iris.MethodOptions)) // <- important for the penlight.
+	apiParty := mvc.New(e.Party("/api", mdw.Cors([]string{"*"})).AllowMethods(iris.MethodOptions))
 	apiParty.Register(svc, getPagination)
 	apiParty.Handle(new(api.CApi))
 

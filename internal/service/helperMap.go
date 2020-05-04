@@ -15,13 +15,13 @@ func NewHelperMap() (hm HelperMap, err error) {
 			1004: "删除失败",
 		},
 		CacheKey: map[int]string{
-			1: "siteOptions",
-			2: "latestArticles",
-			3: "hotArticles",
-			4: "latestComments",
-			5: "allLinks",
-			6: "user",
-			7: "role",
+			1: "user",
+			2: "role",
+			3: "siteOptions",
+			4: "latestArticles",
+			5: "hotArticles",
+			6: "latestComments",
+			7: "allLinks",
 		},
 	}
 	return

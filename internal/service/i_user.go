@@ -36,7 +36,7 @@ func (s *service) GetEFUsers(c context.Context) (users []*database.EFUseRole, er
 }
 
 func (s *service) GetUser(ctx context.Context, id int64) (user *model.User, err error) {
-	key := s.hm.GetCacheKey(6, id)
+	key := s.hm.GetCacheKey(1, id)
 	user = new(model.User)
 	err = s.mc.Get(key, user)
 	if err != nil {

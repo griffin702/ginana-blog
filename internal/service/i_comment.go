@@ -33,7 +33,7 @@ func (s *service) GetComments(p *model.Pager, objPK int64) (res *model.Comments,
 }
 
 func (s *service) GetLatestComments(limit int) (comments []*model.Comment, err error) {
-	key := s.hm.GetCacheKey(4)
+	key := s.hm.GetCacheKey(6)
 	err = s.mc.Get(key, &comments)
 	if err != nil {
 		if err = s.db.Model(&comments).Order("created_at desc").

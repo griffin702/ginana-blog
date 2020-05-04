@@ -6,7 +6,7 @@ import (
 )
 
 func (s *service) GetSiteOptions() (res map[string]string, err error) {
-	key := s.hm.GetCacheKey(1)
+	key := s.hm.GetCacheKey(3)
 	var options []*model.Options
 	err = s.mc.Get(key, &options)
 	if err != nil {

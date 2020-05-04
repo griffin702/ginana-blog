@@ -56,7 +56,7 @@ func (s *service) GetArticle(id int64) (article *model.Article, err error) {
 }
 
 func (s *service) GetLatestArticles(limit int) (articles []*model.Article, err error) {
-	key := s.hm.GetCacheKey(2)
+	key := s.hm.GetCacheKey(4)
 	err = s.mc.Get(key, &articles)
 	if err != nil {
 		if err = s.db.Model(&articles).Order("created_at desc").Limit(limit).Find(&articles).Error; err != nil {
@@ -72,7 +72,7 @@ func (s *service) GetLatestArticles(limit int) (articles []*model.Article, err e
 }
 
 func (s *service) GetHotArticles(limit int) (articles []*model.Article, err error) {
-	key := s.hm.GetCacheKey(3)
+	key := s.hm.GetCacheKey(5)
 	err = s.mc.Get(key, &articles)
 	if err != nil {
 		if err = s.db.Model(&articles).Order("views desc").Limit(limit).Find(&articles).Error; err != nil {

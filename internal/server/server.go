@@ -46,6 +46,7 @@ func newIris(cfg *config.Config) (e *iris.Application) {
 	e.Logger().SetLevel(cfg.IrisLogLevel)
 	initTemplate(e, cfg)
 	initStaticDir(e, cfg)
+
 	// swagger
 	handle := mdw.SwaggerHandler("http://127.0.0.1:8000/swagger/doc.json")
 	e.Get("/swagger/*any", handle)

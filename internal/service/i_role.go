@@ -37,7 +37,7 @@ func (s *service) GetEFRoles(c context.Context) (roles []*database.EFRolePolicy,
 }
 
 func (s *service) GetRole(ctx context.Context, id int64) (role *model.Role, err error) {
-	key := s.hm.GetCacheKey(7, id)
+	key := s.hm.GetCacheKey(2, id)
 	role = new(model.Role)
 	err = s.mc.Get(key, role)
 	if err != nil {
