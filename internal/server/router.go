@@ -1,11 +1,11 @@
-package router
+package server
 
 import (
 	"ginana-blog/internal/config"
-	"ginana-blog/internal/server/controller/admin"
-	"ginana-blog/internal/server/controller/api"
-	"ginana-blog/internal/server/controller/front"
-	"ginana-blog/internal/server/resp"
+	"ginana-blog/internal/controller/admin"
+	"ginana-blog/internal/controller/api"
+	"ginana-blog/internal/controller/front"
+	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
 	"ginana-blog/library/mdw"
 	"github.com/kataras/iris/v12"
@@ -15,12 +15,8 @@ import (
 )
 
 func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, err error) {
-	e = NewIris(cfg)
 
-	e.Use(func(ctx iris.Context) {
-		ctx.Gzip(cfg.EnableGzip)
-		ctx.Next()
-	})
+	e = newIris(cfg)
 
 	session := sessions.New(sessions.Config{
 		Cookie:  "GiNana_Session",
@@ -31,7 +27,7 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 
 	group.HandleError(func(ctx iris.Context, err error) {
 		ctx.ViewData("disableRight", true)
-		ctx.ViewData("error", resp.PlusJson(nil, err))
+		ctx.ViewData("error", model.PlusJson(nil, err))
 		ctx.View("error/error.html")
 	})
 
@@ -48,7 +44,7 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 	adminParty.Handle(new(admin.CAdmin))
 
 	apiParty := mvc.New(e.Party("/api", mdw.Cors([]string{"*"})).AllowMethods(iris.MethodOptions)) // <- important for the penlight.
-	apiParty.Register(svc)
+	apiParty.Register(svc, getPagination)
 	apiParty.Handle(new(api.CApi))
 
 	return

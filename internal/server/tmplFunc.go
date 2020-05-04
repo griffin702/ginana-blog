@@ -1,4 +1,4 @@
-package router
+package server
 
 import (
 	"ginana-blog/internal/config"

@@ -2,14 +2,14 @@ package api
 
 import (
 	"ginana-blog/internal/model"
-	"ginana-blog/internal/server/resp"
 	"ginana-blog/internal/service"
 	"github.com/kataras/iris/v12"
 )
 
 type CApi struct {
-	Ctx iris.Context
-	Svc service.Service
+	Ctx   iris.Context
+	Svc   service.Service
+	Pager *model.Pager
 }
 
 // GetUsers godoc
@@ -26,5 +26,5 @@ func (c *CApi) GetUsers() {
 	data := model.GiNana{
 		Hello: "Hello GiNana!",
 	}
-	c.Ctx.JSON(resp.PlusJson(data, nil))
+	c.Ctx.JSON(model.PlusJson(data, nil))
 }
