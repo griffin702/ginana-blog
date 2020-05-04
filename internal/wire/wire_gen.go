@@ -36,7 +36,11 @@ func InitApp() (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	application, err := server.InitRouter(serviceService, configConfig)
+	validatorHandler, err := server.NewValidator()
+	if err != nil {
+		return nil, nil, err
+	}
+	application, err := server.InitRouter(serviceService, configConfig, helperMap, validatorHandler)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -61,6 +65,6 @@ func InitApp() (*App, func(), error) {
 
 var initProvider = wire.NewSet(config.NewConfig, db.NewDB, db.NewMC)
 
-var svcProvider = wire.NewSet(service.NewHelperMap, service.New, db.NewCasbin)
+var svcProvider = wire.NewSet(service.NewHelperMap, service.New, db.NewCasbin, server.NewValidator)
 
 var httpProvider = wire.NewSet(server.InitRouter, server.NewHttpServer)

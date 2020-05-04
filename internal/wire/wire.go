@@ -12,7 +12,7 @@ import (
 )
 
 var initProvider = wire.NewSet(config.NewConfig, db.NewDB, db.NewMC)
-var svcProvider = wire.NewSet(service.NewHelperMap, service.New, db.NewCasbin)
+var svcProvider = wire.NewSet(service.NewHelperMap, service.New, db.NewCasbin, server.NewValidator)
 var httpProvider = wire.NewSet(server.InitRouter, server.NewHttpServer)
 
 func InitApp() (*App, func(), error) {

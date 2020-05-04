@@ -19,6 +19,10 @@ type JSON struct {
 	Data    interface{} `json:"data,omitempty"`
 }
 
+type Validator func(obj interface{}) error
+
+type ValidatorHandler func(ctx iris.Context) Validator
+
 func Rawurlencode(str string) string {
 	return strings.Replace(url.QueryEscape(str), "+", "%20", -1)
 }

@@ -14,6 +14,8 @@ func NewHelperMap() (hm HelperMap, err error) {
 			1003: "更新失败",
 			1004: "删除失败",
 			1005: "生成验证码失败",
+			1006: "验证码不存在",
+			1007: "验证码校验不正确",
 		},
 		CacheKey: map[int]string{
 			1: "user",
@@ -23,6 +25,7 @@ func NewHelperMap() (hm HelperMap, err error) {
 			5: "hotArticles",
 			6: "latestComments",
 			7: "allLinks",
+			8: "captchaCode",
 		},
 	}
 	return

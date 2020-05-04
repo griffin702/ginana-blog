@@ -16,6 +16,8 @@ type CFront struct {
 	Links        *model.Links
 	Pager        *model.Pager
 	DisableRight bool
+	Hm           service.HelperMap
+	Valid        model.Validator
 }
 
 func (c *CFront) IsLogin() bool {

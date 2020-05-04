@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, err error) {
+func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, valid model.ValidatorHandler) (e *iris.Application, err error) {
 
 	e = newIris(cfg)
 
@@ -30,9 +30,8 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 		ctx.ViewData("error", model.PlusJson(nil, err))
 		ctx.View("error/error.html")
 	})
-
 	group.Register(
-		svc, session.Start,
+		svc, session.Start, hm, valid,
 		getPagination,
 		getSiteOptions(svc, cfg),
 	)
@@ -44,7 +43,7 @@ func InitRouter(svc service.Service, cfg *config.Config) (e *iris.Application, e
 	adminParty.Handle(new(admin.CAdmin))
 
 	apiParty := mvc.New(e.Party("/api", mdw.CORS([]string{"*"})).AllowMethods(iris.MethodOptions))
-	apiParty.Register(svc, session.Start, getPagination)
+	apiParty.Register(svc, session.Start, hm, valid, getPagination)
 	apiParty.Handle(new(api.CApi))
 
 	return
