@@ -28,7 +28,7 @@ type CFront struct {
 
 func (c *CFront) IsLogin() bool {
 	userId := c.Session.Get("userId")
-	if userId != nil && userId.(int64) > 0 {
+	if _, ok := userId.(int64); ok {
 		return true
 	}
 	return false
