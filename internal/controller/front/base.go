@@ -4,6 +4,7 @@ import (
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
+	"github.com/griffin702/service/jwt-iris"
 	"github.com/griffin702/service/tools"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
@@ -29,6 +30,23 @@ type CFront struct {
 func (c *CFront) IsLogin() bool {
 	userId := c.Session.Get("userId")
 	if _, ok := userId.(int64); ok {
+		return true
+	}
+	tokenStr := c.Ctx.GetCookie("token")
+	if tokenStr != "" {
+		token, err := c.Tool.JwtParse(tokenStr, c.Config.JwtSecret)
+		if err != nil {
+			return false
+		}
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if ok {
+			if userId, ok := claims["userId"]; ok {
+				c.Session.Set("userId", userId)
+			}
+			if username, ok := claims["username"]; ok {
+				c.Session.Set("username", username)
+			}
+		}
 		return true
 	}
 	return false

@@ -10,6 +10,32 @@ import (
 	xtime "github.com/griffin702/ginana/library/time"
 )
 
+type Config struct {
+	AppName                string
+	Version                string
+	ConfigIsLocal          bool
+	ConfigPath             string
+	MySQL                  *database.SQLConfig
+	Casbin                 *database.CasbinConfig
+	Memcache               *memcache.Config
+	Server                 *ServerConfig
+	IrisLogLevel           string
+	EnableGzip             bool
+	EnableTemplate         bool
+	ReloadTemplate         bool
+	ViewsPath              string
+	StaticDir              string
+	SessionAndCookieExpire xtime.Duration
+	JwtSecret              string
+}
+
+type ServerConfig struct {
+	Addr         string
+	ReadTimeout  xtime.Duration
+	WriteTimeout xtime.Duration
+	IdleTimeout  xtime.Duration
+}
+
 var (
 	global  *Config
 	defPath = "../configs/global.toml" // 默认配置文件
@@ -55,29 +81,4 @@ func Global() *Config {
 		return &Config{}
 	}
 	return global
-}
-
-type Config struct {
-	AppName                string
-	Version                string
-	ConfigIsLocal          bool
-	ConfigPath             string
-	MySQL                  *database.SQLConfig
-	Casbin                 *database.CasbinConfig
-	Memcache               *memcache.Config
-	Server                 *ServerConfig
-	IrisLogLevel           string
-	EnableGzip             bool
-	EnableTemplate         bool
-	ReloadTemplate         bool
-	ViewsPath              string
-	StaticDir              string
-	SessionAndCookieExpire xtime.Duration
-}
-
-type ServerConfig struct {
-	Addr         string
-	ReadTimeout  xtime.Duration
-	WriteTimeout xtime.Duration
-	IdleTimeout  xtime.Duration
 }
