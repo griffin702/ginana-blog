@@ -32,4 +32,4 @@ type Validator func(obj interface{}) error
 
 type ValidatorHandler func(ctx iris.Context) (Validator, error)
 
-type JsonPlus func(data interface{}, err interface{}) *JSON
+type JsonPlus func(data interface{}, msg interface{}) *JSON
