@@ -50,6 +50,7 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/denisenkom/go-mssqldb v0.0.0-20190515213511-eb9f6a1743f3 h1:tkum0XDgfR0jcVVXuTsYv/erY2NnEDqwRojbxR1rBYA=
 github.com/denisenkom/go-mssqldb v0.0.0-20190515213511-eb9f6a1743f3/go.mod h1:zAg7JM8CkOJ43xKXIj7eRO9kmWm/TW578qo+oDO6tuM=
 github.com/dgraph-io/badger v1.6.0/go.mod h1:zwt7syl517jmP8s94KqSxTlM6IMsdhYy6psNgSztDR4=
+github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/dgryski/go-farm v0.0.0-20190423205320-6a90982ecee2/go.mod h1:SqUrOPUnsFjfmXRMNPybcSiG0BgUW2AuFH8PAnS2iTw=
 github.com/dustin/go-humanize v1.0.0/go.mod h1:HtrtbFcZ19U5GC7JDqmcUSB87Iq5E25KnS6fMYU6eOk=
 github.com/eapache/go-resiliency v1.1.0/go.mod h1:kFI+JgMyC7bLPUVY133qvEBtVayf5mFgVsvEsIPBvNs=
@@ -139,9 +140,8 @@ github.com/gorilla/context v1.1.1/go.mod h1:kBGZzfjB9CEq2AlWe17Uuf7NDRt0dE0s8S51
 github.com/gorilla/mux v1.6.2/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
 github.com/gorilla/websocket v1.4.1 h1:q7AeDBpnBk8AogcD4DSag/Ukw/KV+YhzLj2bP5HvKCM=
 github.com/gorilla/websocket v1.4.1/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
-github.com/griffin702/ginana v1.3.5 h1:lMsyy6N2g3oJ/W9mdmMiPjk8BXRaRaws5rWz+2G1B2I=
-github.com/griffin702/ginana v1.3.5/go.mod h1:Qig3a4K5T5aL29Dswvs7h+MKcrpmuQyU4AwCPwyiK8A=
-github.com/griffin702/service v1.0.5/go.mod h1:qIqRYfEwhm4HLdXOECyM/qZL5wH49RFnCTfaqVoj0UY=
+github.com/griffin702/ginana v1.3.6 h1:t+YLpEJZvQqX8AhEJS58chnr79SPbMp0xHerPJQcgWs=
+github.com/griffin702/ginana v1.3.6/go.mod h1:C04CvNxWTjUkblqreWp/Rd2OJNIJ3pvv++afjhAE7wY=
 github.com/griffin702/service v1.0.9 h1:S8MMKuQlHkOEqXrFuh3M9tSloj9KOsG94gSuABlDO1w=
 github.com/griffin702/service v1.0.9/go.mod h1:w9LmB/ZtPWQqbH1Bxrr7UjF08/vWy/e39/H+La1mUbE=
 github.com/hashicorp/go-version v1.2.0/go.mod h1:fltr4n8CU8Ke44wwGCBoEymUuxUHl09ZGVZPK5anwXA=

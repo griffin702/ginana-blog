@@ -5,11 +5,13 @@ import (
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
+	"github.com/griffin702/service/tools"
 	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/context"
 	"strings"
 )
 
-func getPagination(ctx iris.Context) *model.Pager {
+func getPagination(ctx context.Context) *model.Pager {
 	return &model.Pager{
 		Page:     ctx.URLParamInt64Default("page", 1),
 		PageSize: ctx.URLParamInt64Default("pagesize", 15),
@@ -84,4 +86,8 @@ func getClientIP(ctx iris.Context) model.GetClientIP {
 		}
 		return s
 	}
+}
+
+func getTools(_ iris.Context) *tools.Tool {
+	return tools.Tools
 }

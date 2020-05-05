@@ -54,6 +54,15 @@ func (c *CApi) PostLoginCaptchaCheck() {
 	return
 }
 
+// PostLogin godoc
+// @Description 登陆接口
+// @Tags Login
+// @Accept  json
+// @Produce  json
+// @Param user body model.UserLoginReq true "User Login"
+// @Success 200 {object} model.JSON{data=bool}
+// @Failure 500 {object} model.JSON
+// @Router /login [post]
 func (c *CApi) PostLogin() {
 	req := new(model.UserLoginReq)
 	if err := c.Ctx.ReadJSON(req); err != nil {
@@ -82,4 +91,6 @@ func (c *CApi) PostLogin() {
 		return
 	}
 	fmt.Println(user)
+	authkey := c.Tool.EncodeMD5(c.GetClientIP() + "|" + user.Password)
+	fmt.Println(authkey)
 }

@@ -32,7 +32,7 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 	})
 	group.Register(
 		svc, session.Start, hm, valid,
-		getClientIP, getPagination,
+		getClientIP, getPagination, getTools,
 		getSiteOptions(svc, cfg),
 	)
 
@@ -45,7 +45,7 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 	apiParty := mvc.New(e.Party("/api", mdw.CORS([]string{"*"})).AllowMethods(iris.MethodOptions))
 	apiParty.Register(
 		svc, session.Start, hm, valid,
-		getClientIP, getPagination,
+		getClientIP, getPagination, getTools,
 	)
 	apiParty.Handle(new(api.CApi))
 
