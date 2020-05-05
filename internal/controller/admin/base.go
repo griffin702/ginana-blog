@@ -51,19 +51,15 @@ func (c *CAdmin) IsLogin() bool {
 }
 
 func (c *CAdmin) setHeadMetas(params ...string) {
-	title := fmt.Sprintf("inana 后台管理 v%s", c.Config.Version)
-	if len(params) > 0 {
-		title = fmt.Sprintf("%s - %s", params[0], title)
-	}
-	c.Ctx.ViewData("title", title)
 	isLogin := c.IsLogin()
 	c.Ctx.ViewData("isLogin", isLogin)
 	if isLogin {
-		if userId, ok := c.Session.Get("userId").(float64); ok {
-			c.Ctx.ViewData("userId", userId)
+		title := fmt.Sprintf("inana 后台管理 v%s", c.Config.Version)
+		if len(params) > 0 {
+			title = fmt.Sprintf("%s - %s", params[0], title)
 		}
-		if username, ok := c.Session.Get("username").(string); ok {
-			c.Ctx.ViewData("username", username)
-		}
+		c.Ctx.ViewData("title", title)
+		c.Ctx.ViewData("userId", c.Session.GetInt64Default("userId", 0))
+		c.Ctx.ViewData("username", c.Session.GetStringDefault("username", ""))
 	}
 }
