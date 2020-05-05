@@ -81,7 +81,7 @@ func (c *CApi) PostLogin() {
 		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
-	if code != req.Code {
+	if code != req.Captcha {
 		err := c.Hm.GetMessage(1007)
 		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
@@ -104,5 +104,5 @@ func (c *CApi) PostLogin() {
 	c.Session.Set("userId", user.ID)
 	c.Session.Set("username", user.Username)
 	log.Infof("userid: %d, username: %s, 登录成功", user.ID, user.Username)
-	c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(0, "登陆成功")))
+	c.Ctx.JSON(c.JsonPlus(true, c.Hm.GetMessage(0, "登陆成功")))
 }

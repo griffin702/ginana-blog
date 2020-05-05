@@ -168,7 +168,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: 'POST',
-            url: '/admin/login',
+            url: '/api/login',
             data: data,
             success: function (data) {
                 if (data.data) {
@@ -298,7 +298,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: 'POST',
-            url: '/admin/register',
+            url: '/api/register',
             data: data,
             success: function (data) {
                 if (data.status) {
