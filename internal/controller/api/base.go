@@ -16,6 +16,8 @@ type CApi struct {
 	JsonPlus    model.JsonPlus
 	Pager       *model.Pager
 	GetClientIP model.GetClientIP
+	GetOption   model.GetOption
+	Links       *model.Links
 	Hm          service.HelperMap
 	Valid       model.Validator
 	Tool        *tools.Tool
