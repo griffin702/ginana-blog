@@ -5,6 +5,7 @@ import (
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
+	"github.com/griffin702/ginana/library/ecode"
 	"github.com/griffin702/service/tools"
 	"github.com/kataras/iris/v12"
 	"strings"
@@ -90,3 +91,29 @@ func getClientIP(ctx iris.Context) model.GetClientIP {
 func getTools(_ iris.Context) *tools.Tool {
 	return tools.Tools
 }
+
+func getConfigs(_ iris.Context) *config.Config {
+	return config.Global()
+}
+
+func jsonPlus(_ iris.Context) model.JsonPlus {
+	return func(data interface{}, msg interface{}) *model.JSON {
+		ec := ecode.Cause(msg)
+		return &model.JSON{
+			Code:    ec.Code(),
+			Message: ec.Message(),
+			Data:    data,
+		}
+	}
+}
+
+//func PlusHtmlErr(ctx iris.Context, err error) mvc.Result {
+//	ec := ecode.Cause(err)
+//	ctx.ViewData("error", &JSON{
+//		Code:    ec.Code(),
+//		Message: ec.Message(),
+//	})
+//	return mvc.View{
+//		Name: "error/error.html",
+//	}
+//}

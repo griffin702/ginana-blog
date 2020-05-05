@@ -1,9 +1,11 @@
 package api
 
 import (
-	"fmt"
 	"ginana-blog/internal/model"
-	"github.com/griffin702/ginana/library/ecode"
+	"github.com/griffin702/ginana/library/log"
+	"github.com/griffin702/service/jwt-iris"
+	"github.com/kataras/iris/v12"
+	"time"
 )
 
 // GetLoginCaptcha godoc
@@ -17,7 +19,7 @@ import (
 func (c *CApi) GetLoginCaptcha() {
 	captcha, err := c.Svc.GetCaptcha()
 	if err != nil {
-		c.Ctx.JSON(model.PlusJson(nil, err))
+		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
 	c.Session.Set(c.Hm.GetCacheKey(8), captcha.Code)
@@ -37,20 +39,20 @@ func (c *CApi) GetLoginCaptcha() {
 func (c *CApi) PostLoginCaptchaCheck() {
 	captcha := new(model.Captcha)
 	if err := c.Ctx.ReadJSON(&captcha); err != nil {
-		c.Ctx.JSON(model.PlusJson(nil, err))
+		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
 	code := c.Session.Get(c.Hm.GetCacheKey(8))
 	if code == nil {
-		err := ecode.Errorf(c.Hm.GetError(1006))
-		c.Ctx.JSON(model.PlusJson(nil, err))
+		err := c.Hm.GetMessage(1006)
+		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
 	if captcha.Code == code {
-		c.Ctx.JSON(model.PlusJson(true, nil))
+		c.Ctx.JSON(c.JsonPlus(true, nil))
 		return
 	}
-	c.Ctx.JSON(model.PlusJson(false, nil))
+	c.Ctx.JSON(c.JsonPlus(false, nil))
 	return
 }
 
@@ -66,31 +68,41 @@ func (c *CApi) PostLoginCaptchaCheck() {
 func (c *CApi) PostLogin() {
 	req := new(model.UserLoginReq)
 	if err := c.Ctx.ReadJSON(req); err != nil {
-		c.Ctx.JSON(model.PlusJson(nil, err))
+		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
 	if err := c.Valid(req); err != nil {
-		c.Ctx.JSON(model.PlusJson(nil, err))
+		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
 	code := c.Session.Get(c.Hm.GetCacheKey(8))
 	if code == nil {
-		err := ecode.Errorf(c.Hm.GetError(1006))
-		c.Ctx.JSON(model.PlusJson(nil, err))
+		err := c.Hm.GetMessage(1006)
+		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
 	if code != req.Code {
-		err := ecode.Errorf(c.Hm.GetError(1007))
-		c.Ctx.JSON(model.PlusJson(nil, err))
+		err := c.Hm.GetMessage(1007)
+		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
 	req.LoginIP = c.GetClientIP()
 	user, err := c.Svc.PostLogin(req)
 	if err != nil {
-		c.Ctx.JSON(model.PlusJson(nil, err))
+		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
-	fmt.Println(user)
-	authkey := c.Tool.EncodeMD5(c.GetClientIP() + "|" + user.Password)
-	fmt.Println(authkey)
+	claims := make(jwt.MapClaims)
+	claims["exp"] = time.Now().Add(time.Second * time.Duration(24)).Unix()
+	claims["iat"] = time.Now().Unix()
+	claims["userId"] = user.ID
+	claims["username"] = user.Username
+	token := c.Tool.JwtGenerate(claims, "123123")
+	c.Ctx.SetCookieKV("token", token,
+		iris.CookieExpires(time.Duration(24*time.Hour)),
+	)
+	c.Session.Set("userId", user.ID)
+	c.Session.Set("username", user.Username)
+	log.Infof("userid: %d, username: %s, 登录成功", user.ID, user.Username)
+	c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(0, "登陆成功")))
 }

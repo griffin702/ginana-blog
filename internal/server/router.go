@@ -20,21 +20,24 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 
 	session := sessions.New(sessions.Config{
 		Cookie:  "GiNana_Session",
-		Expires: 24 * time.Hour,
+		Expires: time.Duration(cfg.SessionAndCookieExpire),
 	})
+
+	objects := []interface{}{
+		svc, session.Start, hm, valid, jsonPlus,
+		getClientIP, getPagination, getTools, getConfigs,
+		getSiteOptions(svc, cfg),
+	}
 
 	group := mvc.New(e.Party("/"))
 
 	group.HandleError(func(ctx iris.Context, err error) {
 		ctx.ViewData("disableRight", true)
-		ctx.ViewData("error", model.PlusJson(nil, err))
+		ctx.ViewData("error", jsonPlus(ctx)(nil, err))
 		ctx.View("error/error.html")
 	})
-	group.Register(
-		svc, session.Start, hm, valid,
-		getClientIP, getPagination, getTools,
-		getSiteOptions(svc, cfg),
-	)
+
+	group.Register(objects...)
 
 	group.Router.Layout("layouts/front.html")
 	group.Handle(new(front.CFront))
@@ -43,10 +46,7 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 	adminParty.Handle(new(admin.CAdmin))
 
 	apiParty := mvc.New(e.Party("/api", mdw.CORS([]string{"*"})).AllowMethods(iris.MethodOptions))
-	apiParty.Register(
-		svc, session.Start, hm, valid,
-		getClientIP, getPagination, getTools,
-	)
+	apiParty.Register(objects...)
 	apiParty.Handle(new(api.CApi))
 
 	return

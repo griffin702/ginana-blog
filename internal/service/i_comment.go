@@ -2,7 +2,6 @@ package service
 
 import (
 	"ginana-blog/internal/model"
-	"github.com/griffin702/ginana/library/ecode"
 )
 
 func (s *service) GetComments(p *model.Pager, objPK int64) (res *model.Comments, err error) {
@@ -11,11 +10,11 @@ func (s *service) GetComments(p *model.Pager, objPK int64) (res *model.Comments,
 	query.Group("user_id").Count(&res.CountUsers)
 	query = query.Order("created_at desc").Preload("Children").Preload("User")
 	if err = query.Find(&res.List).Error; err != nil {
-		err = ecode.Errorf(s.hm.GetError(1001, err))
+		err = s.hm.GetMessage(1001, err)
 		return nil, err
 	}
 	if err = query.Group("user_id").Count(&res.CountUsers).Error; err != nil {
-		err = ecode.Errorf(s.hm.GetError(1001, err))
+		err = s.hm.GetMessage(1001, err)
 		return nil, err
 	}
 	res.Pager = p.NewPager(p.UrlPath)
@@ -39,11 +38,11 @@ func (s *service) GetLatestComments(limit int) (comments []*model.Comment, err e
 		if err = s.db.Model(&comments).Order("created_at desc").
 			Preload("User").Preload("Article").
 			Limit(limit).Find(&comments).Error; err != nil {
-			err = ecode.Errorf(s.hm.GetError(1001, err))
+			err = s.hm.GetMessage(1001, err)
 			return
 		}
 		if err = s.mc.Set(key, &comments); err != nil {
-			err = ecode.Errorf(s.hm.GetError(1002, err))
+			err = s.hm.GetMessage(1002, err)
 			return
 		}
 	}

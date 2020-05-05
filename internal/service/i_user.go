@@ -4,7 +4,6 @@ import (
 	"context"
 	"ginana-blog/internal/model"
 	"github.com/griffin702/ginana/library/database"
-	"github.com/griffin702/ginana/library/ecode"
 	"sync"
 )
 
@@ -42,11 +41,11 @@ func (s *service) GetUser(id int64) (user *model.User, err error) {
 	if err != nil {
 		user.ID = id
 		if err = s.db.Find(user).Related(&user.Roles, "Roles").Error; err != nil {
-			err = ecode.Errorf(s.hm.GetError(1001, err))
+			err = s.hm.GetMessage(1001, err)
 			return
 		}
 		if err = s.mc.Set(key, user); err != nil {
-			err = ecode.Errorf(s.hm.GetError(1002, err))
+			err = s.hm.GetMessage(1002, err)
 			return
 		}
 	}
@@ -56,7 +55,7 @@ func (s *service) GetUser(id int64) (user *model.User, err error) {
 func (s *service) GetUserByUsername(username string) (user *model.User, err error) {
 	user = new(model.User)
 	if err = s.db.Find(user, "username = ?", username).Error; err != nil {
-		err = ecode.Errorf(s.hm.GetError(1001, err))
+		err = s.hm.GetMessage(1001, err)
 		return
 	}
 	return

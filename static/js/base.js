@@ -171,15 +171,15 @@ $(document).ready(function () {
             url: '/admin/login',
             data: data,
             success: function (data) {
-                if (data.status) {
+                if (data.data) {
                     window.location.reload();
                 }
                 $('input[name=password]').val('').focus();
                 $('#captcha').val('');
-                $('#captcha-img').click();
+                // $('#captcha-img').click();
                 loginForm.data("bootstrapValidator").updateStatus("password", "NOT_VALIDATED", null);
                 loginForm.data("bootstrapValidator").updateStatus("captcha", "NOT_VALIDATED", null);
-                alert(data.msg);
+                alert(data.message);
             },
             error: function () {
                 alert("登录失败");
@@ -452,7 +452,10 @@ function checkLoginCode(value) {
         url: url,
         data: JSON.stringify(data),
         success: function (data) {
-            isTrue = data.data || data;
+            isTrue = data.data;
+            if (data.code !== 0) {
+                isTrue = data;
+            }
         },
         error: function () {
             confirm_alert('请求失败', false);

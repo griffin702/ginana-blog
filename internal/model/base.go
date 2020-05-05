@@ -1,9 +1,7 @@
 package model
 
 import (
-	"github.com/griffin702/ginana/library/ecode"
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/mvc"
 	"net/url"
 	"strings"
 )
@@ -23,26 +21,6 @@ func Rawurlencode(str string) string {
 	return strings.Replace(url.QueryEscape(str), "+", "%20", -1)
 }
 
-func PlusJson(data interface{}, err interface{}) *JSON {
-	ec := ecode.Cause(err)
-	return &JSON{
-		Code:    ec.Code(),
-		Message: ec.Message(),
-		Data:    data,
-	}
-}
-
-func PlusHtmlErr(ctx iris.Context, err error) mvc.Result {
-	ec := ecode.Cause(err)
-	ctx.ViewData("error", &JSON{
-		Code:    ec.Code(),
-		Message: ec.Message(),
-	})
-	return mvc.View{
-		Name: "error/error.html",
-	}
-}
-
 // 一些自定义的类型
 type GetClientIP func() string
 
@@ -53,3 +31,5 @@ type GetOptionHandler func(ctx iris.Context) (GetOption, error)
 type Validator func(obj interface{}) error
 
 type ValidatorHandler func(ctx iris.Context) (Validator, error)
+
+type JsonPlus func(data interface{}, err interface{}) *JSON

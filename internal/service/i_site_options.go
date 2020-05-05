@@ -2,7 +2,6 @@ package service
 
 import (
 	"ginana-blog/internal/model"
-	"github.com/griffin702/ginana/library/ecode"
 )
 
 func (s *service) GetSiteOptions() (res map[string]string, err error) {
@@ -11,15 +10,15 @@ func (s *service) GetSiteOptions() (res map[string]string, err error) {
 	err = s.mc.Get(key, &options)
 	if err != nil {
 		if err = s.db.Find(&options).Error; err != nil {
-			err = ecode.Errorf(s.hm.GetError(1001, err))
+			err = s.hm.GetMessage(1001, err)
 			return
 		}
 		if len(options) == 0 {
-			err = ecode.Errorf(s.hm.GetError(500, "站点设置异常"))
+			err = s.hm.GetMessage(500, "站点设置异常")
 			return
 		}
 		if err = s.mc.Set(key, &options); err != nil {
-			err = ecode.Errorf(s.hm.GetError(1002, err))
+			err = s.hm.GetMessage(1002, err)
 			return
 		}
 	}

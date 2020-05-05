@@ -20,3 +20,5 @@ reloadTemplate = true
 viewsPath = "../views"
 
 staticDir = "static:../static"
+
+sessionAndCookieExpire = "24h"

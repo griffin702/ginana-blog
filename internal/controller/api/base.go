@@ -1,6 +1,7 @@
 package api
 
 import (
+	"ginana-blog/internal/config"
 	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
 	"github.com/griffin702/service/tools"
@@ -12,9 +13,11 @@ type CApi struct {
 	Ctx         iris.Context
 	Session     *sessions.Session
 	Svc         service.Service
+	JsonPlus    model.JsonPlus
 	Pager       *model.Pager
 	GetClientIP model.GetClientIP
 	Hm          service.HelperMap
 	Valid       model.Validator
 	Tool        *tools.Tool
+	Config      *config.Config
 }

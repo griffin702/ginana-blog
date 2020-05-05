@@ -58,20 +58,21 @@ func Global() *Config {
 }
 
 type Config struct {
-	AppName        string
-	Version        string
-	ConfigIsLocal  bool
-	ConfigPath     string
-	MySQL          *database.SQLConfig
-	Casbin         *database.CasbinConfig
-	Memcache       *memcache.Config
-	Server         *ServerConfig
-	IrisLogLevel   string
-	EnableGzip     bool
-	EnableTemplate bool
-	ReloadTemplate bool
-	ViewsPath      string
-	StaticDir      string
+	AppName                string
+	Version                string
+	ConfigIsLocal          bool
+	ConfigPath             string
+	MySQL                  *database.SQLConfig
+	Casbin                 *database.CasbinConfig
+	Memcache               *memcache.Config
+	Server                 *ServerConfig
+	IrisLogLevel           string
+	EnableGzip             bool
+	EnableTemplate         bool
+	ReloadTemplate         bool
+	ViewsPath              string
+	StaticDir              string
+	SessionAndCookieExpire xtime.Duration
 }
 
 type ServerConfig struct {
