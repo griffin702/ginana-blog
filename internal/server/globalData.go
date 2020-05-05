@@ -30,7 +30,7 @@ func getSiteOptions(svc service.Service, cfg *config.Config) model.GetOptionHand
 		ctx.ViewData("theme",
 			fmt.Sprintf("/%s/theme/%s/", path, options["theme"]),
 		)
-		if err = makeGlobalData(ctx, svc); err != nil {
+		if err = makeGlobalData(ctx, svc, cfg); err != nil {
 			return nil, err
 		}
 		return func(name string) string {
@@ -42,7 +42,7 @@ func getSiteOptions(svc service.Service, cfg *config.Config) model.GetOptionHand
 	}
 }
 
-func makeGlobalData(ctx iris.Context, svc service.Service) (err error) {
+func makeGlobalData(ctx iris.Context, svc service.Service, cfg *config.Config) (err error) {
 	ctx.ViewData("hidejs", `<!--[if lt IE 9]>
 	<script src="/static/js/html5shiv.min.js"></script>
 	<![endif]-->`,

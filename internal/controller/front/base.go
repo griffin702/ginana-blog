@@ -28,8 +28,7 @@ type CFront struct {
 }
 
 func (c *CFront) IsLogin() bool {
-	userId := c.Session.Get("userId")
-	if _, ok := userId.(int64); ok {
+	if _, ok := c.Session.Get("userId").(float64); ok {
 		return true
 	}
 	tokenStr := c.Ctx.GetCookie("token")
@@ -40,10 +39,10 @@ func (c *CFront) IsLogin() bool {
 		}
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if ok {
-			if userId, ok := claims["userId"]; ok {
+			if userId, ok := claims["userId"].(float64); ok {
 				c.Session.Set("userId", userId)
 			}
-			if username, ok := claims["username"]; ok {
+			if username, ok := claims["username"].(string); ok {
 				c.Session.Set("username", username)
 			}
 		}

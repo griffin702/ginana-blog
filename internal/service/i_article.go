@@ -85,3 +85,9 @@ func (s *service) GetHotArticles(limit int) (articles []*model.Article, err erro
 	}
 	return
 }
+
+func (s *service) CountArticles() (count int64) {
+	article := new(model.Article)
+	s.db.Model(article).Count(&count)
+	return
+}
