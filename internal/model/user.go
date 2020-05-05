@@ -27,6 +27,6 @@ type UserRoles struct {
 type UserLoginReq struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
-	Code     string `json:"code" binding:"required"`
+	Captcha  string `json:"captcha" binding:"required"`
 	LoginIP  string `json:"login_ip"`
 }

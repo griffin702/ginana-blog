@@ -81,7 +81,7 @@ func (c *CApi) PostLogin() {
 		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
-	if code != req.Code {
+	if code != req.Captcha {
 		err := c.Hm.GetMessage(1007)
 		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
