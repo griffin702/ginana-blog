@@ -7,11 +7,10 @@ import (
 	"ginana-blog/internal/service"
 	"github.com/griffin702/service/tools"
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/context"
 	"strings"
 )
 
-func getPagination(ctx context.Context) *model.Pager {
+func getPagination(ctx iris.Context) *model.Pager {
 	return &model.Pager{
 		Page:     ctx.URLParamInt64Default("page", 1),
 		PageSize: ctx.URLParamInt64Default("pagesize", 15),
