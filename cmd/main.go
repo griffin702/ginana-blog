@@ -19,7 +19,7 @@ import (
 // @description 基于GiNana的个人网站项目，默认端口：8000
 // @host 127.0.0.1:8000
 // @BasePath /api
-// @license.name Apache 2.0
+// @license.name MIT License
 // @license.url
 func main() {
 	flag.Parse()
