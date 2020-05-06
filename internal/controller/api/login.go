@@ -101,8 +101,7 @@ func (c *CApi) PostLogin() {
 	c.Ctx.SetCookieKV("token", token,
 		iris.CookieExpires(time.Duration(c.Config.SessionAndCookieExpire)),
 	)
-	c.Session.Set("userId", user.ID)
-	c.Session.Set("username", user.Username)
+	c.Session.Set("token", token)
 	log.Infof("userid: %d, username: %s, 登录成功", user.ID, user.Username)
 	c.Ctx.JSON(c.JsonPlus(true, c.Hm.GetMessage(0, "登陆成功")))
 }

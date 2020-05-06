@@ -30,3 +30,9 @@ type UserLoginReq struct {
 	Captcha  string `json:"captcha" binding:"required"`
 	LoginIP  string `json:"login_ip"`
 }
+
+type UserSession struct {
+	ID       int64
+	Username string
+	Roles    []string
+}

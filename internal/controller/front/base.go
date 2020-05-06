@@ -25,30 +25,25 @@ type CFront struct {
 	Valid        model.Validator
 	Tool         *tools.Tool
 	Config       *config.Config
+	UserID       int64
 }
 
+func (c *CFront) BeginRequest(ctx iris.Context) {
+	tokenStr := c.Session.GetString("token")
+	user := c.getUserByToken(tokenStr)
+	if user.ID > 0 {
+		c.UserID = user.ID
+		return
+	}
+	tokenStr = c.Ctx.GetCookie("token")
+	user = c.getUserByToken(tokenStr)
+	c.UserID = user.ID
+}
+
+func (c *CFront) EndRequest(ctx iris.Context) {}
+
 func (c *CFront) IsLogin() bool {
-	if _, ok := c.Session.Get("userId").(float64); ok {
-		return true
-	}
-	tokenStr := c.Ctx.GetCookie("token")
-	if tokenStr != "" {
-		token, err := c.Tool.JwtParse(tokenStr, c.Config.JwtSecret)
-		if err != nil {
-			return false
-		}
-		claims, ok := token.Claims.(jwt.MapClaims)
-		if ok {
-			if userId, ok := claims["userId"].(float64); ok {
-				c.Session.Set("userId", userId)
-			}
-			if username, ok := claims["username"].(string); ok {
-				c.Session.Set("username", username)
-			}
-		}
-		return true
-	}
-	return false
+	return c.UserID > 0
 }
 
 func (c *CFront) setHeadMetas(params ...string) {
@@ -73,4 +68,24 @@ func (c *CFront) setHeadMetas(params ...string) {
 	} else {
 		c.Ctx.ViewData("description", c.GetOption("description"))
 	}
+}
+
+func (c *CFront) getUserByToken(tokenStr string) (user *model.UserSession) {
+	user = new(model.UserSession)
+	token, err := c.Tool.JwtParse(tokenStr, c.Config.JwtSecret)
+	if err != nil {
+		return
+	}
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if ok {
+		c.Session.Set("token", tokenStr)
+		if userId, ok := claims["userId"].(float64); ok {
+			user.ID = int64(userId)
+		}
+		if username, ok := claims["username"].(string); ok {
+			user.Username = username
+			c.Ctx.ViewData("username", username)
+		}
+	}
+	return
 }
