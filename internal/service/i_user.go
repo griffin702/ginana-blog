@@ -60,3 +60,9 @@ func (s *service) GetUserByUsername(username string) (user *model.User, err erro
 	}
 	return
 }
+
+func (s *service) CountUsers() (count int64) {
+	user := new(model.User)
+	s.db.Model(user).Count(&count)
+	return
+}

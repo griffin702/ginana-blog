@@ -14,3 +14,9 @@ func (s *service) GetTags() (res *model.Tags, err error) {
 	}
 	return
 }
+
+func (s *service) CountTags() (count int64) {
+	tag := new(model.Tag)
+	s.db.Model(tag).Count(&count)
+	return
+}

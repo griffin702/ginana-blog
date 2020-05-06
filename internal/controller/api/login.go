@@ -93,13 +93,13 @@ func (c *CApi) PostLogin() {
 		return
 	}
 	claims := make(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(time.Second * time.Duration(24)).Unix()
+	claims["exp"] = time.Now().Add(time.Duration(c.Config.SessionAndCookieExpire)).Unix()
 	claims["iat"] = time.Now().Unix()
 	claims["userId"] = user.ID
 	claims["username"] = user.Username
-	token := c.Tool.JwtGenerate(claims, "123123")
+	token := c.Tool.JwtGenerate(claims, c.Config.JwtSecret)
 	c.Ctx.SetCookieKV("token", token,
-		iris.CookieExpires(time.Duration(24*time.Hour)),
+		iris.CookieExpires(time.Duration(c.Config.SessionAndCookieExpire)),
 	)
 	c.Session.Set("userId", user.ID)
 	c.Session.Set("username", user.Username)

@@ -38,6 +38,10 @@ type Service interface {
 	GetAlbums(p *model.Pager) (res *model.Albums, err error)
 	GetAlbum(id int64) (album *model.Album, err error)
 	GetPhotos(p *model.Pager, albumId int64) (res *model.Photos, err error)
+
+	CountArticles() (count int64)
+	CountUsers() (count int64)
+	CountTags() (count int64)
 }
 
 func New(cfg *config.Config, db *gorm.DB, mc memcache.Memcache, hm HelperMap) (s Service, err error) {

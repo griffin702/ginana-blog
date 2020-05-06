@@ -33,3 +33,15 @@ type Validator func(obj interface{}) error
 type ValidatorHandler func(ctx iris.Context) (Validator, error)
 
 type JsonPlus func(data interface{}, msg interface{}) *JSON
+
+// 后台数据统计
+type AdminData struct {
+	Hostname      string
+	Gover         string
+	OS            string
+	Arch          string
+	CountCpu      int
+	CountArticles int64
+	CountUsers    int64
+	CountTags     int64
+}

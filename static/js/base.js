@@ -301,17 +301,17 @@ $(document).ready(function () {
             url: '/api/register',
             data: data,
             success: function (data) {
-                if (data.status) {
+                if (data.data) {
                     window.location.reload();
                 }
                 $('input[name=password1]').val('');
                 $('input[name=password2]').val('');
                 $('#captcha2').val('');
-                $('#captcha-img2').click();
+                // $('#captcha-img2').click();
                 registerForm.data("bootstrapValidator").updateStatus("password1", "NOT_VALIDATED", null);
                 registerForm.data("bootstrapValidator").updateStatus("password2", "NOT_VALIDATED", null);
                 registerForm.data("bootstrapValidator").updateStatus("captcha2", "NOT_VALIDATED", null);
-                alert(data.msg);
+                alert(data.message);
             },
             error: function () {
                 alert("注册失败");
