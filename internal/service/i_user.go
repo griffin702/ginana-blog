@@ -41,12 +41,10 @@ func (s *service) GetUser(id int64) (user *model.User, err error) {
 	if err != nil {
 		user.ID = id
 		if err = s.db.Find(user).Related(&user.Roles, "Roles").Error; err != nil {
-			err = s.hm.GetMessage(1001, err)
-			return
+			return nil, s.hm.GetMessage(1001, err)
 		}
 		if err = s.mc.Set(key, user); err != nil {
-			err = s.hm.GetMessage(1002, err)
-			return
+			return nil, s.hm.GetMessage(1002, err)
 		}
 	}
 	return
@@ -55,8 +53,7 @@ func (s *service) GetUser(id int64) (user *model.User, err error) {
 func (s *service) GetUserByUsername(username string) (user *model.User, err error) {
 	user = new(model.User)
 	if err = s.db.Find(user, "username = ?", username).Error; err != nil {
-		err = s.hm.GetMessage(1001, err)
-		return
+		return nil, s.hm.GetMessage(1001, err)
 	}
 	return
 }

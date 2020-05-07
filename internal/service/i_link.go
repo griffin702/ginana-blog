@@ -9,12 +9,10 @@ func (s *service) GetLinks() (links []*model.Link, err error) {
 	err = s.mc.Get(key, &links)
 	if err != nil {
 		if err = s.db.Model(&links).Order("created_at desc").Find(&links).Error; err != nil {
-			err = s.hm.GetMessage(1001, err)
-			return
+			return nil, s.hm.GetMessage(1001, err)
 		}
 		if err = s.mc.Set(key, &links); err != nil {
-			err = s.hm.GetMessage(1002, err)
-			return
+			return nil, s.hm.GetMessage(1002, err)
 		}
 	}
 	return

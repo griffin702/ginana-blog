@@ -17,6 +17,6 @@ func (c *CAdmin) PostSystemSetting() (err error) {
 	if err = c.Svc.UpdateSiteOptions(option); err != nil {
 		return
 	}
-	c.Ctx.View("admin/system/setting.html")
+	c.ShowMsg("系统设置已更新")
 	return
 }

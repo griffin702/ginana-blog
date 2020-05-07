@@ -2,6 +2,7 @@ package service
 
 import (
 	"ginana-blog/internal/model"
+	"reflect"
 )
 
 func (s *service) GetSiteOptions() (res *model.Option, err error) {
@@ -11,53 +12,50 @@ func (s *service) GetSiteOptions() (res *model.Option, err error) {
 	if err != nil {
 		var options []*model.Options
 		if err = s.db.Find(&options).Error; err != nil {
-			err = s.hm.GetMessage(1001, err)
-			return
+			return nil, s.hm.GetMessage(1001, err)
 		}
 		if len(options) == 0 {
-			err = s.hm.GetMessage(500, "站点设置为空")
-			return
+			return nil, s.hm.GetMessage(500, "站点设置为空")
 		}
 		optionsMap := make(map[string]string)
 		for _, v := range options {
 			optionsMap[v.Name] = v.Value
 		}
 		if err = s.tool.MapToStruct(&optionsMap, option); err != nil {
-			err = s.hm.GetMessage(500, err)
-			return
+			return nil, s.hm.GetMessage(500, err)
 		}
 		if err = s.mc.Set(key, option); err != nil {
-			err = s.hm.GetMessage(1002, err)
-			return
+			return nil, s.hm.GetMessage(1002, err)
 		}
 	}
-	res = option
-	return
+	return option, nil
 }
 
 func (s *service) UpdateSiteOptions(req *model.Option) (err error) {
-	m, err := s.tool.StructToMap(req)
+	options, err := s.GetSiteOptions()
 	if err != nil {
-		err = s.hm.GetMessage(1010, err)
-		return
+		return s.hm.GetMessage(1001, err)
 	}
-	s.db.Begin()
-	for k, v := range m {
-		if value, ok := v.(string); ok {
-			options := new(model.Options)
-			if err = s.db.Find(options, "name = ?", k).Error; err != nil {
-				err = nil
-				continue
-			}
-			options.Value = value
-			if err = s.db.Model(options).Update(options).Error; err != nil {
-				err = s.hm.GetMessage(1003, err)
-				s.db.Rollback()
-				return
+	key := reflect.TypeOf(options).Elem()
+	value := reflect.ValueOf(options).Elem()
+	reqKey := reflect.TypeOf(req).Elem()
+	reqValue := reflect.ValueOf(req).Elem()
+	tx := s.db.Begin()
+	for i := 0; i < key.NumField(); i++ {
+		name := key.Field(i).Name
+		for j := 0; j < reqKey.NumField(); j++ {
+			v := reqValue.Field(j).Interface()
+			if name == reqKey.Field(j).Name && value.Field(i).Interface() != v {
+				opt := new(model.Options)
+				err = s.db.Model(opt).Where("name = ?", name).Update("value", v).Error
+				if err != nil {
+					tx.Rollback()
+					return s.hm.GetMessage(1003, err)
+				}
 			}
 		}
 	}
-	s.db.Commit()
+	tx.Commit()
 	s.mc.Delete(s.hm.GetCacheKey(3))
 	return
 }

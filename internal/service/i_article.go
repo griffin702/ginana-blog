@@ -21,8 +21,7 @@ func (s *service) GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (r
 	query.Count(&p.AllCount)
 	query = query.Order(pr.Order).Preload("User").Preload("Tags")
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
-		err = s.hm.GetMessage(1001, err)
-		return nil, err
+		return nil, s.hm.GetMessage(1001, err)
 	}
 	res.Pager = p.NewPager(p.UrlPath)
 	return
@@ -33,8 +32,7 @@ func (s *service) GetArticle(id int64) (article *model.Article, err error) {
 	article.ID = id
 	if err = s.db.Model(article).Preload("User").Preload("Tags").
 		Find(article).Error; err != nil {
-		err = s.hm.GetMessage(1001, err)
-		return nil, err
+		return nil, s.hm.GetMessage(1001, err)
 	}
 	var prev, next model.Article
 	err = s.db.Model(&prev).Last(&prev, "id < ?", id).Error
@@ -59,12 +57,10 @@ func (s *service) GetLatestArticles(limit int) (articles []*model.Article, err e
 	err = s.mc.Get(key, &articles)
 	if err != nil {
 		if err = s.db.Model(&articles).Order("created_at desc").Limit(limit).Find(&articles).Error; err != nil {
-			err = s.hm.GetMessage(1001, err)
-			return
+			return nil, s.hm.GetMessage(1001, err)
 		}
 		if err = s.mc.Set(key, &articles); err != nil {
-			err = s.hm.GetMessage(1002, err)
-			return
+			return nil, s.hm.GetMessage(1002, err)
 		}
 	}
 	return
@@ -75,12 +71,10 @@ func (s *service) GetHotArticles(limit int) (articles []*model.Article, err erro
 	err = s.mc.Get(key, &articles)
 	if err != nil {
 		if err = s.db.Model(&articles).Order("views desc").Limit(limit).Find(&articles).Error; err != nil {
-			err = s.hm.GetMessage(1001, err)
-			return
+			return nil, s.hm.GetMessage(1001, err)
 		}
 		if err = s.mc.Set(key, &articles); err != nil {
-			err = s.hm.GetMessage(1002, err)
-			return
+			return nil, s.hm.GetMessage(1002, err)
 		}
 	}
 	return

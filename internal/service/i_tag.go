@@ -9,8 +9,7 @@ func (s *service) GetTags() (res *model.Tags, err error) {
 	query := s.db.Model(&res.List)
 	query = query.Order("id")
 	if err = query.Preload("Articles").Find(&res.List).Error; err != nil {
-		err = s.hm.GetMessage(1001, err)
-		return nil, err
+		return nil, s.hm.GetMessage(1001, err)
 	}
 	return
 }

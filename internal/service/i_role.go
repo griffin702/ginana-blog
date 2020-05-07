@@ -42,12 +42,10 @@ func (s *service) GetRole(id int64) (role *model.Role, err error) {
 	if err != nil {
 		role.ID = id
 		if err = s.db.Find(role).Related(&role.Policys, "Policys").Error; err != nil {
-			err = s.hm.GetMessage(1001, err)
-			return
+			return nil, s.hm.GetMessage(1001, err)
 		}
 		if err = s.mc.Set(key, role); err != nil {
-			err = s.hm.GetMessage(1002, err)
-			return
+			return nil, s.hm.GetMessage(1002, err)
 		}
 	}
 	return

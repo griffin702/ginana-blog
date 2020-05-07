@@ -10,12 +10,10 @@ func (s *service) GetComments(p *model.Pager, objPK int64) (res *model.Comments,
 	query.Group("user_id").Count(&res.CountUsers)
 	query = query.Order("created_at desc").Preload("Children").Preload("User")
 	if err = query.Find(&res.List).Error; err != nil {
-		err = s.hm.GetMessage(1001, err)
-		return nil, err
+		return nil, s.hm.GetMessage(1001, err)
 	}
 	if err = query.Group("user_id").Count(&res.CountUsers).Error; err != nil {
-		err = s.hm.GetMessage(1001, err)
-		return nil, err
+		return nil, s.hm.GetMessage(1001, err)
 	}
 	res.Pager = p.NewPager(p.UrlPath)
 	for _, parent := range res.List {
@@ -38,12 +36,10 @@ func (s *service) GetLatestComments(limit int) (comments []*model.Comment, err e
 		if err = s.db.Model(&comments).Order("created_at desc").
 			Preload("User").Preload("Article").
 			Limit(limit).Find(&comments).Error; err != nil {
-			err = s.hm.GetMessage(1001, err)
-			return
+			return nil, s.hm.GetMessage(1001, err)
 		}
 		if err = s.mc.Set(key, &comments); err != nil {
-			err = s.hm.GetMessage(1002, err)
-			return
+			return nil, s.hm.GetMessage(1002, err)
 		}
 	}
 	return
