@@ -151,6 +151,8 @@ github.com/griffin702/ginana v1.5.2 h1:ALN2lifd7ZSFfE3R4RmlAr17HKfr7iaBK/NzHP/XO
 github.com/griffin702/ginana v1.5.2/go.mod h1:fDMRiaxVQs41eC/ZurM+Z9B/F/Zcs6u6iIV9D/hdia8=
 github.com/griffin702/service v1.1.6 h1:kHP/b4gseJ1RJXMg5IFsdIhPVPi3iCu+zoxOn8WWEcA=
 github.com/griffin702/service v1.1.6/go.mod h1:bQa/RQeP+D9c6rcHg4gZF3hR0WZISfHZu1GvqhAhJAI=
+github.com/griffin702/service v1.1.7 h1:wwaqWbRn3XuXRNv0rEFG2D6Or1jN1mUDfXoF+othuZ0=
+github.com/griffin702/service v1.1.7/go.mod h1:bQa/RQeP+D9c6rcHg4gZF3hR0WZISfHZu1GvqhAhJAI=
 github.com/hashicorp/go-version v1.2.0/go.mod h1:fltr4n8CU8Ke44wwGCBoEymUuxUHl09ZGVZPK5anwXA=
 github.com/hashicorp/golang-lru v0.5.0/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ4Ao+sR/qLZy8=
 github.com/hashicorp/hcl v1.0.0/go.mod h1:E5yfLk+7swimpb2L/Alb/PJmXilQ/rhwaUYs4T20WEQ=

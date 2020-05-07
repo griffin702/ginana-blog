@@ -19,8 +19,8 @@ func getPagination(ctx iris.Context) *model.Pager {
 	}
 }
 
-func getSiteOptions(svc service.Service, cfg *config.Config) model.GetOptionHandler {
-	return func(ctx iris.Context) (model.GetOption, error) {
+func getSiteOptions(svc service.Service, cfg *config.Config) model.OptionHandler {
+	return func(ctx iris.Context) (*model.Option, error) {
 		options, err := svc.GetSiteOptions()
 		if err != nil {
 			return nil, err
@@ -28,17 +28,12 @@ func getSiteOptions(svc service.Service, cfg *config.Config) model.GetOptionHand
 		ctx.ViewData("options", options)
 		path, _ := getDefaultStaticDir(cfg.StaticDir)
 		ctx.ViewData("theme",
-			fmt.Sprintf("/%s/theme/%s/", path, options["theme"]),
+			fmt.Sprintf("/%s/theme/%s/", path, options.Theme),
 		)
 		if err = makeGlobalData(ctx, svc); err != nil {
 			return nil, err
 		}
-		return func(name string) string {
-			if value, ok := options[name]; ok {
-				return value
-			}
-			return ""
-		}, nil
+		return options, nil
 	}
 }
 

@@ -17,7 +17,8 @@ type Service interface {
 	SetEnforcer(ef *casbin.SyncedEnforcer) (err error)
 	GetEFRoles(ctx context.Context) (roles []*database.EFRolePolicy, err error)
 	GetEFUsers(ctx context.Context) (users []*database.EFUseRole, err error)
-	GetSiteOptions() (res map[string]string, err error)
+	GetSiteOptions() (res *model.Option, err error)
+	UpdateSiteOptions(req *model.Option) (err error)
 	GetCaptcha() (res *model.Captcha, err error)
 
 	GetUser(id int64) (user *model.User, err error)

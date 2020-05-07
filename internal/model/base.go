@@ -24,9 +24,7 @@ func Rawurlencode(str string) string {
 // 一些自定义的类型
 type GetClientIP func() string
 
-type GetOption func(name string) string
-
-type GetOptionHandler func(ctx iris.Context) (GetOption, error)
+type OptionHandler func(ctx iris.Context) (*Option, error)
 
 type Validator func(obj interface{}) error
 

@@ -17,7 +17,7 @@ type BaseController struct {
 	JsonPlus     model.JsonPlus
 	Pager        *model.Pager
 	GetClientIP  model.GetClientIP
-	GetOption    model.GetOption
+	SiteOptions  *model.Option
 	Links        *model.Links
 	DisableRight bool
 	Hm           service.HelperMap

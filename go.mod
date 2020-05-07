@@ -9,7 +9,7 @@ require (
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/google/wire v0.4.0
 	github.com/griffin702/ginana v1.5.2
-	github.com/griffin702/service v1.1.6
+	github.com/griffin702/service v1.1.7
 	github.com/jinzhu/gorm v1.9.11
 	github.com/kataras/golog v0.0.10
 	github.com/kataras/iris/v12 v12.1.2
