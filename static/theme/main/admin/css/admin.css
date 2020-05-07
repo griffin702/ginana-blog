@@ -339,7 +339,7 @@ legend .btn {
     min-height: 600px;
 }
 
-.showmsg-msg {
+.showmsg p, .showmsg a {
     font-size: 18px;
     font-weight: 700;
 }

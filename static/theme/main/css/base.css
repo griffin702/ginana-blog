@@ -493,19 +493,11 @@ aside .rnav ul li a:hover {
 }
 
 .box {
-    width: 1300px;
-    margin: auto;
-    overflow: hidden
-}
-
-.boxphoto {
-    width: 1000px;
     margin: auto;
     overflow: hidden
 }
 
 .texts {
-    width: 350px;
     line-height: 26px;
     margin: 60px 0 0 0;
     float: left;
@@ -1407,4 +1399,9 @@ a.readmore {
         max-width: 360px;
         max-height: 360px;
     }
+}
+
+.showmsg p, .showmsg a {
+    font-size: 18px;
+    font-weight: 700;
 }
