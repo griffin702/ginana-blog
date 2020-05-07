@@ -1,12 +1,17 @@
 package api
 
 import (
+	"ginana-blog/internal/controller"
 	"ginana-blog/internal/model"
 	"github.com/griffin702/ginana/library/log"
 	"github.com/griffin702/service/jwt-iris"
 	"github.com/kataras/iris/v12"
 	"time"
 )
+
+type CApiLogin struct {
+	controller.BaseController
+}
 
 // GetLoginCaptcha godoc
 // @Description 获取验证码
@@ -16,7 +21,7 @@ import (
 // @Success 200 {string} string "data:image/png;base64,U3dhZ2dlciByb2Nrcw=="
 // @Failure 500 {object} model.JSON
 // @Router /login/captcha [get]
-func (c *CApi) GetLoginCaptcha() {
+func (c *CApiLogin) GetLoginCaptcha() {
 	captcha, err := c.Svc.GetCaptcha()
 	if err != nil {
 		c.Ctx.JSON(c.JsonPlus(nil, err))
@@ -36,7 +41,7 @@ func (c *CApi) GetLoginCaptcha() {
 // @Success 200 {object} model.JSON{data=bool}
 // @Failure 500 {object} model.JSON
 // @Router /login/captcha/check [post]
-func (c *CApi) PostLoginCaptchaCheck() {
+func (c *CApiLogin) PostLoginCaptchaCheck() {
 	captcha := new(model.Captcha)
 	if err := c.Ctx.ReadJSON(&captcha); err != nil {
 		c.Ctx.JSON(c.JsonPlus(nil, err))
@@ -65,7 +70,7 @@ func (c *CApi) PostLoginCaptchaCheck() {
 // @Success 200 {object} model.JSON{data=bool}
 // @Failure 500 {object} model.JSON
 // @Router /login [post]
-func (c *CApi) PostLogin() {
+func (c *CApiLogin) PostLogin() {
 	req := new(model.UserLoginReq)
 	if err := c.Ctx.ReadJSON(req); err != nil {
 		c.Ctx.JSON(c.JsonPlus(nil, err))

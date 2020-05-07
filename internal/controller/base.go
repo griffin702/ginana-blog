@@ -1,4 +1,4 @@
-package front
+package controller
 
 import (
 	"ginana-blog/internal/config"
@@ -8,10 +8,9 @@ import (
 	"github.com/griffin702/service/tools"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
-	"strings"
 )
 
-type CFront struct {
+type BaseController struct {
 	Ctx          iris.Context
 	Session      *sessions.Session
 	Svc          service.Service
@@ -28,49 +27,25 @@ type CFront struct {
 	UserID       int64
 }
 
-func (c *CFront) BeginRequest(ctx iris.Context) {
+func (c *BaseController) BeginRequest(ctx iris.Context) {
 	tokenStr := c.Session.GetString("token")
-	user := c.getUserByToken(tokenStr)
+	user := c.GetUserByToken(tokenStr)
 	if user.ID > 0 {
 		c.UserID = user.ID
 		return
 	}
 	tokenStr = c.Ctx.GetCookie("token")
-	user = c.getUserByToken(tokenStr)
+	user = c.GetUserByToken(tokenStr)
 	c.UserID = user.ID
 }
 
-func (c *CFront) EndRequest(ctx iris.Context) {}
+func (c *BaseController) EndRequest(ctx iris.Context) {}
 
-func (c *CFront) IsLogin() bool {
+func (c *BaseController) IsLogin() bool {
 	return c.UserID > 0
 }
 
-func (c *CFront) setHeadMetas(params ...string) {
-	c.Ctx.ViewData("isLogin", c.IsLogin())
-	c.Ctx.ViewData("disableRight", c.DisableRight)
-	titleBuf := make([]string, 0, 3)
-	if len(params) == 0 && c.GetOption("sitename") != "" {
-		titleBuf = append(titleBuf, c.GetOption("sitename"))
-	}
-	if len(params) > 0 {
-		titleBuf = append(titleBuf, params[0])
-	}
-	titleBuf = append(titleBuf, c.GetOption("subtitle"))
-	c.Ctx.ViewData("title", strings.Join(titleBuf, " - "))
-	if len(params) > 1 {
-		c.Ctx.ViewData("keywords", params[1])
-	} else {
-		c.Ctx.ViewData("keywords", c.GetOption("keywords"))
-	}
-	if len(params) > 2 {
-		c.Ctx.ViewData("description", params[2])
-	} else {
-		c.Ctx.ViewData("description", c.GetOption("description"))
-	}
-}
-
-func (c *CFront) getUserByToken(tokenStr string) (user *model.UserSession) {
+func (c *BaseController) GetUserByToken(tokenStr string) (user *model.UserSession) {
 	user = new(model.UserSession)
 	token, err := c.Tool.JwtParse(tokenStr, c.Config.JwtSecret)
 	if err != nil {

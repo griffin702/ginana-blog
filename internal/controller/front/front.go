@@ -2,9 +2,15 @@ package front
 
 import (
 	"fmt"
+	"ginana-blog/internal/controller"
 	"ginana-blog/internal/model"
 	"github.com/kataras/iris/v12/mvc"
+	"strings"
 )
+
+type CFront struct {
+	controller.BaseController
+}
 
 func (c *CFront) BeforeActivation(b mvc.BeforeActivation) {
 	b.Handle("GET", "/about.html", "GetAbout")
@@ -13,6 +19,30 @@ func (c *CFront) BeforeActivation(b mvc.BeforeActivation) {
 	b.Handle("GET", "/mood.html", "GetMoods")
 	b.Handle("GET", "/links.html", "GetLinks")
 	b.Handle("GET", "/album.html", "GetAlbums")
+}
+
+func (c *CFront) setHeadMetas(params ...string) {
+	c.Ctx.ViewData("isLogin", c.IsLogin())
+	c.Ctx.ViewData("disableRight", c.DisableRight)
+	titleBuf := make([]string, 0, 3)
+	if len(params) == 0 && c.GetOption("sitename") != "" {
+		titleBuf = append(titleBuf, c.GetOption("sitename"))
+	}
+	if len(params) > 0 {
+		titleBuf = append(titleBuf, params[0])
+	}
+	titleBuf = append(titleBuf, c.GetOption("subtitle"))
+	c.Ctx.ViewData("title", strings.Join(titleBuf, " - "))
+	if len(params) > 1 {
+		c.Ctx.ViewData("keywords", params[1])
+	} else {
+		c.Ctx.ViewData("keywords", c.GetOption("keywords"))
+	}
+	if len(params) > 2 {
+		c.Ctx.ViewData("description", params[2])
+	} else {
+		c.Ctx.ViewData("description", c.GetOption("description"))
+	}
 }
 
 func (c *CFront) Get() (err error) {

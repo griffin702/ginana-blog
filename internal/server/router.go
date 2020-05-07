@@ -47,7 +47,7 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 
 	apiParty := mvc.New(e.Party("/api", mdw.CORS([]string{"*"})).AllowMethods(iris.MethodOptions))
 	apiParty.Register(objects...)
-	apiParty.Handle(new(api.CApi))
+	apiParty.Handle(new(api.CApiLogin))
 
 	return
 }
