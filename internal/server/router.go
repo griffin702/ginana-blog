@@ -41,7 +41,7 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 
 	apiParty := group.Party("/api", mdw.CORS([]string{"*"}))
 	apiParty.Router.AllowMethods(iris.MethodOptions)
-	apiParty.Router.Layout("layouts/message.html")
+	apiParty.Router.Layout("layouts/api.html")
 	apiParty.Handle(new(api.CApiLogin))
 
 	return
