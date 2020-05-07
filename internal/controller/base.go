@@ -28,25 +28,21 @@ type BaseController struct {
 }
 
 func (c *BaseController) BeginRequest(ctx iris.Context) {
-	tokenStr := c.Session.GetString("token")
-	user := c.GetUserByToken(tokenStr)
-	if user.ID > 0 {
-		c.UserID = user.ID
-		return
-	}
-	tokenStr = c.Ctx.GetCookie("token")
-	user = c.GetUserByToken(tokenStr)
+	user := c.GetUserByToken()
 	c.UserID = user.ID
 }
 
 func (c *BaseController) EndRequest(ctx iris.Context) {}
 
-func (c *BaseController) IsLogin() bool {
-	return c.UserID > 0
-}
-
-func (c *BaseController) GetUserByToken(tokenStr string) (user *model.UserSession) {
+func (c *BaseController) GetUserByToken() (user *model.UserSession) {
 	user = new(model.UserSession)
+	tokenStr := c.Session.GetString("token")
+	if tokenStr == "" {
+		tokenStr = c.Ctx.GetCookie("token")
+		if tokenStr == "" {
+			return
+		}
+	}
 	token, err := c.Tool.JwtParse(tokenStr, c.Config.JwtSecret)
 	if err != nil {
 		return
@@ -63,4 +59,8 @@ func (c *BaseController) GetUserByToken(tokenStr string) (user *model.UserSessio
 		}
 	}
 	return
+}
+
+func (c *BaseController) IsLogin() bool {
+	return c.UserID > 0
 }

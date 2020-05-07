@@ -4,12 +4,23 @@ import (
 	"fmt"
 	"ginana-blog/internal/controller"
 	"ginana-blog/internal/model"
+	"github.com/kataras/iris/v12"
 	"os"
 	"runtime"
 )
 
 type CAdmin struct {
 	controller.BaseController
+}
+
+// 重写BeginRequest 处理未登录时重定向到CFront
+func (c *CAdmin) BeginRequest(ctx iris.Context) {
+	user := c.GetUserByToken()
+	c.UserID = user.ID
+	if c.UserID > 0 {
+		return
+	}
+	ctx.Redirect("/")
 }
 
 func (c *CAdmin) setHeadMetas(params ...string) {
