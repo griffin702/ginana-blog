@@ -30,17 +30,11 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 	}
 
 	group := mvc.New(e.Party("/"))
-
-	group.HandleError(func(ctx iris.Context, err error) {
-		ctx.ViewData("disableRight", true)
-		ctx.ViewData("error", jsonPlus(ctx)(nil, err))
-		ctx.View("error/error.html")
-	})
-
+	group.HandleError(errorHandler)
 	group.Register(objects...)
-
 	group.Router.Layout("layouts/front.html")
 	group.Handle(new(front.CFront))
+
 	adminParty := group.Party("/admin")
 	adminParty.Router.Layout("layouts/admin.html")
 	adminParty.Handle(new(admin.CAdmin))

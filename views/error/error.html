@@ -1,14 +1,13 @@
-<h1 class="t_nav">
-    <a href="/" class="n1">网站首页</a>
-    <a href="/" class="n2">{{ .error.Code }}</a>
-    <p><span class="glyphicon glyphicon-map-marker"></span> 抱歉，服务器有错误信息返回</p>
-</h1>
 <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
     <div class="panel panel-default">
         <div class="panel-heading">code: {{ .error.Code }}</div>
         <div class="panel-body">
             <p>message:</p>
             <p>{{ .error.Message }}</p>
+            <a href="{{.redirect}}">如果您的浏览器没自动跳转，请点击这里</a>
+            <script type="text/javascript">
+                setTimeout("window.location.href='{{.redirect}}'", 3000);
+            </script>
         </div>
     </div>
 </div>

@@ -30,7 +30,7 @@ func getSiteOptions(svc service.Service, cfg *config.Config) model.GetOptionHand
 		ctx.ViewData("theme",
 			fmt.Sprintf("/%s/theme/%s/", path, options["theme"]),
 		)
-		if err = makeGlobalData(ctx, svc, cfg); err != nil {
+		if err = makeGlobalData(ctx, svc); err != nil {
 			return nil, err
 		}
 		return func(name string) string {
@@ -42,7 +42,7 @@ func getSiteOptions(svc service.Service, cfg *config.Config) model.GetOptionHand
 	}
 }
 
-func makeGlobalData(ctx iris.Context, svc service.Service, cfg *config.Config) (err error) {
+func makeGlobalData(ctx iris.Context, svc service.Service) (err error) {
 	ctx.ViewData("hidejs", `<!--[if lt IE 9]>
 	<script src="/static/js/html5shiv.min.js"></script>
 	<![endif]-->`,
@@ -107,13 +107,13 @@ func jsonPlus(_ iris.Context) model.JsonPlus {
 	}
 }
 
-//func PlusHtmlErr(ctx iris.Context, err error) mvc.Result {
-//	ec := ecode.Cause(err)
-//	ctx.ViewData("error", &JSON{
-//		Code:    ec.Code(),
-//		Message: ec.Message(),
-//	})
-//	return mvc.View{
-//		Name: "error/error.html",
-//	}
-//}
+func errorHandler(ctx iris.Context, err error) {
+	redirect := ctx.GetReferrer().Path
+	if redirect == "" {
+		redirect = "/"
+	}
+	ctx.ViewData("redirect", redirect)
+	ctx.ViewData("disableRight", true)
+	ctx.ViewData("error", jsonPlus(ctx)(nil, err))
+	ctx.View("error/error.html")
+}
