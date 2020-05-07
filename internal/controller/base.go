@@ -64,3 +64,14 @@ func (c *BaseController) GetUserByToken() (user *model.UserSession) {
 func (c *BaseController) IsLogin() bool {
 	return c.UserID > 0
 }
+
+func (c *BaseController) ShowMsg(msg string) {
+	redirect := c.Ctx.GetReferrer().Path
+	if redirect == "" {
+		redirect = "/"
+	}
+	c.Ctx.ViewData("redirect", redirect)
+	c.Ctx.ViewData("message", msg)
+	c.Ctx.View("message/message.html")
+	c.Ctx.StopExecution()
+}

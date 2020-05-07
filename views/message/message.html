@@ -1,0 +1,16 @@
+<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">温馨提醒</div>
+        <div class="panel-body">
+            <p>message:</p>
+            <p>{{ .message }}</p>
+            <a href="{{.redirect}}">如果您的浏览器没自动跳转，请点击这里</a>
+            <script type="text/javascript">
+                setTimeout("window.location.href='{{.redirect}}'", 3000);
+            </script>
+        </div>
+    </div>
+</div>
+<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+    <img src="{{.theme}}images/logo.png" alt=""/>
+</div>

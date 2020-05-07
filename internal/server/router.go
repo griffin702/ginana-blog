@@ -39,8 +39,9 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 	adminParty.Router.Layout("layouts/admin.html")
 	adminParty.Handle(new(admin.CAdmin))
 
-	apiParty := mvc.New(e.Party("/api", mdw.CORS([]string{"*"})).AllowMethods(iris.MethodOptions))
-	apiParty.Register(objects...)
+	apiParty := group.Party("/api", mdw.CORS([]string{"*"}))
+	apiParty.Router.AllowMethods(iris.MethodOptions)
+	apiParty.Router.Layout("layouts/message.html")
 	apiParty.Handle(new(api.CApiLogin))
 
 	return

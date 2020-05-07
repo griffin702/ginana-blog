@@ -113,7 +113,6 @@ func errorHandler(ctx iris.Context, err error) {
 		redirect = "/"
 	}
 	ctx.ViewData("redirect", redirect)
-	ctx.ViewData("disableRight", true)
 	ctx.ViewData("error", jsonPlus(ctx)(nil, err))
-	ctx.View("error/error.html")
+	ctx.View("message/error.html")
 }

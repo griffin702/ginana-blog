@@ -110,3 +110,17 @@ func (c *CApiLogin) PostLogin() {
 	log.Infof("userid: %d, username: %s, 登录成功", user.ID, user.Username)
 	c.Ctx.JSON(c.JsonPlus(true, c.Hm.GetMessage(0, "登陆成功")))
 }
+
+// PostLogout godoc
+// @Description 安全登出
+// @Tags Login
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} model.JSON{data=bool}
+// @Failure 500 {object} model.JSON
+// @Router /logout [get]
+func (c *CApiLogin) GetLogout() {
+	c.Session.Destroy()
+	c.Ctx.RemoveCookie("token")
+	c.ShowMsg("已安全登出，期待与您下一次遇见...")
+}
