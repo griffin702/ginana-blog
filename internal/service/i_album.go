@@ -34,3 +34,10 @@ func (s *service) GetPhotos(p *model.Pager, albumId int64) (res *model.Photos, e
 	res.Pager = p.NewPager(p.UrlPath)
 	return
 }
+
+func (s *service) CreatePhoto(req *model.Photo) (err error) {
+	if err = s.db.Model(req).Create(req).Error; err != nil {
+		return s.hm.GetMessage(1002, err)
+	}
+	return
+}

@@ -5,6 +5,7 @@ import (
 )
 
 func (c *CAdmin) GetSystemSetting() (err error) {
+	c.setHeadMetas("系统设置")
 	c.Ctx.View("admin/system/setting.html")
 	return
 }
@@ -17,6 +18,7 @@ func (c *CAdmin) PostSystemSetting() (err error) {
 	if err = c.Svc.UpdateSiteOptions(option); err != nil {
 		return
 	}
+	c.setHeadMetas("系统设置")
 	c.ShowMsg("系统设置已更新")
 	return
 }

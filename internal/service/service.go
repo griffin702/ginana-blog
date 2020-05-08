@@ -39,6 +39,7 @@ type Service interface {
 	GetAlbums(p *model.Pager) (res *model.Albums, err error)
 	GetAlbum(id int64) (album *model.Album, err error)
 	GetPhotos(p *model.Pager, albumId int64) (res *model.Photos, err error)
+	CreatePhoto(req *model.Photo) (err error)
 
 	CountArticles() (count int64)
 	CountUsers() (count int64)

@@ -20,7 +20,9 @@ func NewHelperMap() (hm HelperMap, err error) {
 			1007: "验证码校验不正确",
 			1008: "密码校验不正确",
 			1009: "该帐号未激活",
-			1010: "数据转换报错",
+			1010: "错误的文件类型",
+			1011: "文件尺寸不符合要求",
+			1012: "仅允许上传格式：MP3、MP4",
 		},
 		CacheKey: map[int]string{
 			1: "user",

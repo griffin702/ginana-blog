@@ -195,12 +195,12 @@ $(document).ready(function () {
         }
     });
     //处理图片上传
-    let autoview = document.querySelector('#autoview');
-    let uptype, upurl, albumid;
-    $('#newcover').on('change', function () {
+    let autoview = document.querySelector('#auto_view');
+    let uptype, upurl, albumId;
+    $('#new_avatar').on('change', function () {
         let file = this.files[0];
         uptype = $(this).data('uptype');
-        albumid = $(this).data('albumid');
+        albumId = $(this).data('albumid');
         if (!uptype) {
             uptype = 2
         }
@@ -228,7 +228,7 @@ $(document).ready(function () {
                 if (uptype === 3) {
                     autoview.width = upwidth;
                     autoview.height = upheight;
-                    upurl = '/admin/upload/?type=' + uptype + '&albumid=' + albumid;
+                    upurl = '/admin/upload/?type=' + uptype + '&albumId=' + albumId;
                 } else {
                     upurl = '/admin/upload/?type=' + uptype + '&w=' + oldwidth + '&h=' + oldheight;
                 }
@@ -238,16 +238,16 @@ $(document).ready(function () {
             autoview.name = file.name;
         };
     });
-    $('#uploadimg').on('click', function () {
+    $('#upload_img').on('click', function () {
         let formData = new FormData();
         let newupurl;
-        if (uptype === 2 || (uptype === 3 && albumid === 0)) {
-            let lastsrc = $('#picture').val();
-            newupurl = upurl + '&lastsrc=' + lastsrc;
+        if (uptype === 2 || (uptype === 3 && albumId === 0)) {
+            let lastSrc = $('#avatar').val();
+            newupurl = upurl + '&last_src=' + lastSrc;
         } else {
             newupurl = upurl;
         }
-        formData.append('editormd-image-file', dataURLtoFile(autoview.src, autoview.name));
+        formData.append('iNanaUploadImage', dataURLtoFile(autoview.src, autoview.name));
         $.ajax({
             url: newupurl,
             method: 'POST',
@@ -257,19 +257,14 @@ $(document).ready(function () {
             cache: false,
             success: function (data) {
                 let ret = JSON.parse(JSON.stringify(data));
-                if (!ret.success) {
-                    if (ret.success === undefined) {
-                        alert("不允许上传!");
-                    } else {
-                        alert(ret.message);
-                    }
+                if (ret.code !== 0) {
+                    alert(ret.message);
                 } else {
-                    $('#picture').val(ret.url);
-                    if (uptype === 3 && albumid > 0) {
-                        ajax_Main("GET", {}, '/admin/photo/list?albumid=' + albumid, 500);
+                    $('#avatar').val(ret.data.url);
+                    if (uptype === 3 && albumId > 0) {
+                        ajax_Main("GET", {}, '/admin/photo/list?albumId=' + albumId, 500);
                     }
                 }
-                // autoview.src = '/static/upload/default/yulan-190x135.png';
                 formData = new FormData();
             },
             error: function () {
@@ -307,7 +302,7 @@ $(document).ready(function () {
         }
     }, false);
     //图片加载失败处理
-    $("#autoview").error(function () {
+    $("#auto_view").error(function () {
         if ($(this).attr('width') === '60' && $(this).attr('height') === '60') {
             $(this).attr('src', '/static/upload/default/user-default-60x60.png');
         } else {

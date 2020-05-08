@@ -11,7 +11,7 @@ type Album struct {
 	CreatedAt time.Time `json:"created_at" gorm:"comment:'创建时间'"`
 	Name      string    `json:"name" gorm:"index;not null;type:VARCHAR(100);comment:'相册名称'"`
 	Cover     string    `json:"cover" gorm:"type:VARCHAR(255);not null;default:'/static/upload/default/blog-default-0.png';comment:'相册封面'"`
-	Hidden    bool      `json:"ishide" gorm:"index;not null;comment:'是否隐藏'"`
+	Hidden    bool      `json:"hidden" gorm:"index;not null;comment:'是否隐藏'"`
 	Rank      int8      `json:"rank" gorm:"not null;comment:'权重'"`
 	Photos    []*Photo  `json:"photos"`
 }
@@ -23,7 +23,7 @@ type Photo struct {
 	AlbumID   int64     `json:"album_id" gorm:"index;not null;comment:'相册ID'"`
 	Desc      string    `json:"desc" gorm:"type:VARCHAR(255);not null;comment:'描述'"`
 	Url       string    `json:"url" gorm:"type:VARCHAR(255);not null;comment:'URL地址'"`
-	Small     string    `gorm:"-"`
+	Small     string    `json:"small" gorm:"-"`
 }
 
 type Albums struct {

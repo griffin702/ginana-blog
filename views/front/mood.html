@@ -28,7 +28,7 @@
                     {{if $v.Cover }}
                         <ul id="lightgallery-{{$v.ID}}" class="list-unstyled">
                             <li data-src="{{$v.Cover}}"
-                                data-sub-html="<div class='mooddesc'>{{$v.GetDesc}}<h4>{{date $v.CreatedAt "y-m-j H:i"}}</h4></div>">
+                                data-sub-html="<div class='mooddesc'>{{$v.GetDesc}}<h4>{{date $v.CreatedAt "Y-m-d H:i"}}</h4></div>">
                                 <a href="#"><img class="moodimg" src="{{$v.ChangetoSmall}}" alt=""></a>
                             </li>
                         </ul>
@@ -51,7 +51,7 @@
                     </script>
                 </div>
             </div>
-            <span class="dateview col-lg-2 col-md-2 col-sm-2 col-xs-2 column">{{date $v.CreatedAt "y-m-j H:i"}}</span>
+            <span class="dateview col-lg-2 col-md-2 col-sm-2 col-xs-2 column">{{date $v.CreatedAt "Y-m-d H:i"}}</span>
         {{end}}
     </div>
     {{str2html .data.Pager.ToString}}

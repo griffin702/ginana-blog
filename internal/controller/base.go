@@ -8,6 +8,7 @@ import (
 	"github.com/griffin702/service/tools"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
+	"strings"
 )
 
 type BaseController struct {
@@ -74,4 +75,14 @@ func (c *BaseController) ShowMsg(msg string) {
 	c.Ctx.ViewData("message", msg)
 	c.Ctx.View("message/message.html")
 	c.Ctx.StopExecution()
+}
+
+func (c *BaseController) IsDefaultSrc(value string) bool {
+	var defaultDir = "/static/upload/default/"
+	if value != "" {
+		if index := strings.Index(value, defaultDir); index != -1 {
+			return true
+		}
+	}
+	return false
 }
