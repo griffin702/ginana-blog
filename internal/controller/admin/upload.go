@@ -3,6 +3,9 @@ package admin
 import (
 	"ginana-blog/internal/model"
 	"github.com/griffin702/service/upload"
+	"github.com/kataras/iris/v12"
+	"mime/multipart"
+	"path/filepath"
 	"strings"
 )
 
@@ -46,7 +49,7 @@ func (c *CAdmin) PostUpload() {
 	return
 }
 
-func (c *CAdmin) PostUploadFile() {
+func (c *CAdmin) PostUploadMedia() {
 	f, h, err := c.Ctx.FormFile("iNanaUploadMedia")
 	if err != nil {
 		c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(500, err)))
@@ -62,7 +65,9 @@ func (c *CAdmin) PostUploadFile() {
 		return
 	}
 	mediaPath := fi.JoinInfo()
-	_, err = c.Ctx.UploadFormFiles(mediaPath)
+	_, err = c.Ctx.UploadFormFiles(filepath.Dir(mediaPath), func(ctx iris.Context, file *multipart.FileHeader) {
+		file.Filename = filepath.Base(mediaPath)
+	})
 	if err != nil {
 		c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(500, err)))
 		return
