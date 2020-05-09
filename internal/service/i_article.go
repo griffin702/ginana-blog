@@ -87,3 +87,7 @@ func (s *service) CountArticles() (count int64) {
 	s.db.Model(article).Count(&count)
 	return
 }
+
+func (s *service) CreateArticle(article *model.Article) {
+
+}

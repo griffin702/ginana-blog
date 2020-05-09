@@ -2,7 +2,7 @@ package server
 
 import (
 	"ginana-blog/internal/model"
-	"github.com/griffin702/ginana/library/validator"
+	"github.com/griffin702/service/validator"
 	"github.com/kataras/iris/v12"
 )
 

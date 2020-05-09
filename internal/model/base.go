@@ -26,7 +26,7 @@ type GetClientIP func() string
 
 type OptionHandler func(ctx iris.Context) (*Option, error)
 
-type Validator func(obj interface{}) error
+type Validator func(obj interface{}, translation ...bool) error
 
 type ValidatorHandler func(ctx iris.Context) (Validator, error)
 
