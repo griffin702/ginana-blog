@@ -24,8 +24,8 @@
             <tr>
                 <th>昵称：</th>
                 <td>
-                    <input type="text" name="nickname" value="{{.user.Nickname}}" class="form-control"/>
-                    {{/*                    <span class="text-error">{{.errmsg.nickname}}</span>*/}}
+                    <input type="text" name="nickname" value="{{.user.Nickname}}" class="form-control"
+                           autocomplete="off"/>
                 </td>
             </tr>
             <tr>
@@ -33,10 +33,11 @@
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">当前：</span>
-                        <input type="text" id="avatar" name="avatar" class="form-control" value="{{.user.Avatar}}"/>
+                        <input type="text" id="avatar" name="avatar" class="form-control" value="{{.user.Avatar}}"
+                               autocomplete="off"/>
                     </div>
                     <input type="file" id="new_avatar"/>
-                    <img src="{{.user.Avatar}}" id="auto_view" class="img-rounded" width="60" height="60">
+                    <img src="{{.user.Avatar}}" id="auto_view" class="img-rounded" width="60" height="60" alt="">
                     <button type="button" id="upload_img" class="btn btn-primary">上传</button>
                     <div class="alert alert-warning">
                         <strong>温馨提示：</strong>点击上传,保存后才能生效(每位用户最多允许上传并保存3次),

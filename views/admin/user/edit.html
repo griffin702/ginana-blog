@@ -10,7 +10,8 @@
             <tr>
                 <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2 column">用户名:</th>
                 <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10 column">
-                    <input name="username" disabled value="{{.data.Username}}" class="form-control" type="text"/>
+                    <input name="username" disabled value="{{.data.Username}}" class="form-control"
+                           type="text" autocomplete="off"/>
                 </td>
             </tr>
             <tr>
@@ -24,7 +25,8 @@
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">当前：</span>
-                        <input type="text" id="avatar" name="avatar" class="form-control" value="{{.data.Avatar}}"/>
+                        <input type="text" id="avatar" name="avatar" class="form-control" value="{{.data.Avatar}}"
+                               autocomplete="off"/>
                     </div>
                     <input type="file" id="new_avatar"/>
                     <img src="{{.data.Avatar}}" id="auto_view" class="img-rounded" width="60" height="60" alt="">
@@ -38,13 +40,15 @@
             <tr>
                 <th>昵称：</th>
                 <td>
-                    <input name="nickname" value="{{.data.Nickname}}" class="form-control" type="text"/>
+                    <input name="nickname" value="{{.data.Nickname}}" class="form-control"
+                           type="text" autocomplete="off"/>
                 </td>
             </tr>
             <tr>
                 <th>邮箱：</th>
                 <td>
-                    <input name="email" value="{{.data.Email}}" class="form-control" type="text"/>
+                    <input name="email" value="{{.data.Email}}" class="form-control"
+                           type="text" autocomplete="off"/>
                 </td>
             </tr>
             <tr>
