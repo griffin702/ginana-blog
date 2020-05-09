@@ -11,7 +11,7 @@ func (s *service) GetAlbums(p *model.Pager) (res *model.Albums, err error) {
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
-	res.Pager = p.NewPager(p.UrlPath)
+	res.Pager = p
 	return
 }
 
@@ -31,7 +31,7 @@ func (s *service) GetPhotos(p *model.Pager, albumId int64) (res *model.Photos, e
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
-	res.Pager = p.NewPager(p.UrlPath)
+	res.Pager = p
 	return
 }
 

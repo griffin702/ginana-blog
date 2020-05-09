@@ -6,10 +6,10 @@
             <p>{{ .error.Message }}</p>
             <br/>
             <a href="{{.redirect}}">如果您的浏览器没自动跳转，请点击这里</a>
-            {{/*            <script type="text/javascript">*/}}
-            {{/*                setTimeout("window.location.href='{{.redirect}}'", 3000);*/}}
-            {{/*            </script>*/}}
-            {{/*            <br/><br/>*/}}
+            <script type="text/javascript">
+                setTimeout("window.location.href='{{.redirect}}'", 3000);
+            </script>
+            <br/><br/>
             <img src="{{.theme}}images/404.png" alt=""/>
         </div>
     </div>

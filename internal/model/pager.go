@@ -4,31 +4,38 @@ import (
 	"bytes"
 	"fmt"
 	"math"
+	"strconv"
+	"strings"
 )
 
 type Pager struct {
-	Page     int64  `json:"page"`
-	PageSize int64  `json:"page_size"`
-	AllPage  int64  `json:"all_page"`
-	AllCount int64  `json:"all_count"`
-	UrlPath  string `json:"url_path"`
-	PostID   int64  `json:"post_id"`
+	Page      int64             `json:"page"`
+	PageSize  int64             `json:"page_size"`
+	AllPage   int64             `json:"all_page"`
+	AllCount  int64             `json:"all_count"`
+	UrlPath   string            `json:"url_path"`
+	UrlParams map[string]string `json:"url_params"`
 }
 
-func (p *Pager) NewPager(urlPath string, args ...int64) *Pager {
-	p.UrlPath = fmt.Sprintf("%s?page=%%d&pagesize=%d", urlPath, p.PageSize)
-	if len(args) > 0 {
-		p.PostID = args[0]
+func (p *Pager) SetArticleID(id int64, paramName ...string) {
+	if id > 0 {
+		if len(paramName) > 0 { // 放置到UrlParams里
+			p.UrlParams[paramName[0]] = strconv.FormatInt(id, 10)
+		} else { // 放置到UrlPath里
+			p.UrlPath = fmt.Sprintf("%s/%d", p.UrlPath, id)
+		}
 	}
-	return p
 }
 
 func (p *Pager) url(page int64) string {
-	ret := fmt.Sprintf(p.UrlPath, page)
-	if p.PostID > 0 {
-		ret = fmt.Sprintf(p.UrlPath, p.PostID, page)
+	p.UrlParams["page"] = strconv.FormatInt(page, 10)
+	p.UrlParams["pagesize"] = strconv.FormatInt(p.PageSize, 10)
+	var params []string
+	for k, v := range p.UrlParams {
+		params = append(params, fmt.Sprintf("%s=%s", k, v))
 	}
-	return ret
+	paramsStr := strings.Join(params, "&")
+	return fmt.Sprintf("%s?%s", p.UrlPath, paramsStr)
 }
 
 func (p *Pager) ToString() string {

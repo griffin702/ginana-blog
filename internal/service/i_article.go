@@ -18,12 +18,14 @@ func (s *service) GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (r
 	if pr.TagID > 0 {
 		query = query.Joins("left join w_article_tags ON w_article_tags.article_id = w_article.id where w_article_tags.tag_id = ?", pr.TagID)
 	}
+	query = query.Where("status = ?", pr.Status)
 	query.Count(&p.AllCount)
 	query = query.Order(pr.Order).Preload("User").Preload("Tags")
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
-	res.Pager = p.NewPager(p.UrlPath)
+	res.Status = pr.Status
+	res.Pager = p
 	return
 }
 

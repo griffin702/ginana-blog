@@ -11,6 +11,6 @@ func (s *service) GetMoods(p *model.Pager) (res *model.Moods, err error) {
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
-	res.Pager = p.NewPager(p.UrlPath)
+	res.Pager = p
 	return
 }

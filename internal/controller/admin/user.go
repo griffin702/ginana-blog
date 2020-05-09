@@ -4,7 +4,7 @@ import (
 	"ginana-blog/internal/model"
 )
 
-func (c *CAdmin) GetUser() (err error) {
+func (c *CAdmin) GetUserList() (err error) {
 	users, err := c.Svc.GetUsers(c.Pager)
 	if err != nil {
 		return
@@ -33,7 +33,7 @@ func (c *CAdmin) PostUserAdd() (err error) {
 		return
 	}
 	c.setHeadMetas("用户创建")
-	c.ShowMsg("成功创建用户")
+	c.ShowMsg("用户已创建")
 	return
 }
 
@@ -61,6 +61,15 @@ func (c *CAdmin) PostUserEditBy(id int64) (err error) {
 		return
 	}
 	c.setHeadMetas("用户更新")
-	c.ShowMsg("成功更新用户")
+	c.ShowMsg("用户已更新")
+	return
+}
+
+func (c *CAdmin) GetUserDeleteBy(id int64) (err error) {
+	if err = c.Svc.DeleteUser(id); err != nil {
+		return
+	}
+	c.setHeadMetas("用户删除")
+	c.ShowMsg("用户已删除")
 	return
 }

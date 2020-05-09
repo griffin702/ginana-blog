@@ -59,7 +59,10 @@ func initTableData(db *gorm.DB) {
 			article.UserID = 1
 			article.Title = fmt.Sprintf("标题-%d", i)
 			article.Content = fmt.Sprintf("内容-%d", i)
-			article.Status = 1
+			tag := new(model.Tag)
+			tag.Name = fmt.Sprintf("标签-%d", i)
+			db.Create(tag)
+			article.Tags = append(article.Tags, tag)
 			db.Create(article)
 		}
 	}

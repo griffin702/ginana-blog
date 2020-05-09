@@ -49,7 +49,7 @@ func (s *service) GetUsers(p *model.Pager, prs ...model.UserQueryParam) (res *mo
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
-	res.Pager = p.NewPager(p.UrlPath)
+	res.Pager = p
 	return
 }
 
@@ -117,5 +117,13 @@ func (s *service) UpdateUser(req *model.UpdateUserReq) (user *model.User, err er
 		return nil, s.hm.GetMessage(1002, err)
 	}
 	s.mc.Delete(s.hm.GetCacheKey(1, user.ID))
+	return
+}
+
+func (s *service) DeleteUser(id int64) (err error) {
+	user := new(model.User)
+	if err = s.db.Delete(user, "id = ?", id).Error; err != nil {
+		return s.hm.GetMessage(1004, err)
+	}
 	return
 }

@@ -15,7 +15,6 @@ func (s *service) GetComments(p *model.Pager, objPK int64) (res *model.Comments,
 	if err = query.Group("user_id").Count(&res.CountUsers).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
-	res.Pager = p.NewPager(p.UrlPath)
 	for _, parent := range res.List {
 		for _, child := range parent.Children {
 			s.db.Preload("Parent").Preload("User").Find(child)
@@ -26,6 +25,8 @@ func (s *service) GetComments(p *model.Pager, objPK int64) (res *model.Comments,
 			}
 		}
 	}
+	p.SetArticleID(objPK)
+	res.Pager = p
 	return
 }
 

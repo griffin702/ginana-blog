@@ -13,9 +13,10 @@ import (
 
 func getPagination(ctx iris.Context) *model.Pager {
 	return &model.Pager{
-		Page:     ctx.URLParamInt64Default("page", 1),
-		PageSize: ctx.URLParamInt64Default("pagesize", 15),
-		UrlPath:  ctx.Path(),
+		Page:      ctx.URLParamInt64Default("page", 1),
+		PageSize:  ctx.URLParamInt64Default("pagesize", 15),
+		UrlPath:   ctx.Path(),
+		UrlParams: ctx.URLParams(),
 	}
 }
 

@@ -18,7 +18,7 @@ type Article struct {
 	Urltype   int8      `json:"urltype" gorm:"comment:'特殊链接类型'"`
 	Content   string    `json:"content" gorm:"type:LONGTEXT;not null;comment:'文章内容'"`
 	Views     int64     `json:"views" gorm:"comment:'查看次数'"`
-	Status    int8      `json:"status" gorm:"comment:'文章状态'"`
+	Status    int8      `json:"status" gorm:"comment:'文章状态'"` // 0-已发布,1-草稿箱,2-回收站
 	Istop     int8      `json:"istop" gorm:"comment:'置顶相关'"`
 	Cover     string    `json:"cover" gorm:"type:VARCHAR(255);default:'/static/upload/default/blog-default-0.png';not null;comment:'文章封面'"`
 	UserID    int64     `json:"user_id" gorm:"comment:'关联用户ID'"`
@@ -29,19 +29,21 @@ type Article struct {
 }
 
 type Articles struct {
-	List  []*Article `json:"list"`
-	Pager *Pager     `json:"pager"`
+	List   []*Article `json:"list"`
+	Pager  *Pager     `json:"pager"`
+	Status int        `json:"status"`
 }
 
 //管理员角色关联
 type ArticleTags struct {
-	ArticleID int64 `json:"article_id"` //文章ID
-	TagID     int64 `json:"tag_id"`     //标签ID
+	ArticleID int64 `json:"article_id"` // 文章ID
+	TagID     int64 `json:"tag_id"`     // 标签ID
 }
 
 type ArticleQueryParam struct {
-	Order string
-	TagID int64
+	Order  string
+	TagID  int64
+	Status int
 }
 
 // 带颜色的标题
@@ -70,14 +72,12 @@ func (a *Article) TagsLink() string {
 		return ""
 	}
 	var buf bytes.Buffer
-	buf.WriteString(`<span><span class="glyphicon glyphicon-tags"></span> [`)
 	for k, v := range a.Tags {
 		if k > 0 {
 			buf.WriteString(", ")
 		}
 		buf.WriteString(v.Link())
 	}
-	buf.WriteString(`]</span>`)
 	return buf.String()
 }
 

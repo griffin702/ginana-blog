@@ -14,7 +14,7 @@
                 <p class="lifedateview">
                     <span><span class="glyphicon glyphicon-time"></span>{{date $v.CreatedAt "Y-m-d H:i"}}</span>
                     <span><span class="glyphicon glyphicon-user"></span>{{$v.User.Nickname}}</span>
-                    {{str2html $v.TagsLink}}
+                    <span><span class="glyphicon glyphicon-tags"></span> [{{str2html $v.TagsLink}}]</span>
                 </p>
             </h3>
             <div class="blogcontent col-lg-9 col-md-7 col-sm-12 col-xs-12 column">
