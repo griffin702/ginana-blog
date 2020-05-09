@@ -1,6 +1,7 @@
 package model
 
 import (
+	"github.com/griffin702/service/pager"
 	"github.com/kataras/iris/v12"
 	"net/url"
 	"strings"
@@ -15,6 +16,11 @@ type JSON struct {
 	Code    int         `json:"code"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data,omitempty"`
+}
+
+// 分页器
+type Pager struct {
+	pager.Pager
 }
 
 func Rawurlencode(str string) string {

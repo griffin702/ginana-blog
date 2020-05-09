@@ -15,3 +15,9 @@ func (c *CAdmin) GetArticleList() (err error) {
 	c.Ctx.View("admin/article/list.html")
 	return
 }
+
+func (c *CAdmin) GetArticleAdd() (err error) {
+	c.setHeadMetas("文章创建")
+	c.Ctx.View("admin/article/add.html")
+	return
+}
