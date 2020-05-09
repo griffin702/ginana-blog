@@ -21,20 +21,20 @@ type User struct {
 }
 
 type CreateUserReq struct {
-	Username string `form:"username" binding:"required"`
-	Password string `form:"password" binding:"required"`
-	Nickname string `form:"nickname" binding:"omitempty"`
-	Email    string `form:"email" binding:"omitempty,email"`
-	Avatar   string `form:"avatar" binding:"omitempty"`
+	Username string `form:"username" valid:"required"`
+	Password string `form:"password" valid:"required"`
+	Nickname string `form:"nickname" valid:"omitempty"`
+	Email    string `form:"email" valid:"omitempty,email"`
+	Avatar   string `form:"avatar" valid:"omitempty"`
 	IsAuth   bool   `form:"is_auth"`
 }
 
 type UpdateUserReq struct {
-	ID       int64  `form:"id" binding:"required,gt=0"`
-	Password string `form:"password" binding:"omitempty"`
-	Nickname string `form:"nickname" binding:"omitempty"`
-	Email    string `form:"email" binding:"omitempty,email"`
-	Avatar   string `form:"avatar" binding:"omitempty"`
+	ID       int64  `form:"id" valid:"required,gt=0"`
+	Password string `form:"password" valid:"omitempty"`
+	Nickname string `form:"nickname" valid:"omitempty"`
+	Email    string `form:"email" valid:"omitempty,email"`
+	Avatar   string `form:"avatar" valid:"omitempty"`
 	IsAuth   bool   `form:"is_auth"`
 }
 
@@ -53,9 +53,9 @@ type UserRoles struct {
 }
 
 type UserLoginReq struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
-	Captcha  string `json:"captcha" binding:"required"`
+	Username string `json:"username" valid:"required"`
+	Password string `json:"password" valid:"required"`
+	Captcha  string `json:"captcha" valid:"required"`
 	LoginIP  string `json:"login_ip"`
 }
 
