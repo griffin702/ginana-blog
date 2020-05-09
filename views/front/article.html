@@ -65,17 +65,17 @@
     </div>
     <script src="/static/js/mycomments.js"></script>
     <script src="/static/js/md5.js"></script>
-    <!-- Comments Form -->{{$islogin := .IsLogin}}{{if .isLogin}}
+    <!-- Comments Form -->{{$islogin := .isLogin}}{{if .isLogin}}
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column" id="wrap-form-comment">
             <div class="well" id="form-comment">
                 <h4>欢迎留下您的评论：</h4>
-                <form role="form" action="/admin/comments/add" method="post">
-                    <input id="id_object_pk" type="hidden" name="object_pk" value="0"/>
-                    <input id="id_object_pk_type" type="hidden" name="object_pk_type" value="1"/>
+                <form role="form" action="/admin/comments" method="post">
+                    <input id="id_object_pk" type="hidden" name="obj_pk" value="{{.data.ID}}"/>
+                    <input id="id_object_pk_type" type="hidden" name="obj_pk_type" value="0"/>
                     <input id="id_reply_pk" type="hidden" name="reply_pk" value="0"/>
                     <input id="id_reply_fk" type="hidden" name="reply_fk" value="0"/>
                     <textarea id="comment_content" class="comment_content form-control"
-                              name="comment_content"></textarea>
+                              name="content"></textarea>
                     <button id="comment_submit" type="submit" class="btn btn-primary" data-islogin="{{$islogin}}">提交评论
                     </button>
                     <button id="cancel_reply" type="button" class="btn btn-default">关闭</button>
@@ -112,10 +112,10 @@
                                 {{if $islogin}}
                                     <small class="reply_btn">
                                         <a href="#" data-comment-id="{{ $v.ID }}"
-                                           data-parent-id="{{ $v.ID }}" class="comment_reply_link">回复</a>
+                                           data-parent-id="{{ $v.ID }}" id="comment_reply_link">回复</a>
                                     </small>{{end}}
                             </h6>
-                            <p>{{ $v.Comment }}</p>
+                            <p>{{ $v.Content }}</p>
                         </div>
                         {{range $kk, $child := $v.Children}}
                             <div class="comment_child col-lg-11 col-md-11 col-sm-11 col-xs-11 column">
@@ -131,13 +131,13 @@
                                         {{if $islogin}}
                                             <small class="reply_btn">
                                                 <a href="#" data-comment-id="{{ $child.ID }}"
-                                                   data-parent-id="{{ $child.ID }}" class="comment_reply_link">回复</a>
+                                                   data-parent-id="{{ $child.ID }}" id="comment_reply_link">回复</a>
                                             </small>{{end}}
                                     </h6>
                                     <small class="comment-quote">
                                         {{ if eq $child.Parent.UserID 1}}引用 官方 {{else}}引用 网友 {{end}}
-                                        {{ $child.Parent.User.Nickname }}：{{ $child.Parent.Comment }}</small>
-                                    <p>{{ $v.Comment }}</p>
+                                        {{ $child.Parent.User.Nickname }}：{{ $child.Parent.Content }}</small>
+                                    <p>{{ $v.Content }}</p>
                                 </div>
                             </div>
                         {{end}}

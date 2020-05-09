@@ -24,7 +24,6 @@ func (c *CAdmin) BeginRequest(ctx iris.Context) {
 }
 
 func (c *CAdmin) setHeadMetas(params ...string) {
-	c.Ctx.ViewData("isLogin", c.IsLogin())
 	title := fmt.Sprintf("inana 后台管理 v%s", c.Config.Version)
 	if len(params) > 0 {
 		title = fmt.Sprintf("%s - %s", params[0], title)

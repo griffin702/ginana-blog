@@ -44,6 +44,8 @@ type Service interface {
 	CountArticles() (count int64)
 	CountUsers() (count int64)
 	CountTags() (count int64)
+
+	PostComment(req *model.Comment) (err error)
 }
 
 func New(cfg *config.Config, db *gorm.DB, mc memcache.Memcache, hm HelperMap) (s Service, err error) {

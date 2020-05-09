@@ -44,3 +44,11 @@ func (s *service) GetLatestComments(limit int) (comments []*model.Comment, err e
 	}
 	return
 }
+
+func (s *service) PostComment(req *model.Comment) (err error) {
+	if err = s.db.Model(req).Create(req).Error; err != nil {
+		return s.hm.GetMessage(1002, err)
+	}
+	s.mc.Delete(s.hm.GetCacheKey(6))
+	return
+}

@@ -53,6 +53,9 @@ func (c *BaseController) GetUserByToken() (user *model.UserSession) {
 		c.Session.Set("token", tokenStr)
 		if userId, ok := claims["userId"].(float64); ok {
 			user.ID = int64(userId)
+			if user.ID > 0 {
+				c.Ctx.ViewData("isLogin", true)
+			}
 		}
 		if username, ok := claims["username"].(string); ok {
 			user.Username = username

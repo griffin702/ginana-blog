@@ -22,7 +22,6 @@ func (c *CFront) BeforeActivation(b mvc.BeforeActivation) {
 }
 
 func (c *CFront) setHeadMetas(params ...string) {
-	c.Ctx.ViewData("isLogin", c.IsLogin())
 	c.Ctx.ViewData("disableRight", c.DisableRight)
 	titleBuf := make([]string, 0, 3)
 	if len(params) == 0 && c.SiteOptions.SiteName != "" {

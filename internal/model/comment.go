@@ -11,13 +11,13 @@ type Comment struct {
 	ID        int64      `json:"id" gorm:"primary_key;comment:'评论ID'"`
 	CreatedAt time.Time  `json:"created_at" gorm:"comment:'创建时间'"`
 	DeletedAt *time.Time `json:"-" sql:"index" gorm:"comment:'删除时间戳'"`
-	ObjPK     int64      `json:"obj_pk" gorm:"comment:'article_id'"`
-	ReplyPK   int64      `json:"reply_pk" gorm:"index;comment:'comment_id'"`
-	ReplyFK   int64      `json:"reply_fk" gorm:"index;comment:'parent_id'"`
-	UserID    int64      `json:"user_id" gorm:"index;comment:'user_id'"`
-	Comment   string     `json:"comment" gorm:"type:LONGTEXT;not null;comment:'评论内容'"`
-	IPAddress string     `json:"ip_address" gorm:"type:VARCHAR(255);comment:'IP地址'"`
-	ObjPKType int8       `json:"obj_pk_type" gorm:"index;not null;comment:'评论类型'"` //0-文章评论，1-友链评论
+	ObjPK     int64      `json:"obj_pk" form:"obj_pk" gorm:"comment:'article_id'" binding:"gte=0"`
+	ReplyPK   int64      `json:"reply_pk" form:"reply_pk" gorm:"index;comment:'comment_id'" binding:"gte=0"`
+	ReplyFK   int64      `json:"reply_fk" form:"reply_fk" gorm:"index;comment:'parent_id'" binding:"gte=0"`
+	Content   string     `json:"content" form:"content" gorm:"type:LONGTEXT;not null;comment:'评论内容'" binding:"required,max=200"`
+	ObjPKType int8       `json:"obj_pk_type" form:"obj_pk_type" gorm:"index;not null;comment:'评论类型'" binding:"gte=0,lte=1"` //0-文章评论，1-友链评论
+	IPAddress string     `json:"ip_address" gorm:"type:VARCHAR(255);comment:'IP地址'" binding:"ip"`
+	UserID    int64      `json:"user_id" gorm:"index;comment:'user_id'" binding:"required,gt=0"`
 	User      *User      `json:"user" gorm:"ForeignKey:UserID"`
 	Article   *Article   `json:"article" gorm:"ForeignKey:ObjPK"`
 	Parent    *Comment   `json:"parent" gorm:"ForeignKey:ID;AssociationForeignKey:ReplyPK"`
@@ -31,16 +31,16 @@ type Comments struct {
 }
 
 func (m *Comment) ReturnLimit(key string) string {
-	data := []rune(m.Comment)
+	data := []rune(m.Content)
 	if len(data) > 25 {
 		return string(data[:25]) + "..."
 	}
-	return m.Comment
+	return m.Content
 }
 
 //title换行显示
 func (m *Comment) Titleln() string {
-	data := []rune(m.Comment)
+	data := []rune(m.Content)
 	if len(data) > 20 {
 		for num := int(math.Floor(float64(len(data)) / 20)); num > 0; num-- {
 			copydata := make([]rune, 0)
@@ -50,7 +50,7 @@ func (m *Comment) Titleln() string {
 		}
 		return string(data)
 	}
-	return m.Comment
+	return m.Content
 }
 
 func (m *Comment) ShowSubTime() string {
