@@ -11,7 +11,7 @@ func (s *service) GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (r
 		pr = prs[0]
 	}
 	if pr.Order == "" {
-		pr.Order = "id"
+		pr.Order = "id desc"
 	}
 	res = new(model.Articles)
 	query := s.db.Model(&res.List)

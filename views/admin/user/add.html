@@ -1,0 +1,73 @@
+<fieldset>
+    <legend>添加用户
+        <a class="btn btn-primary btn-xs" href="/admin/user">
+            <span class="glyphicon glyphicon-share-alt"></span> 返回
+        </a>
+    </legend>
+    <form class="form-horizontal" method="post">
+        <table class="table table-form">
+            <tbody>
+            <tr>
+                <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2 column">用户名:</th>
+                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10 column">
+                    <input name="username" class="form-control" type="text"/>
+                </td>
+            </tr>
+            <tr>
+                <th>密码:</th>
+                <td>
+                    <input name="password" class="form-control" type="password"/>
+                </td>
+            </tr>
+            <tr>
+                <th>用户头像:</th>
+                <td>
+                    <div class="input-group">
+                        <span class="input-group-addon">当前：</span>
+                        <input type="text" id="avatar" name="avatar" class="form-control"/>
+                    </div>
+                    <input type="file" id="new_avatar"/>
+                    <img src="/static/upload/default/yulan-100x100.png" id="auto_view" class="img-rounded" width="60"
+                         height="60" alt="">
+                    <button type="button" id="upload_img" class="btn btn-primary">上传</button>
+                    <div class="alert alert-warning">
+                        <strong>温馨提示：</strong>点击上传,保存后才能生效(每位用户最多允许上传并保存3次),
+                        服务器仅允许上传格式jpg、jpeg、png并自动裁剪像素:60*60
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>昵称:</th>
+                <td>
+                    <input name="nickname" class="form-control" type="text"/>
+                </td>
+            </tr>
+            <tr>
+                <th>邮箱:</th>
+                <td>
+                    <input name="email" class="form-control" type="text"/>
+                </td>
+            </tr>
+            <tr>
+                <th>激活状态:</th>
+                <td>
+                    <label for="data_active_0" class="checkbox-inline">
+                        <input type="radio" name="is_auth" value="0" id="data_active_0" checked/>未激活</label>
+                    <label for="data_active_1" class="checkbox-inline">
+                        <input type="radio" name="is_auth" value="1" id="data_active_1"/>已激活</label>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th></th>
+                <td>
+                    <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 保存</button>
+                    <button type="button" class="btn btn-primary" onclick="javascript:history.back();">取消</button>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+
+</fieldset>

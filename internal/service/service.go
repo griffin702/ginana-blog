@@ -21,7 +21,10 @@ type Service interface {
 	UpdateSiteOptions(req *model.Option) (err error)
 	GetCaptcha() (res *model.Captcha, err error)
 
+	GetUsers(p *model.Pager, prs ...model.UserQueryParam) (res *model.Users, err error)
 	GetUser(id int64) (user *model.User, err error)
+	CreateUser(req *model.CreateUserReq) (user *model.User, err error)
+	UpdateUser(req *model.UpdateUserReq) (user *model.User, err error)
 	GetRole(id int64) (role *model.Role, err error)
 	GetUserByUsername(sername string) (user *model.User, err error)
 	PostLogin(req *model.UserLoginReq) (user *model.User, err error)

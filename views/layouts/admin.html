@@ -26,7 +26,7 @@
     <div class="row clearfix">
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/admin" style="margin-right: 100px;">GoBlog 后台管理</a>
+                <a class="navbar-brand" href="/admin" style="margin-right: 100px;">iNana 后台管理</a>
                 <button type="button" id="phonenavbar" class="navbar-toggle" data-toggle="collapse"
                         data-target=".navbar-collapse">
                     <span class="sr-only">导航条</span>
@@ -47,17 +47,17 @@
                             {{/*                        {{if haspermission .userpermission 2}}*/}}
                             <li><a href="/admin/article/add"><span class="glyphicon glyphicon-plus"></span> 发表文章</a>
                             </li>
-                            <li><a href="/admin/article/list"><span class="glyphicon glyphicon-list"></span> 文章列表</a>
+                            <li><a href="/admin/article"><span class="glyphicon glyphicon-list"></span> 文章列表</a>
                             </li>
                             <li class="divider"></li>
                             {{/*                        {{end}}*/}}
                             {{/*                        {{if haspermission .userpermission 5}}*/}}
                             <li><a href="/admin/mood/add"><span class="glyphicon glyphicon-plus"></span> 发表心情</a></li>
-                            <li><a href="/admin/mood/list"><span class="glyphicon glyphicon-list"></span> 心情列表</a></li>
+                            <li><a href="/admin/mood"><span class="glyphicon glyphicon-list"></span> 心情列表</a></li>
                             <li class="divider"></li>
                             {{/*                        {{end}}*/}}
                             {{/*                        {{if eq .adminid 1}}*/}}
-                            <li><a href="/admin/comments"><span class="glyphicon glyphicon-list"></span> 评论管理</a>
+                            <li><a href="/admin/comment"><span class="glyphicon glyphicon-list"></span> 评论管理</a>
                             </li>
                             {{/*                        {{end}}*/}}
                             {{/*                        {{if haspermission .userpermission 6}}*/}}
@@ -66,12 +66,12 @@
                             {{/*                        {{end}}*/}}
                             {{/*                        {{if haspermission .userpermission 4}}*/}}
                             <li><a href="/admin/link/add"><span class="glyphicon glyphicon-plus"></span> 添加友链</a></li>
-                            <li><a href="/admin/link/list"><span class="glyphicon glyphicon-list"></span> 友链列表</a></li>
+                            <li><a href="/admin/link"><span class="glyphicon glyphicon-list"></span> 友链列表</a></li>
                             <li class="divider"></li>
                             {{/*                        {{end}}*/}}
                             {{/*                        {{if haspermission .userpermission 3}}*/}}
                             <li><a href="/admin/album/add"><span class="glyphicon glyphicon-plus"></span> 创建相册</a></li>
-                            <li><a href="/admin/album/list"><span class="glyphicon glyphicon-list"></span> 相册列表</a></li>
+                            <li><a href="/admin/album"><span class="glyphicon glyphicon-list"></span> 相册列表</a></li>
                             {{/*                        {{end}}*/}}
                         </ul>
                     </li>
@@ -82,7 +82,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="/admin/user/add"><span class="glyphicon glyphicon-plus"></span> 添加用户</a></li>
-                            <li><a href="/admin/user/list"><span class="glyphicon glyphicon-list"></span> 用户列表</a></li>
+                            <li><a href="/admin/user"><span class="glyphicon glyphicon-list"></span> 用户列表</a></li>
                         </ul>
                     </li>
                     {{/*                {{end}}*/}}
