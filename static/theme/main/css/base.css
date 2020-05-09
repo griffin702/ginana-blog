@@ -217,7 +217,7 @@ a.n1, a.n2 {
     margin: 0;
 }
 
-.news h3 p {
+.news h3 div {
     background: #fff;
     width: 70px
 }

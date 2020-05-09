@@ -3,19 +3,25 @@
     {{/*<iframe scrolling="no" src="//tianqiapi.com/api.php?style=td&skin=pitaya" frameborder="0" width="300" height="30" allowtransparency="true"></iframe>*/}}
     {{/*</div>*/}}
     <div class="news">
-        <h3 class="wz">最新<span>文章</span></h3>
+        <h3 class="wz">
+            <div>最新<span>文章</span></div>
+        </h3>
         <ul class="rank">
             {{range $k,$v := .latestArticles}}
                 <li><a href="{{$v.Link}}" title="{{$v.Title}}">{{str2html $v.ColorTitle}}</a></li>
             {{end}}
         </ul>
-        <h3 class="ph">点击<span>排行</span></h3>
+        <h3 class="ph">
+            <div>点击<span>排行</span></div>
+        </h3>
         <ul class="paih">
             {{range $k,$v := .hotArticles}}
                 <li><a href="{{$v.Link}}" title="{{$v.Title}}">{{str2html $v.ColorTitle}}</a></li>
             {{end}}
         </ul>
-        <h3 class="npk">最新<span>评论</span></h3>
+        <h3 class="npk">
+            <div>最新<span>评论</span></div>
+        </h3>
         <ul class="newcomment">
             {{range $k,$v := .latestComments}}
                 <li>
@@ -38,7 +44,9 @@
                 </li>
             {{end}}
         </ul>
-        <h3 class="links">友情<span>链接</span></h3>
+        <h3 class="links">
+            <div>友情<span>链接</span></div>
+        </h3>
         <div class="link-friends">
             {{range $k, $v := .links}}
                 <span>
