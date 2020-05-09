@@ -7,8 +7,8 @@ require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/casbin/casbin/v2 v2.2.2
 	github.com/google/wire v0.4.0
-	github.com/griffin702/ginana v1.5.5
-	github.com/griffin702/service v1.1.9
+	github.com/griffin702/ginana v1.5.6
+	github.com/griffin702/service v1.2.0
 	github.com/jinzhu/gorm v1.9.11
 	github.com/kataras/golog v0.0.10
 	github.com/kataras/iris/v12 v12.1.2
