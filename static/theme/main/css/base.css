@@ -1405,3 +1405,8 @@ a.readmore {
     font-size: 18px;
     font-weight: 700;
 }
+
+#mdinfos {
+    font-size: 16px;
+    min-height: 200px;
+}

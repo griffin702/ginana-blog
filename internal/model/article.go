@@ -29,14 +29,17 @@ type Article struct {
 }
 
 type CreateArticleReq struct {
-	Title   string `form:"title" valid:"required,max=100"`
-	Color   string `form:"color" valid:"omitempty,iscolor"`
-	Urlname string `form:"urlname" valid:"omitempty"`
-	Urltype int8   `form:"urltype" valid:"omitempty,numeric"`
-	Content string `form:"content" valid:"required,max=200"`
-	Status  int8   `form:"status" valid:"required,numeric"`
-	Istop   int8   `form:"istop" valid:"required,numeric"`
-	Cover   string `form:"cover" valid:"omitempty"`
+	UserID             int64  `form:"user_id" valid:"required,gt=0"`
+	Title              string `form:"title" valid:"required,max=100"`
+	Color              string `form:"color" valid:"omitempty,iscolor"`
+	Urlname            string `form:"urlname" valid:"omitempty"`
+	Urltype            int8   `form:"urltype" valid:"omitempty,numeric"`
+	ContentMarkdownDoc string `form:"content-markdown-doc" valid:"required"`
+	ContentHtmlCode    string `form:"content-html-code" valid:"omitempty"`
+	Status             int8   `form:"status" valid:"numeric"`
+	Istop              int8   `form:"istop" valid:"numeric"`
+	Cover              string `form:"cover" valid:"omitempty"`
+	Tags               string `form:"tags" valid:"required"`
 }
 
 type Articles struct {
@@ -122,4 +125,12 @@ func (a *Article) DelExcerpt() string {
 		return a.Content[i+x:]
 	}
 	return a.Content
+}
+
+func (a *Article) TagsToString() string {
+	var list []string
+	for _, tag := range a.Tags {
+		list = append(list, tag.Name)
+	}
+	return strings.Join(list, ",")
 }

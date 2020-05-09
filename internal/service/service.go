@@ -36,7 +36,9 @@ type Service interface {
 
 	GetArticle(id int64) (article *model.Article, err error)
 	GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (res *model.Articles, err error)
+	CreateArticle(req *model.CreateArticleReq) (article *model.Article, err error)
 	GetTags() (res *model.Tags, err error)
+	GetTagByName(name string) (tag *model.Tag, err error)
 	GetMoods(p *model.Pager) (res *model.Moods, err error)
 	GetLinks() (links []*model.Link, err error)
 	GetComments(p *model.Pager, objPK int64) (res *model.Comments, err error)

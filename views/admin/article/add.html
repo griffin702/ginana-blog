@@ -1,10 +1,10 @@
 <fieldset>
     <legend>发布文章
-        <a class="btn btn-primary btn-xs" onclick="javascript:history.back();">
+        <a class="btn btn-primary btn-xs" href="/admin/article/list">
             <span class="glyphicon glyphicon-share-alt"></span> 返回
         </a>
     </legend>
-    <form class="form-horizontal" method="post" enctype="multipart/form-data" name="p" action="/admin/article/save">
+    <form class="form-horizontal" method="post" enctype="multipart/form-data">
         <table class="table table-form">
             <tbody>
             <tr>
@@ -21,12 +21,12 @@
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">当前：</span>
-                        <input type="text" id="picture" name="cover" class="form-control"/>
+                        <input type="text" id="avatar" name="cover" class="form-control"/>
                     </div>
-                    <input type="file" id="newcover" name="newcover"/>
-                    <img src="/static/upload/default/yulan-190x135.png" id="autoview" class="img-rounded"
-                         width="190" height="135" alt="">
-                    <button type="button" id="uploadimg" class="btn btn-primary">上传</button>
+                    <input type="file" id="new_avatar"/>
+                    <img src="/static/upload/default/yulan-190x135.png" id="auto_view" class="img-rounded" width="190"
+                         height="135" alt="">
+                    <button type="button" id="upload_img" class="btn btn-primary">上传</button>
                     <div class="alert alert-warning">
                         <strong>温馨提示：</strong>点击上传,保存后才能生效,服务器仅允许上传格式jpg、jpeg、png并自动裁剪像素:190*135
                     </div>
@@ -47,17 +47,6 @@
                         <input type="checkbox" name="urltype" value="1"/>
                         作为独立页面不显示在列表(使用 http://domain/urlname 访问)
                     </label>
-                </td>
-            </tr>
-            <tr>
-                <th>发布时间:</th>
-                <td>
-                    <div class="input-append date" id="datetimepicker" data-date="{{.posttime}}"
-                         data-date-format="yyyy-mm-dd HH:ii:ss">
-                        <input class="form-control" name="posttime" size="16" type="text" value="{{.posttime}}">
-                        <span class="add-on"><i class="icon-remove"></i></span>
-                        <span class="add-on"><i class="icon-th"></i></span>
-                    </div>
                 </td>
             </tr>
             <tr>
@@ -90,10 +79,10 @@
     </form>
 </fieldset>
 
-<link href="/static/themes/admin/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen" type="text/css"/>
-<script src="/static/themes/admin/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-<script src="/static/themes/admin/js/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
-<script src="/static/themes/admin/js/jquery.colorpicker.js" type="text/javascript"></script>
+<link href="{{.theme}}admin/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen" type="text/css"/>
+<script src="/static/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<script src="/static/js/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+<script src="/static/js/jquery.colorpicker.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
         $("#colorpicker").colorpicker({

@@ -19,3 +19,11 @@ func (s *service) CountTags() (count int64) {
 	s.db.Model(tag).Count(&count)
 	return
 }
+
+func (s *service) GetTagByName(name string) (tag *model.Tag, err error) {
+	tag = new(model.Tag)
+	if err = s.db.Find(tag, "name = ?", name).Error; err != nil {
+		return tag, s.hm.GetMessage(1001, err)
+	}
+	return
+}

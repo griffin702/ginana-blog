@@ -29,7 +29,7 @@ function bindUploadFile() {
     $("#filevideo").bind("change", function () {
         let file = this.files[0];
         let uptype = $(this).data('uptype');
-        let upurl = '/admin/uploadfile/?type=' + uptype;
+        let upurl = '/admin/uploadfile?type=' + uptype;
         let formData = new FormData();
         formData.append('filemedia', file);
         $.ajax({
@@ -58,7 +58,7 @@ function bindUploadFile() {
     $("#fileaudio").bind("change", function () {
         let file = this.files[0];
         let uptype = $(this).data('uptype');
-        let upurl = '/admin/uploadfile/?type=' + uptype;
+        let upurl = '/admin/uploadfile?type=' + uptype;
         let formData = new FormData();
         formData.append('filemedia', file);
         $.ajax({
@@ -228,9 +228,9 @@ $(document).ready(function () {
                 if (uptype === 3) {
                     autoview.width = upwidth;
                     autoview.height = upheight;
-                    upurl = '/admin/upload/?type=' + uptype + '&albumId=' + albumId;
+                    upurl = '/admin/upload?type=' + uptype + '&albumId=' + albumId;
                 } else {
-                    upurl = '/admin/upload/?type=' + uptype + '&w=' + oldwidth + '&h=' + oldheight;
+                    upurl = '/admin/upload?type=' + uptype + '&w=' + oldwidth + '&h=' + oldheight;
                 }
             };
             image.src = this.result;
@@ -241,8 +241,8 @@ $(document).ready(function () {
     $('#upload_img').on('click', function () {
         let formData = new FormData();
         let newupurl;
-        if (uptype === 2 || (uptype === 3 && albumId === 0)) {
-            let lastSrc = $('#avatar').val();
+        let lastSrc = $('#avatar').val();
+        if ((uptype === 2 || (uptype === 3 && albumId === 0)) && (lastSrc !== "")) {
             newupurl = upurl + '&last_src=' + lastSrc;
         } else {
             newupurl = upurl;
