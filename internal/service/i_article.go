@@ -134,9 +134,25 @@ func (s *service) UpdateArticle(req *model.ArticleReq) (article *model.Article, 
 	if err != nil {
 		return nil, s.hm.GetMessage(500, err)
 	}
-	if err = s.db.Model(article).Update(m).Error; err != nil {
+	tx := s.db.Begin()
+	if err = tx.Model(article).Update(m).Error; err != nil {
+		tx.Rollback()
 		return nil, s.hm.GetMessage(1002, err)
 	}
+	tags := strings.Split(req.Tags, ",")
+	for _, name := range tags {
+		tag, err := s.GetTagByName(name)
+		if err != nil {
+			err = nil
+			tag.Name = name
+		}
+		article.Tags = append(article.Tags, tag)
+	}
+	if err = tx.Model(article).Update(article).Error; err != nil {
+		tx.Rollback()
+		return nil, s.hm.GetMessage(1002, err)
+	}
+	tx.Commit()
 	return
 }
 

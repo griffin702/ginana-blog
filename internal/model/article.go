@@ -39,7 +39,7 @@ type ArticleReq struct {
 	Status             int8   `form:"status" valid:"numeric"`
 	Istop              int8   `form:"istop" valid:"numeric"`
 	Cover              string `form:"cover" valid:"omitempty"`
-	UserID             int64  `form:"user_id" valid:"required,gt=0"`
+	UserID             int64  `form:"user_id" valid:"gte=0"`
 	Tags               string `form:"tags" valid:"required"`
 }
 
