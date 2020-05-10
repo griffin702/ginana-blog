@@ -53,10 +53,10 @@ func (c *CAdmin) GetUserEditBy(id int64) (err error) {
 
 func (c *CAdmin) PostUserEditBy(id int64) (err error) {
 	req := new(model.UpdateUserReq)
-	req.ID = id
 	if err = c.Ctx.ReadForm(req); err != nil {
 		return
 	}
+	req.ID = id
 	if err = c.Valid(req); err != nil {
 		return
 	}

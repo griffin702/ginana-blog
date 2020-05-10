@@ -46,28 +46,33 @@
                 </td>
             </tr>
             <tr>
-                <th>当前密码：</th>
+                <th>邮箱：</th>
+                <td>
+                    <input name="email" value="{{.user.Email}}" class="form-control"
+                           type="text" autocomplete="off"/>
+                </td>
+            </tr>
+            <tr>
+                <th style="padding-top: 12px!important;vertical-align: top!important;">当前密码：</th>
                 <td>
                     <input type="password" name="password" class="form-control"/>
-                    {{/*                    <span class="text-error">{{.errmsg.password}}</span>*/}}
+                    <div class="alert alert-warning">
+                        <strong>温馨提示：</strong>修改基本资料时无需校验密码
+                    </div>
                 </td>
             </tr>
             <tr>
                 <th>新密码：</th>
                 <td>
-                    <input type="password" name="new_password1" class="form-control"/>
-                    {{/*                    <span class="text-error">{{.errmsg.newpassword}}</span>*/}}
+                    <input type="password" name="new_password" class="form-control"/>
                 </td>
             </tr>
             <tr>
                 <th>确认密码：</th>
                 <td>
-                    <input type="password" name="new_password2" class="form-control"/>
-                    {{/*                    <span class="text-error">{{.errmsg.newpassword2}}</span>*/}}
+                    <input type="password" name="new_password_again" class="form-control"/>
                 </td>
             </tr>
-            </tbody>
-            <tfoot>
             <tr>
                 <td></td>
                 <td>
@@ -75,7 +80,7 @@
                     <button type="button" class="btn btn-primary" onclick="javascript:history.back();">取消</button>
                 </td>
             </tr>
-            </tfoot>
+            </tbody>
         </table>
     </form>
 </fieldset>

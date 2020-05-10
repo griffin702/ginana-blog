@@ -106,9 +106,35 @@ func (s *service) UpdateUser(req *model.UpdateUserReq) (user *model.User, err er
 		user.Password = s.tool.BcryptHashGenerate(req.Password)
 	}
 	user.Nickname = req.Nickname
-	user.Email = req.Email
 	user.Avatar = req.Avatar
+	user.Email = req.Email
 	user.IsAuth = req.IsAuth
+	m, err := s.tool.StructToMap(user)
+	if err != nil {
+		return nil, s.hm.GetMessage(500, err)
+	}
+	if err = s.db.Model(user).Update(m).Error; err != nil {
+		return nil, s.hm.GetMessage(1002, err)
+	}
+	s.mc.Delete(s.hm.GetCacheKey(1, user.ID))
+	return
+}
+
+func (s *service) UpdateAccount(req *model.UpdateUserReq) (user *model.User, err error) {
+	user = new(model.User)
+	user.ID = req.ID
+	if err = s.db.Find(user).Error; err != nil {
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	if req.Password != "" {
+		if !s.tool.BcryptHashCompare(user.Password, req.Password) {
+			return nil, s.hm.GetMessage(1008)
+		}
+		user.Password = s.tool.BcryptHashGenerate(req.NewPassword)
+	}
+	user.Nickname = req.Nickname
+	user.Avatar = req.Avatar
+	user.Email = req.Email
 	m, err := s.tool.StructToMap(user)
 	if err != nil {
 		return nil, s.hm.GetMessage(500, err)

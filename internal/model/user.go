@@ -30,12 +30,14 @@ type CreateUserReq struct {
 }
 
 type UpdateUserReq struct {
-	ID       int64  `form:"id" valid:"required,gt=0"`
-	Password string `form:"password" valid:"omitempty"`
-	Nickname string `form:"nickname" valid:"omitempty"`
-	Email    string `form:"email" valid:"omitempty,email"`
-	Avatar   string `form:"avatar" valid:"omitempty"`
-	IsAuth   bool   `form:"is_auth"`
+	ID               int64  `form:"id" valid:"required,gt=0"`
+	Password         string `form:"password" valid:"omitempty,checknp"`
+	NewPassword      string `form:"new_password" valid:"omitempty"`
+	NewPasswordAgain string `form:"new_password_again" valid:"omitempty,eqfield=NewPassword"`
+	Nickname         string `form:"nickname" valid:"omitempty"`
+	Email            string `form:"email" valid:"omitempty,email"`
+	Avatar           string `form:"avatar" valid:"omitempty"`
+	IsAuth           bool   `form:"is_auth" valid:"omitempty"`
 }
 
 type Users struct {
