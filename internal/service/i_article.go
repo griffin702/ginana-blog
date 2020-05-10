@@ -91,17 +91,17 @@ func (s *service) CountArticles() (count int64) {
 	return
 }
 
-func (s *service) CreateArticle(req *model.CreateArticleReq) (article *model.Article, err error) {
+func (s *service) CreateArticle(req *model.ArticleReq) (article *model.Article, err error) {
 	article = new(model.Article)
-	article.UserID = req.UserID
 	article.Title = req.Title
 	article.Color = req.Color
-	article.Istop = req.Istop
-	article.Cover = req.Cover
 	article.Urlname = req.Urlname
 	article.Urltype = req.Urltype
+	article.Istop = req.Istop
 	article.Status = req.Status
 	article.Content = req.ContentMarkdownDoc
+	article.Cover = req.Cover
+	article.UserID = req.UserID
 	tags := strings.Split(req.Tags, ",")
 	for _, name := range tags {
 		tag, err := s.GetTagByName(name)
@@ -113,6 +113,37 @@ func (s *service) CreateArticle(req *model.CreateArticleReq) (article *model.Art
 	}
 	if err = s.db.Create(article).Error; err != nil {
 		return nil, s.hm.GetMessage(1002, err)
+	}
+	return
+}
+
+func (s *service) UpdateArticle(req *model.ArticleReq) (article *model.Article, err error) {
+	article = new(model.Article)
+	if err = s.db.Find(article, "id = ?", req.ID).Error; err != nil {
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	article.Title = req.Title
+	article.Color = req.Color
+	article.Urlname = req.Urlname
+	article.Urltype = req.Urltype
+	article.Istop = req.Istop
+	article.Status = req.Status
+	article.Content = req.ContentMarkdownDoc
+	article.Cover = req.Cover
+	m, err := s.tool.StructToMap(article)
+	if err != nil {
+		return nil, s.hm.GetMessage(500, err)
+	}
+	if err = s.db.Model(article).Update(m).Error; err != nil {
+		return nil, s.hm.GetMessage(1002, err)
+	}
+	return
+}
+
+func (s *service) DeleteArticle(id int64) (err error) {
+	article := new(model.Article)
+	if err = s.db.Delete(article, "id = ?", id).Error; err != nil {
+		return s.hm.GetMessage(1004, err)
 	}
 	return
 }

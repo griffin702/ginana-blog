@@ -28,8 +28,8 @@ type Article struct {
 	Next      *Article  `json:"next" gorm:"-"`
 }
 
-type CreateArticleReq struct {
-	UserID             int64  `form:"user_id" valid:"required,gt=0"`
+type ArticleReq struct {
+	ID                 int64  `form:"id" valid:"omitempty,gte=0"`
 	Title              string `form:"title" valid:"required,max=100"`
 	Color              string `form:"color" valid:"omitempty,iscolor"`
 	Urlname            string `form:"urlname" valid:"omitempty"`
@@ -39,6 +39,7 @@ type CreateArticleReq struct {
 	Status             int8   `form:"status" valid:"numeric"`
 	Istop              int8   `form:"istop" valid:"numeric"`
 	Cover              string `form:"cover" valid:"omitempty"`
+	UserID             int64  `form:"user_id" valid:"required,gt=0"`
 	Tags               string `form:"tags" valid:"required"`
 }
 

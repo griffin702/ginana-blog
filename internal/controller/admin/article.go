@@ -23,7 +23,7 @@ func (c *CAdmin) GetArticleAdd() (err error) {
 }
 
 func (c *CAdmin) PostArticleAdd() (err error) {
-	req := new(model.CreateArticleReq)
+	req := new(model.ArticleReq)
 	if err = c.Ctx.ReadForm(req); err != nil {
 		return
 	}
@@ -47,5 +47,31 @@ func (c *CAdmin) GetArticleEditBy(id int64) (err error) {
 	c.Ctx.ViewData("data", article)
 	c.setHeadMetas("文章创建")
 	c.Ctx.View("admin/article/edit.html")
+	return
+}
+
+func (c *CAdmin) PostArticleEditBy(id int64) (err error) {
+	req := new(model.ArticleReq)
+	if err = c.Ctx.ReadForm(req); err != nil {
+		return
+	}
+	req.ID = id
+	if err = c.Valid(req); err != nil {
+		return
+	}
+	if _, err = c.Svc.UpdateArticle(req); err != nil {
+		return
+	}
+	c.setHeadMetas("文章更新")
+	c.ShowMsg("文章已更新")
+	return
+}
+
+func (c *CAdmin) GetArticleDeleteBy(id int64) (err error) {
+	if err = c.Svc.DeleteArticle(id); err != nil {
+		return
+	}
+	c.setHeadMetas("文章删除")
+	c.ShowMsg("文章已删除")
 	return
 }

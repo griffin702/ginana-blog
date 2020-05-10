@@ -125,5 +125,6 @@ func (s *service) DeleteUser(id int64) (err error) {
 	if err = s.db.Delete(user, "id = ?", id).Error; err != nil {
 		return s.hm.GetMessage(1004, err)
 	}
+	s.mc.Delete(s.hm.GetCacheKey(1, id))
 	return
 }
