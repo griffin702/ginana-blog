@@ -18,18 +18,40 @@ func (s *service) GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (r
 	query := s.db.Model(&res.List)
 	query.Where("status = 1").Count(&res.CountStatus1)
 	query.Where("status = 2").Count(&res.CountStatus2)
+	if pr.Search != "" && pr.Keyword != "" { // 搜索
+		switch pr.Search {
+		case "title":
+			query = query.Where("title like ?", "%"+pr.Keyword+"%")
+		case "author":
+			var userIdList []int64
+			s.db.Model(&model.User{}).Select("id").
+				Where("nickname like ?", "%"+pr.Keyword+"%").Pluck("id", &userIdList)
+			query = query.Having("user_id in (?)", userIdList)
+		case "tag":
+			var tagList []*model.Tag
+			s.db.Model(&tagList).Preload("Articles").Find(&tagList, "name like ?", "%"+pr.Keyword+"%")
+			var idList []int64
+			for _, tag := range tagList {
+				for _, art := range tag.Articles {
+					idList = append(idList, art.ID)
+				}
+			}
+			query = query.Having("id in (?)", idList)
+		}
+	}
 	if pr.TagID > 0 {
 		query = query.Joins("left join w_article_tags ON w_article_tags.article_id = w_article.id "+
-			"where w_article_tags.tag_id = ? and status = ?", pr.TagID, pr.Status)
-	} else {
-		query = query.Where("status = ?", pr.Status)
+			"and w_article_tags.tag_id = ?", pr.TagID)
 	}
+	query = query.Where("status = ?", pr.Status)
 	query.Count(&p.AllCount)
 	query = query.Order(pr.Order).Preload("User").Preload("Tags")
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
 	res.Status = pr.Status
+	res.Search = pr.Search
+	res.Keyword = pr.Keyword
 	res.Pager = p
 	return
 }

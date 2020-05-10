@@ -47,6 +47,8 @@ type Articles struct {
 	List         []*Article `json:"list"`
 	Pager        *Pager     `json:"pager"`
 	Status       int        `json:"status"`
+	Search       string     `json:"search"`
+	Keyword      string     `json:"keyword"`
 	CountStatus1 int64      `json:"count_status_1"`
 	CountStatus2 int64      `json:"count_status_2"`
 }
@@ -58,9 +60,11 @@ type ArticleTags struct {
 }
 
 type ArticleQueryParam struct {
-	Order  string
-	TagID  int64
-	Status int
+	Order   string
+	TagID   int64
+	Status  int
+	Search  string
+	Keyword string
 }
 
 // 带颜色的标题

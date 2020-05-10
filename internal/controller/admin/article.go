@@ -6,7 +6,13 @@ import (
 
 func (c *CAdmin) GetArticleList() (err error) {
 	status := c.Ctx.URLParamIntDefault("status", 0)
-	articles, err := c.Svc.GetArticles(c.Pager, model.ArticleQueryParam{Status: status})
+	search := c.Ctx.URLParam("search")
+	keyword := c.Ctx.URLParam("keyword")
+	articles, err := c.Svc.GetArticles(c.Pager, model.ArticleQueryParam{
+		Status:  status,
+		Search:  search,
+		Keyword: keyword,
+	})
 	if err != nil {
 		return
 	}

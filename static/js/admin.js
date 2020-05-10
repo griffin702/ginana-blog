@@ -502,6 +502,7 @@ function ajax_Main(type, data, url, timewait) {
             dataType: "html",
             success: function (data) {
                 $("div.refresh").html($(data).find("div.table-responsive"));
+                CheckSearch();
                 $(window).scrollTop(0);
             },
             error: function () {
@@ -509,4 +510,30 @@ function ajax_Main(type, data, url, timewait) {
             }
         })
     }, timewait);
+}
+
+function CheckSearch() {
+    let search = $(":input[name='search']").children("option:selected").val();
+    let keyword = $(":input[name='keyword']").val();
+    let re;
+    if (keyword !== "") {
+        re = new RegExp(keyword, "g");
+        switch (search) {
+            case "title":
+                $(".hl_title").each(function () {
+                    $(this).children("a").html($(this).children("a").html().replace(re, "<span style='color:red'>" + keyword + "</span>"));
+                });
+                break;
+            case "author":
+                $(".hl_author").each(function () {
+                    $(this).html($(this).html().replace(re, "<span style='color:red'>" + keyword + "</span>"));
+                });
+                break;
+            case "tag":
+                $(".hl_tag").each(function () {
+                    $(this).children("a").html($(this).children("a").html().replace(re, "<span style='color:red'>" + keyword + "</span>"));
+                });
+                break;
+        }
+    }
 }
