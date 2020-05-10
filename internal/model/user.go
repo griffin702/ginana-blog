@@ -31,7 +31,7 @@ type CreateUserReq struct {
 
 type UpdateUserReq struct {
 	ID               int64  `form:"id" valid:"required,gt=0"`
-	Password         string `form:"password" valid:"omitempty,checknp"`
+	Password         string `form:"password" valid:"omitempty,ck_np"`
 	NewPassword      string `form:"new_password" valid:"omitempty"`
 	NewPasswordAgain string `form:"new_password_again" valid:"omitempty,eqfield=NewPassword"`
 	Nickname         string `form:"nickname" valid:"omitempty"`
