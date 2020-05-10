@@ -16,6 +16,7 @@ func (s *service) GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (r
 	}
 	res = new(model.Articles)
 	query := s.db.Model(&res.List)
+	query.Where("status = 0").Count(&res.CountStatus0)
 	query.Where("status = 1").Count(&res.CountStatus1)
 	query.Where("status = 2").Count(&res.CountStatus2)
 	if pr.Search != "" && pr.Keyword != "" { // 搜索
@@ -184,6 +185,26 @@ func (s *service) DeleteArticle(id int64) (err error) {
 	article := new(model.Article)
 	if err = s.db.Delete(article, "id = ?", id).Error; err != nil {
 		return s.hm.GetMessage(1004, err)
+	}
+	return
+}
+
+func (s *service) BatchArticle(req *model.ArticleListReq) (err error) {
+	article := new(model.Article)
+	switch req.Option {
+	case "public":
+		err = s.db.Model(article).Where("id in (?)", req.IDs).Update("status", 0).Error
+	case "template":
+		err = s.db.Model(article).Where("id in (?)", req.IDs).Update("status", 1).Error
+	case "recycle":
+		err = s.db.Model(article).Where("id in (?)", req.IDs).Update("status", 2).Error
+	case "delete":
+		if err = s.db.Model(article).Where("id in (?)", req.IDs).Delete(article).Error; err != nil {
+			return s.hm.GetMessage(1004, err)
+		}
+	}
+	if err != nil {
+		return s.hm.GetMessage(1002, err)
 	}
 	return
 }

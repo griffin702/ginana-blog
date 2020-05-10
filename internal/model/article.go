@@ -49,8 +49,14 @@ type Articles struct {
 	Status       int        `json:"status"`
 	Search       string     `json:"search"`
 	Keyword      string     `json:"keyword"`
+	CountStatus0 int64      `json:"count_status_0"`
 	CountStatus1 int64      `json:"count_status_1"`
 	CountStatus2 int64      `json:"count_status_2"`
+}
+
+type ArticleListReq struct {
+	Option string  `form:"option" valid:"required"`
+	IDs    []int64 `form:"ids" valid:"required,gt=0"`
 }
 
 //管理员角色关联

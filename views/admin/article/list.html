@@ -1,11 +1,10 @@
 <fieldset>
-    <legend>文章列表
-        <a class="btn btn-primary btn-xs" href="/admin/article/add">
-            <span class="glyphicon glyphicon-plus"></span> 发布文章
-        </a>
+    <legend>文章列表<a class="btn btn-primary btn-xs" href="/admin/article/add">
+            <span class="glyphicon glyphicon-plus"></span> 发布文章</a>
     </legend>
     <ul class="nav nav-tabs">
-        <li {{if eq .data.Status 0}}class="active"{{end}}><a href="/admin/article/list?status=0">已发布</a></li>
+        <li {{if eq .data.Status 0}}class="active"{{end}}><a
+                    href="/admin/article/list?status=0">已发布({{.data.CountStatus0}})</a></li>
         <li {{if eq .data.Status 1}}class="active"{{end}}><a
                     href="/admin/article/list?status=1">草稿箱({{.data.CountStatus1}})</a></li>
         <li {{if eq .data.Status 2}}class="active"{{end}}><a
@@ -21,10 +20,8 @@
                     <option value="tag" {{if eq .data.Search "tag"}}selected{{end}}>标签</option>
                 </select>
             </label>
-            <label for="keyword">
-                <input name="keyword" value="{{.data.Keyword}}" class="form-control"
-                       placeholder="关键字" type="text" autocomplete="off"/>
-            </label>
+            <label for="keyword"><input name="keyword" value="{{.data.Keyword}}" class="form-control"
+                                        placeholder="关键字" type="text" autocomplete="off"/></label>
             <button type="submit" class="btn">搜索</button>
         </form>
     </div>
@@ -34,7 +31,9 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th><input type="checkbox" name="all" value="0" onclick="checkall('ids[]', this)"/></th>
+                        <th><label>
+                                <input type="checkbox" name="all" value="0" onclick="checkall('ids', this)"/>
+                            </label></th>
                         <th>ID</th>
                         <th style="min-width: 150px;">标题</th>
                         <th>类别</th>
@@ -46,16 +45,14 @@
                     </thead>
                     <tbody>{{range $k, $v := .data.List}}
                         <tr>
-                            <td><input type="checkbox" name="ids[]" value="{{$v.ID}}"/></td>
+                            <td><label>
+                                    <input type="checkbox" name="ids" value="{{$v.ID}}"/>
+                                </label></td>
                             <td>{{$v.ID}}</td>
-                            <td class="hl_title">
-                                {{if $v.Istop}}
-                                    <i class="icon-arrow-up" title="置顶"> </i>
-                                {{end}}
-                                <a href="{{$v.Link}}" target="_blank">{{str2html $v.ColorTitle}}</a>
-                                {{if $v.Urltype}}
-                                    <span class="label label-important">页面</span>
-                                {{end}}
+                            <td class="hl_title">{{if $v.Istop}}
+                                    <i class="icon-arrow-up" title="置顶"> </i>{{end}}
+                                <a href="{{$v.Link}}" target="_blank">{{str2html $v.ColorTitle}}</a>{{if $v.Urltype}}
+                            <span class="label label-important">页面</span>{{end}}
                             </td>
                             <td class="hl_tag">{{str2html $v.TagsLink}}</td>
                             <td>{{$v.Views}}</td>
@@ -69,13 +66,15 @@
                         </tr>{{end}}
                     </tbody>
                     <div class="col-lg-12" style="padding: 10px 0 0 0">
-                        <select class="form-control" name="op" id="op" style="width: 10%; display: inline">
-                            <option value="">批量操作</option>
-                            <option value="topub">移至已发布</option>
-                            <option value="todrafts">移至草稿箱</option>
-                            <option value="totrash">移至回收站</option>
-                            <option value="delete">删除</option>
-                        </select>
+                        <label>
+                            <select class="form-control" name="option" style="display: inline">
+                                <option>批量操作</option>
+                                <option value="public">移至已发布</option>
+                                <option value="template">移至草稿箱</option>
+                                <option value="recycle">移至回收站</option>
+                                <option value="delete">删除</option>
+                            </select>
+                        </label>
                         <button type="submit" class="btn btn-primary">应用</button>
                     </div>
                 </table>

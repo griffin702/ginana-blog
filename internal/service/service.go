@@ -39,6 +39,7 @@ type Service interface {
 	CreateArticle(req *model.ArticleReq) (article *model.Article, err error)
 	UpdateArticle(req *model.ArticleReq) (article *model.Article, err error)
 	DeleteArticle(id int64) (err error)
+	BatchArticle(req *model.ArticleListReq) (err error)
 	GetTags() (res *model.Tags, err error)
 	GetTagByName(name string) (tag *model.Tag, err error)
 	GetMoods(p *model.Pager) (res *model.Moods, err error)
