@@ -6,13 +6,13 @@
     </legend>
 
     <div class="toolbar">
-        <a href="/admin/article/list?status=0" {{if eq .data.Status 0}}class="active"{{end}}>已发布</a>
-        <span class="divider">|</span>
-        <a href="/admin/article/list?status=1" {{if eq .data.Status 1}}class="active"{{end}}>草稿箱({{.data.CountStatus1}}
-            )</a>
-        <span class="divider">|</span>
-        <a href="/admin/article/list?status=2" {{if eq .data.Status 2}}class="active"{{end}}>回收站({{.data.CountStatus2}}
-            )</a>
+        <ul class="nav nav-tabs">
+            <li {{if eq .data.Status 0}}class="active"{{end}}><a href="/admin/article/list?status=0">已发布</a></li>
+            <li {{if eq .data.Status 1}}class="active"{{end}}><a
+                        href="/admin/article/list?status=1">草稿箱({{.data.CountStatus1}})</a></li>
+            <li {{if eq .data.Status 2}}class="active"{{end}}><a
+                        href="/admin/article/list?status=2">回收站({{.data.CountStatus2}})</a></li>
+        </ul>
     </div>
 
     {{/*	<div class="search-form">*/}}
@@ -67,7 +67,7 @@
                             </td>
                         </tr>{{end}}
                     </tbody>
-                    <div class="col-lg-12" style="padding: 0">
+                    <div class="col-lg-12" style="padding: 10px 0 0 0">
                         <select class="form-control" name="op" id="op" style="width: 10%; display: inline">
                             <option value="">批量操作</option>
                             <option value="topub">移至已发布</option>

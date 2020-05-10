@@ -174,32 +174,32 @@ footer {
     margin: 0
 }
 
-.toolbar {
-    margin-bottom: 10px;
-    font-size: 12px
-}
+/*.toolbar {*/
+/*    margin-bottom: 10px;*/
+/*    font-size: 12px*/
+/*}*/
 
-.toolbar a {
-    line-height: 35px;
-}
+/*.toolbar a {*/
+/*    line-height: 35px;*/
+/*}*/
 
-.toolbar a:hover {
-    text-decoration: none;
-}
+/*.toolbar a:hover {*/
+/*    text-decoration: none;*/
+/*}*/
 
-.toolbar .active {
-    background: #498CD0;
-    color: #fff;
-    padding: 3px 10px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-}
+/*.toolbar .active {*/
+/*    background: #498CD0;*/
+/*    color: #fff;*/
+/*    padding: 3px 10px;*/
+/*    -moz-border-radius: 2px;*/
+/*    -webkit-border-radius: 2px;*/
+/*    border-radius: 2px;*/
+/*}*/
 
-.toolbar .divider {
-    color: #ccc;
-    margin: 0 5px
-}
+/*.toolbar .divider {*/
+/*    color: #ccc;*/
+/*    margin: 0 5px*/
+/*}*/
 
 legend .btn {
     margin-left: 30px;
@@ -336,7 +336,7 @@ legend .btn {
 }
 
 #wy-delegate-admin {
-    min-height: 600px;
+    min-height: 820px;
 }
 
 .showmsg p, .showmsg a {
