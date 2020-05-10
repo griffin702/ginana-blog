@@ -428,7 +428,7 @@ function initcommentslist() {
                 $(this).addClass('hidden');
             }
             if (num === 3) {
-                let more = $("<div class='comment_child col-lg-11 col-md-11 col-sm-11 col-xs-11 column'><button class='btn btn-info open-more'>展开过往回复>></button></div>");
+                let more = $("<div class='comment_child col-lg-11 col-md-11 col-sm-11 col-xs-11'><button class='btn btn-info open-more'>展开过往回复>></button></div>");
                 $(this).parent().append(more);
             }
             num--;

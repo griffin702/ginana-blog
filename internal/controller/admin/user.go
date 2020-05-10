@@ -26,6 +26,9 @@ func (c *CAdmin) PostUserAdd() (err error) {
 	if err = c.Ctx.ReadForm(req); err != nil {
 		return
 	}
+	if req.Nickname == "" {
+		req.Nickname = req.Username
+	}
 	if err = c.Valid(req); err != nil {
 		return
 	}

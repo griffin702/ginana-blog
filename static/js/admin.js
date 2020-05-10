@@ -501,7 +501,7 @@ function ajax_Main(type, data, url, timewait) {
             cache: true,
             dataType: "html",
             success: function (data) {
-                $(".table-responsive").html($(data).find("table.table"));
+                $("div.refresh").html($(data).find("div.table-responsive"));
                 $(window).scrollTop(0);
             },
             error: function () {

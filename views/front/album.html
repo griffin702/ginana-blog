@@ -5,18 +5,18 @@
     <a href="/album.html" class="n2">光影瞬间</a>
     <strong><span class="glyphicon glyphicon-map-marker"></span> 每一个瞬间的摄影，都是无法复摹独一无二的</strong>
 </h1>
-<div class="albumlist col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
-    <ul class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
+<div class="albumlist col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <ul class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
         {{range $k, $v := .data.List}}
-            <li class="col-lg-2 col-md-2 col-sm-6 col-xs-6 column">
-                <a href="/album/{{$v.ID}}" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column">
-                    <div class="box1 col-lg-12 col-md-12 col-sm-12 col-xs-12 column"
+            <li class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                <a href="/album/{{$v.ID}}" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="box1 col-lg-12 col-md-12 col-sm-12 col-xs-12"
                          style="background:url({{$v.Cover}});">
                         <div class="box2-wrap">
                             <div class="box2">{{$v.CountPhotos}}</div>
                         </div>
                     </div>
-                    <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 column"
+                    <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                           title="{{$v.Name}}">{{$v.LongNameAlter}}</span>
                 </a>
             </li>
