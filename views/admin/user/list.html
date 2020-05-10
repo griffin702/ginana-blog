@@ -1,8 +1,6 @@
 <fieldset>
-    <legend>用户列表
-        <a class="btn btn-primary btn-xs" href="/admin/user/add">
-            <span class="glyphicon glyphicon-plus"></span> 添加用户
-        </a>
+    <legend>用户列表<a class="btn btn-primary btn-xs" href="/admin/user/add">
+            <span class="glyphicon glyphicon-plus"></span> 添加用户</a>
     </legend>
     <div class="refresh">
         <div class="table-responsive">
@@ -20,8 +18,7 @@
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody>
-                {{range $k, $v := .data.List}}
+                <tbody>{{range $k, $v := .data.List}}
                     <tr>
                         <td>{{$v.ID}}</td>
                         <td>{{$v.Username}}</td>
@@ -30,19 +27,15 @@
                         <td>{{date $v.CreatedAt "Y-m-d H:i:s"}}</td>
                         <td>{{$v.LastLoginIP}}</td>
                         <td>{{$v.CountLogin}}</td>
-                        <td>
-                            {{if $v.IsAuth}}
-                                <span class="text-success">已激活</span>
-                            {{else}}
-                                <span class="text-error">未激活</span>
-                            {{end}}
+                        <td>{{if $v.IsAuth}}
+                                <span class="text-success">已激活</span>{{else}}
+                                <span class="text-error">未激活</span>{{end}}
                         </td>
                         <td>
                             <a href="/admin/user/edit/{{$v.ID}}">编辑</a> |
                             <a href="/admin/user/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>
                         </td>
-                    </tr>
-                {{end}}
+                    </tr>{{end}}
                 </tbody>
             </table>
             {{str2html .data.Pager.ToString}}
