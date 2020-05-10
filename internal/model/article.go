@@ -18,8 +18,8 @@ type Article struct {
 	Urltype   int8      `json:"urltype" gorm:"comment:'特殊链接类型'"`
 	Content   string    `json:"content" gorm:"type:LONGTEXT;not null;comment:'文章内容'"`
 	Views     int64     `json:"views" gorm:"comment:'查看次数'"`
-	Status    int8      `json:"status" gorm:"comment:'文章状态'"` // 0-已发布,1-草稿箱,2-回收站
-	Istop     int8      `json:"istop" gorm:"comment:'置顶相关'"`
+	Status    int8      `json:"status" gorm:"index;comment:'文章状态'"` // 0-已发布,1-草稿箱,2-回收站
+	Istop     int8      `json:"istop" gorm:"index;comment:'置顶相关'"`
 	Cover     string    `json:"cover" gorm:"type:VARCHAR(255);default:'/static/upload/default/blog-default-0.png';not null;comment:'文章封面'"`
 	UserID    int64     `json:"user_id" gorm:"comment:'关联用户ID'"`
 	User      *User     `json:"user" gorm:"ForeignKey:UserID"`
@@ -44,9 +44,11 @@ type ArticleReq struct {
 }
 
 type Articles struct {
-	List   []*Article `json:"list"`
-	Pager  *Pager     `json:"pager"`
-	Status int        `json:"status"`
+	List         []*Article `json:"list"`
+	Pager        *Pager     `json:"pager"`
+	Status       int        `json:"status"`
+	CountStatus1 int64      `json:"count_status_1"`
+	CountStatus2 int64      `json:"count_status_2"`
 }
 
 //管理员角色关联

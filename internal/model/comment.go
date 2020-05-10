@@ -27,7 +27,7 @@ type Comment struct {
 type Comments struct {
 	List       []*Comment `json:"list"`
 	Pager      *Pager     `json:"pager"`
-	CountUsers int64
+	CountUsers int64      `json:"count_users"`
 }
 
 func (m *Comment) ReturnLimit(key string) string {

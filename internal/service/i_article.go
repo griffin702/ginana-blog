@@ -16,6 +16,8 @@ func (s *service) GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (r
 	}
 	res = new(model.Articles)
 	query := s.db.Model(&res.List)
+	query.Where("status = 1").Count(&res.CountStatus1)
+	query.Where("status = 2").Count(&res.CountStatus2)
 	if pr.TagID > 0 {
 		query = query.Joins("left join w_article_tags ON w_article_tags.article_id = w_article.id "+
 			"where w_article_tags.tag_id = ? and status = ?", pr.TagID, pr.Status)
