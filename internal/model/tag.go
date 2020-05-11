@@ -13,8 +13,20 @@ type Tag struct {
 	Articles  []*Article `json:"articles" gorm:"many2many:article_tags"`
 }
 
+type TagQueryParam struct {
+	Order string
+	Admin bool
+}
+
 type Tags struct {
-	List []*Tag `json:"list"`
+	List  []*Tag `json:"list"`
+	Pager *Pager `json:"pager"`
+}
+
+type TagListReq struct {
+	Option  string  `form:"option" valid:"required"`
+	NewName string  `form:"new_name" valid:"omitempty"`
+	IDs     []int64 `form:"ids" valid:"required,gt=0"`
 }
 
 func (t *Tag) Link() string {

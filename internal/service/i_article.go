@@ -132,9 +132,12 @@ func (s *service) CreateArticle(req *model.ArticleReq) (article *model.Article, 
 	tags := strings.Split(req.Tags, ",")
 	for _, name := range tags {
 		tag, err := s.GetTagByName(name)
-		if err != nil {
-			err = nil
+		if err == gorm.ErrRecordNotFound {
+			tag = new(model.Tag)
 			tag.Name = name
+			err = nil
+		} else if err != nil {
+			return nil, s.hm.GetMessage(500, err)
 		}
 		article.Tags = append(article.Tags, tag)
 	}
@@ -169,9 +172,12 @@ func (s *service) UpdateArticle(req *model.ArticleReq) (article *model.Article, 
 	tags := strings.Split(req.Tags, ",")
 	for _, name := range tags {
 		tag, err := s.GetTagByName(name)
-		if err != nil {
-			err = nil
+		if err == gorm.ErrRecordNotFound {
+			tag = new(model.Tag)
 			tag.Name = name
+			err = nil
+		} else if err != nil {
+			return nil, s.hm.GetMessage(500, err)
 		}
 		article.Tags = append(article.Tags, tag)
 	}

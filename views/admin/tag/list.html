@@ -1,0 +1,54 @@
+<fieldset>
+    <legend>标签管理</legend>
+    <form method="post" action="/admin/tag/list">
+        <div class="refresh">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th style="width: 50px"><label>
+                                <input type="checkbox" value="0" onclick="checkall('ids', this)"/>
+                            </label></th>
+                        <th>ID</th>
+                        <th>标签名称</th>
+                        <th>文章数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>{{range $k, $v := .data.List}}
+                        <tr>
+                            <td><input type="checkbox" name="ids" value="{{$v.ID}}"/></td>
+                            <td>{{$v.ID}}</td>
+                            <td>{{$v.Name}}</td>
+                            <td>{{len $v.Articles}}</td>
+                        </tr>{{end}}
+                    </tbody>
+                    <div class="col-lg-12" style="padding: 10px 0 0 0">
+                        <label>
+                            <select class="form-control" name="option">
+                                <option>批量操作</option>
+                                <option value="merge">合并到</option>
+                                <option value="delete">删除</option>
+                            </select>
+                            <span id="mergeto" style="display:none">
+								<input type="text" name="new_name" class="form-control" placeholder="新标签"/>
+							</span>
+                        </label>
+                        <button type="submit" class="btn btn-primary">应用</button>
+                    </div>
+                </table>
+                {{str2html .data.Pager.ToString}}
+            </div>
+        </div>
+    </form>
+</fieldset>
+<script type="text/javascript">
+    $(function () {
+        $(":input[name='option']").change(function () {
+            if ($(this).children("option:selected").val() === 'merge') {
+                $('#mergeto').show();
+            } else {
+                $('#mergeto').hide();
+            }
+        });
+    });
+</script>
