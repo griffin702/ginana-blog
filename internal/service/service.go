@@ -47,7 +47,11 @@ type Service interface {
 	GetMoods(p *model.Pager) (res *model.Moods, err error)
 	CreateMood(req *model.MoodReq) (err error)
 	GetLinks() (links []*model.Link, err error)
-	GetComments(p *model.Pager, objPK int64) (res *model.Comments, err error)
+	GetComments(p *model.Pager, prs ...model.CommentQueryParam) (res *model.Comments, err error)
+	GetComment(id int64) (comment *model.Comment, err error)
+	CreateComment(req *model.CreateCommentReq) (err error)
+	UpdateComment(req *model.UpdateCommentReq) (err error)
+	DeleteComment(id int64) (err error)
 	GetAlbums(p *model.Pager) (res *model.Albums, err error)
 	GetAlbum(id int64) (album *model.Album, err error)
 	GetPhotos(p *model.Pager, albumId int64) (res *model.Photos, err error)
@@ -56,8 +60,6 @@ type Service interface {
 	CountArticles() (count int64)
 	CountUsers() (count int64)
 	CountTags() (count int64)
-
-	PostComment(req *model.Comment) (err error)
 }
 
 func New(cfg *config.Config, db *gorm.DB, mc memcache.Memcache, hm HelperMap) (s Service, err error) {

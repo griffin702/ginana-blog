@@ -1,0 +1,35 @@
+<fieldset>
+    <legend>评论列表</legend>
+    <div class="refresh">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ArticleID</th>
+                    <th>用户ID</th>
+                    <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3 column">评论内容</th>
+                    <th>评论时间</th>
+                    <th>IP</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>{{range $k, $v := .data.List}}
+                    <tr>
+                        <td>{{$v.ID}}</td>
+                        <td>{{if $v.Article}}{{$v.Article.ID}}{{else}}0{{end}}</td>
+                        <td>{{$v.User.ID}}</td>
+                        <td>{{$v.Content}}</td>
+                        <td>{{date $v.CreatedAt "y-m-d H:i:s"}}</td>
+                        <td>{{$v.IPAddress}}</td>
+                        <td>
+                            <a href="/admin/comment/edit/{{$v.ID}}">编辑</a>
+                            <a href="/admin/comment/delete/{{$v.ID}}" onclick="return del_comment()">删除</a>
+                        </td>
+                    </tr>{{end}}
+                </tbody>
+            </table>
+            {{str2html .data.Pager.ToString}}
+        </div>
+    </div>
+</fieldset>

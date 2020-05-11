@@ -68,7 +68,7 @@ func (c *CFront) GetArticleBy(id int64) (err error) {
 		return
 	}
 	c.Ctx.ViewData("data", article)
-	comments, err := c.Svc.GetComments(c.Pager, id)
+	comments, err := c.Svc.GetComments(c.Pager, model.CommentQueryParam{ArticleID: id})
 	if err != nil {
 		return
 	}
@@ -124,7 +124,9 @@ func (c *CFront) GetMoods() (err error) {
 }
 
 func (c *CFront) GetLinks() (err error) {
-	comments, err := c.Svc.GetComments(c.Pager, 0)
+	comments, err := c.Svc.GetComments(c.Pager, model.CommentQueryParam{
+		ArticleID: 0,
+	})
 	if err != nil {
 		return
 	}

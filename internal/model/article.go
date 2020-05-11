@@ -28,6 +28,14 @@ type Article struct {
 	Next      *Article  `json:"next" gorm:"-"`
 }
 
+type ArticleQueryParam struct {
+	Order   string
+	TagID   int64
+	Status  int
+	Search  string
+	Keyword string
+}
+
 type ArticleReq struct {
 	ID                 int64  `form:"id" valid:"omitempty,gte=0"`
 	Title              string `form:"title" valid:"required,max=100"`
@@ -63,14 +71,6 @@ type ArticleListReq struct {
 type ArticleTags struct {
 	ArticleID int64 `json:"article_id"` // 文章ID
 	TagID     int64 `json:"tag_id"`     // 标签ID
-}
-
-type ArticleQueryParam struct {
-	Order   string
-	TagID   int64
-	Status  int
-	Search  string
-	Keyword string
 }
 
 // 带颜色的标题

@@ -4,29 +4,43 @@ import (
 	"ginana-blog/internal/model"
 )
 
-func (s *service) GetComments(p *model.Pager, objPK int64) (res *model.Comments, err error) {
+func (s *service) GetComments(p *model.Pager, prs ...model.CommentQueryParam) (res *model.Comments, err error) {
+	var pr model.CommentQueryParam
+	if len(prs) > 0 {
+		pr = prs[0]
+	}
+	if pr.Order == "" {
+		pr.Order = "id desc"
+	}
 	res = new(model.Comments)
-	query := s.db.Model(&res.List).Where("obj_pk = ?", objPK).Count(&p.AllCount).Where("reply_fk = 0")
+	query := s.db.Model(&res.List)
+	if !pr.Admin {
+		query = query.Where("obj_pk = ?", pr.ArticleID)
+	}
+	query.Count(&p.AllCount)
+	if !pr.Admin {
+		query = query.Where("reply_fk = 0").Preload("Children")
+	} else {
+		query = query.Preload("Article")
+	}
 	query.Group("user_id").Count(&res.CountUsers)
-	query = query.Order("created_at desc").Preload("Children").Preload("User")
-	if err = query.Find(&res.List).Error; err != nil {
+	query = query.Order(pr.Order).Preload("User")
+	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
-	if err = query.Group("user_id").Count(&res.CountUsers).Error; err != nil {
-		return nil, s.hm.GetMessage(1001, err)
+	if !pr.Admin {
+		res.LoadParent(s.db)
+		p.SetArticleID(pr.ArticleID)
 	}
-	for _, parent := range res.List {
-		for _, child := range parent.Children {
-			s.db.Preload("Parent").Preload("User").Find(child)
-			if child.Parent != nil {
-				s.db.Preload("User").Find(child.Parent)
-			} else {
-				child.Parent = new(model.Comment)
-			}
-		}
-	}
-	p.SetArticleID(objPK)
 	res.Pager = p
+	return
+}
+
+func (s *service) GetComment(id int64) (comment *model.Comment, err error) {
+	comment = new(model.Comment)
+	if err = s.db.Find(comment, "id = ?", id).Error; err != nil {
+		return nil, s.hm.GetMessage(1001, err)
+	}
 	return
 }
 
@@ -34,7 +48,7 @@ func (s *service) GetLatestComments(limit int) (comments []*model.Comment, err e
 	key := s.hm.GetCacheKey(6)
 	err = s.mc.Get(key, &comments)
 	if err != nil {
-		if err = s.db.Model(&comments).Order("created_at desc").
+		if err = s.db.Model(&comments).Order("id desc").
 			Preload("User").Preload("Article").
 			Limit(limit).Find(&comments).Error; err != nil {
 			return nil, s.hm.GetMessage(1001, err)
@@ -46,9 +60,50 @@ func (s *service) GetLatestComments(limit int) (comments []*model.Comment, err e
 	return
 }
 
-func (s *service) PostComment(req *model.Comment) (err error) {
+func (s *service) CreateComment(req *model.CreateCommentReq) (err error) {
+	comment := new(model.Comment)
+	comment.ObjPK = req.ObjPK
+	comment.ReplyPK = req.ReplyPK
+	comment.ReplyFK = req.ReplyFK
+	comment.Content = req.Content
+	comment.ObjPKType = req.ObjPKType
+	comment.IPAddress = req.IPAddress
+	comment.UserID = req.UserID
 	if err = s.db.Model(req).Create(req).Error; err != nil {
 		return s.hm.GetMessage(1002, err)
+	}
+	s.mc.Delete(s.hm.GetCacheKey(6))
+	return
+}
+
+func (s *service) UpdateComment(req *model.UpdateCommentReq) (err error) {
+	comment := new(model.Comment)
+	comment.ID = req.ID
+	if err = s.db.Find(comment).Error; err != nil {
+		return s.hm.GetMessage(1001, err)
+	}
+	comment.ObjPK = req.ObjPK
+	comment.ReplyPK = req.ReplyPK
+	comment.ReplyFK = req.ReplyFK
+	comment.Content = req.Content
+	comment.ObjPKType = req.ObjPKType
+	comment.IPAddress = req.IPAddress
+	comment.UserID = req.UserID
+	m, err := s.tool.StructToMap(comment)
+	if err != nil {
+		return s.hm.GetMessage(500, err)
+	}
+	if err = s.db.Model(comment).Update(m).Error; err != nil {
+		return s.hm.GetMessage(1002, err)
+	}
+	s.mc.Delete(s.hm.GetCacheKey(6))
+	return
+}
+
+func (s *service) DeleteComment(id int64) (err error) {
+	comment := new(model.Comment)
+	if err = s.db.Delete(comment, "id = ?", id).Error; err != nil {
+		return s.hm.GetMessage(1004, err)
 	}
 	s.mc.Delete(s.hm.GetCacheKey(6))
 	return

@@ -1,0 +1,23 @@
+<fieldset>
+    <legend>编辑评论<a class="btn btn-primary btn-xs" href="/admin/comment/list">
+            <span class="glyphicon glyphicon-share-alt"></span> 返回</a>
+    </legend>
+    <form class="form-horizontal" method="post">
+        <table class="table table-form">
+            <tbody>
+            <tr>
+                <th>评论内容</th>
+                <td><input class="span4 form-control" name="content" value="{{.data.Content}}" type="text"/></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 保存</button>
+                    <button type="button" class="btn btn-primary" onclick="javascript:history.back();">取消</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+</fieldset>

@@ -68,7 +68,7 @@ func (c *CAdmin) GetArticleEditBy(id int64) (err error) {
 		return
 	}
 	c.Ctx.ViewData("data", article)
-	c.setHeadMetas("文章创建")
+	c.setHeadMetas("文章编辑")
 	c.Ctx.View("admin/article/edit.html")
 	return
 }
@@ -85,7 +85,7 @@ func (c *CAdmin) PostArticleEditBy(id int64) (err error) {
 	if _, err = c.Svc.UpdateArticle(req); err != nil {
 		return
 	}
-	c.setHeadMetas("文章更新")
+	c.setHeadMetas("文章编辑")
 	c.ShowMsg("文章已更新")
 	return
 }
