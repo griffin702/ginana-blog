@@ -13,25 +13,25 @@
                 </td>
             </tr>
             <tr>
-                <th>密码：</th>
+                <th>密码:</th>
                 <td>
                     <input name="password" value="" class="form-control" type="password"/>
                 </td>
             </tr>
             <tr>
-                <th>登录次数：</th>
+                <th>登录次数:</th>
                 <td>
                     {{.data.CountLogin}}
                 </td>
             </tr>
             <tr>
-                <th>最后登录：</th>
+                <th>最后登录:</th>
                 <td>
                     {{date .data.UpdatedAt "Y-m-d H:i:s"}} ({{.data.LastLoginIP}})
                 </td>
             </tr>
             <tr>
-                <th>用户头像：</th>
+                <th>用户头像:</th>
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">当前：</span>
@@ -47,21 +47,21 @@
                 </td>
             </tr>
             <tr>
-                <th>昵称：</th>
+                <th>昵称:</th>
                 <td>
                     <input name="nickname" value="{{.data.Nickname}}" class="form-control"
                            type="text" autocomplete="off"/>
                 </td>
             </tr>
             <tr>
-                <th>邮箱：</th>
+                <th>邮箱:</th>
                 <td>
                     <input name="email" value="{{.data.Email}}" class="form-control"
                            type="text" autocomplete="off"/>
                 </td>
             </tr>
             <tr>
-                <th>激活状态：</th>
+                <th>激活状态:</th>
                 <td>
                     <input type="radio" name="is_auth" value="0" id="data_active_0"
                            {{if not .data.IsAuth}}checked{{end}} />

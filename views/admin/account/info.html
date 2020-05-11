@@ -4,25 +4,25 @@
         <table class="table table-form">
             <tbody>
             <tr>
-                <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">帐号：</th>
+                <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">帐号:</th>
                 <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                     <b>{{.user.Username}}</b>
                 </td>
             </tr>
             <tr>
-                <th>登录次数：</th>
+                <th>登录次数:</th>
                 <td>
                     {{.user.CountLogin}}
                 </td>
             </tr>
             <tr>
-                <th>最后登录：</th>
+                <th>最后登录:</th>
                 <td>
                     {{date .user.UpdatedAt "Y-m-d H:i:s"}} ({{.user.LastLoginIP}})
                 </td>
             </tr>
             <tr>
-                <th>用户头像：</th>
+                <th>用户头像:</th>
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">当前：</span>
@@ -39,21 +39,21 @@
                 </td>
             </tr>
             <tr>
-                <th>昵称：</th>
+                <th>昵称:</th>
                 <td>
                     <input type="text" name="nickname" value="{{.user.Nickname}}" class="form-control"
                            autocomplete="off"/>
                 </td>
             </tr>
             <tr>
-                <th>邮箱：</th>
+                <th>邮箱:</th>
                 <td>
                     <input name="email" value="{{.user.Email}}" class="form-control"
                            type="text" autocomplete="off"/>
                 </td>
             </tr>
             <tr>
-                <th style="padding-top: 12px!important;vertical-align: top!important;">当前密码：</th>
+                <th style="padding-top: 12px!important;vertical-align: top!important;">当前密码:</th>
                 <td>
                     <input type="password" name="password" class="form-control"/>
                     <div class="alert alert-warning">
@@ -62,13 +62,13 @@
                 </td>
             </tr>
             <tr>
-                <th>新密码：</th>
+                <th>新密码:</th>
                 <td>
                     <input type="password" name="new_password" class="form-control"/>
                 </td>
             </tr>
             <tr>
-                <th>确认密码：</th>
+                <th>确认密码:</th>
                 <td>
                     <input type="password" name="new_password_again" class="form-control"/>
                 </td>
