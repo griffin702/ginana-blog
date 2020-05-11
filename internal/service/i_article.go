@@ -69,14 +69,38 @@ func (s *service) GetArticle(id int64) (article *model.Article, err error) {
 	var prev, next model.Article
 	err = s.db.Model(&prev).Last(&prev, "id < ?", id).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil, err
+		return nil, s.hm.GetMessage(1001, err)
 	}
 	if err == nil {
 		article.Prev = &prev
 	}
 	err = s.db.Model(&next).First(&next, "id > ?", id).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil, err
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	if err == nil {
+		article.Next = &next
+	}
+	return article, nil
+}
+
+func (s *service) GetArticleByUrlName(urlName string) (article *model.Article, err error) {
+	article = new(model.Article)
+	if err = s.db.Model(article).Preload("User").Preload("Tags").
+		Find(article, "urlname = ?", urlName).Error; err != nil {
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	var prev, next model.Article
+	err = s.db.Model(&prev).Last(&prev, "id < ?", article.ID).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	if err == nil {
+		article.Prev = &prev
+	}
+	err = s.db.Model(&next).First(&next, "id > ?", article.ID).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil, s.hm.GetMessage(1001, err)
 	}
 	if err == nil {
 		article.Next = &next

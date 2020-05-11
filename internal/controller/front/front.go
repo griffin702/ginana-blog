@@ -19,6 +19,7 @@ func (c *CFront) BeforeActivation(b mvc.BeforeActivation) {
 	b.Handle("GET", "/mood.html", "GetMoods")
 	b.Handle("GET", "/links.html", "GetLinks")
 	b.Handle("GET", "/album.html", "GetAlbums")
+	b.Handle("GET", "/s/{urlName:path}", "SpecialURL")
 }
 
 func (c *CFront) setHeadMetas(params ...string) {
@@ -161,5 +162,25 @@ func (c *CFront) GetAlbumBy(id int64) (err error) {
 	c.DisableRight = true
 	c.setHeadMetas(fmt.Sprintf("相册 %s 内的照片", album.Name))
 	c.Ctx.View("front/photo.html")
+	return
+}
+
+func (c *CFront) SpecialURL() (err error) {
+	urlName := c.Ctx.Params().GetStringDefault("urlName", "")
+	if urlName == "" {
+		return c.Hm.GetMessage(404, "404 not found")
+	}
+	article, err := c.Svc.GetArticleByUrlName(urlName)
+	if err != nil {
+		return c.Hm.GetMessage(404, "404 not found")
+	}
+	c.Ctx.ViewData("data", article)
+	comments, err := c.Svc.GetComments(c.Pager, model.CommentQueryParam{ArticleID: article.ID})
+	if err != nil {
+		return
+	}
+	c.Ctx.ViewData("comments", comments)
+	c.setHeadMetas(article.Title)
+	c.Ctx.View("front/article.html")
 	return
 }

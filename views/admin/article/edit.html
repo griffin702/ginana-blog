@@ -12,7 +12,7 @@
                     <input class="form-control" type="text" name="title" value="{{.data.Title}}"
                            {{if .data.Color}}style="color:{{.data.Color}}"{{end}} />
                     <input name="color" value="{{.data.Color}}" type="hidden"/>
-                    <img src="{{.theme}}admin/img/colorpicker.png" id="colorpicker" style="cursor:pointer;"/>
+                    <img src="{{.theme}}admin/img/colorpicker.png" id="colorpicker" style="cursor:pointer" alt=""/>
                     <span><label class="checkbox-inline"><input type="checkbox" value="1" name="istop"
                                                                 {{if .data.Istop}}checked{{end}} /> 置顶文章</label></span>
                 </td>
@@ -45,7 +45,7 @@
                     <input class="form-control" type="text" name="urlname" value="{{.data.Urlname}}"/>
                     <label class="checkbox-inline">
                         <input type="checkbox" name="urltype" value="1" {{if eq .data.Urltype 1}}checked{{end}}/>
-                        作为独立页面不显示在列表(使用 http://domain/urlname 访问)
+                        作为独立页面(使用 http://domain/s/urlname 访问)
                     </label>
                 </td>
             </tr>

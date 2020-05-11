@@ -10,6 +10,7 @@ func NewHelperMap() (hm HelperMap, err error) {
 	hm = &helperMap{
 		ErrorHelper: map[int]string{
 			0:    "请求成功",
+			404:  "404 访问的页面不存在",
 			500:  "服务器错误",
 			1001: "查询失败",
 			1002: "创建失败",

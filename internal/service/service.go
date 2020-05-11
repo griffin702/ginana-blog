@@ -36,6 +36,7 @@ type Service interface {
 	GetLatestComments(limit int) (comments []*model.Comment, err error)
 
 	GetArticle(id int64) (article *model.Article, err error)
+	GetArticleByUrlName(urlName string) (article *model.Article, err error)
 	GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (res *model.Articles, err error)
 	CreateArticle(req *model.ArticleReq) (article *model.Article, err error)
 	UpdateArticle(req *model.ArticleReq) (article *model.Article, err error)

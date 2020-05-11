@@ -84,11 +84,8 @@ func (a *Article) ColorTitle() string {
 
 // URL
 func (a *Article) Link() string {
-	if a.Urlname != "" {
-		if a.Urltype == 1 {
-			return fmt.Sprintf("/%s", Rawurlencode(a.Urlname))
-		}
-		return fmt.Sprintf("/article/%s", Rawurlencode(a.Urlname))
+	if a.Urltype == 1 && a.Urlname != "" {
+		return fmt.Sprintf("/s/%s", Rawurlencode(a.Urlname))
 	}
 	return fmt.Sprintf("/article/%d", a.ID)
 }
