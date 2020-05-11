@@ -29,7 +29,7 @@ function bindUploadFile() {
     $("#filevideo").bind("change", function () {
         let file = this.files[0];
         let uptype = $(this).data('uptype');
-        let upurl = '/admin/uploadfile?type=' + uptype;
+        let upurl = '/admin/upload/media?type=' + uptype;
         let formData = new FormData();
         formData.append('filemedia', file);
         $.ajax({
@@ -58,7 +58,7 @@ function bindUploadFile() {
     $("#fileaudio").bind("change", function () {
         let file = this.files[0];
         let uptype = $(this).data('uptype');
-        let upurl = '/admin/uploadfile?type=' + uptype;
+        let upurl = '/admin/upload/media?type=' + uptype;
         let formData = new FormData();
         formData.append('filemedia', file);
         $.ajax({
