@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"ginana-blog/internal/model"
 )
 
@@ -95,5 +96,17 @@ func (c *CAdmin) GetArticleDeleteBy(id int64) (err error) {
 	}
 	c.setHeadMetas("文章删除")
 	c.ShowMsg("文章已删除")
+	return
+}
+
+func (c *CAdmin) GetArticlePushBy(id int64) (err error) {
+	article, err := c.Svc.GetArticle(id)
+	if err != nil {
+		return
+	}
+	url := fmt.Sprintf("https://%s%s", c.Ctx.Host(), article.Link())
+	resp, err := c.Svc.PushBaiDu(url)
+	c.setHeadMetas("推送文章")
+	c.ShowMsg(fmt.Sprintf("提交链接%s到百度成功,返回:%s", url, resp))
 	return
 }

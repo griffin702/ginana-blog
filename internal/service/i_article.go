@@ -3,6 +3,8 @@ package service
 import (
 	"ginana-blog/internal/model"
 	"github.com/jinzhu/gorm"
+	"io/ioutil"
+	"net/http"
 	"strings"
 )
 
@@ -207,4 +209,19 @@ func (s *service) BatchArticle(req *model.ArticleListReq) (err error) {
 		return s.hm.GetMessage(1002, err)
 	}
 	return
+}
+
+func (s *service) PushBaiDu(url string) (string, error) {
+	resp, err := http.Post("http://data.zz.baidu.com/urls?site=https://www.inana.top&token=d0Dca7O4TosN7655",
+		"application/x-www-form-urlencoded",
+		strings.NewReader(url))
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	return string(body), nil
 }
