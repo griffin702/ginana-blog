@@ -164,7 +164,7 @@ func (s *service) UpdateArticle(req *model.ArticleReq) (article *model.Article, 
 	tx := s.db.Begin()
 	if err = tx.Model(article).Update(m).Error; err != nil {
 		tx.Rollback()
-		return nil, s.hm.GetMessage(1002, err)
+		return nil, s.hm.GetMessage(1003, err)
 	}
 	tags := strings.Split(req.Tags, ",")
 	for _, name := range tags {
@@ -177,7 +177,7 @@ func (s *service) UpdateArticle(req *model.ArticleReq) (article *model.Article, 
 	}
 	if err = tx.Model(article).Update(article).Error; err != nil {
 		tx.Rollback()
-		return nil, s.hm.GetMessage(1002, err)
+		return nil, s.hm.GetMessage(1003, err)
 	}
 	tx.Commit()
 	return
@@ -206,7 +206,7 @@ func (s *service) BatchArticle(req *model.ArticleListReq) (err error) {
 		}
 	}
 	if err != nil {
-		return s.hm.GetMessage(1002, err)
+		return s.hm.GetMessage(1003, err)
 	}
 	return
 }

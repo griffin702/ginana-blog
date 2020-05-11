@@ -45,6 +45,7 @@ type Service interface {
 	GetTags() (res *model.Tags, err error)
 	GetTagByName(name string) (tag *model.Tag, err error)
 	GetMoods(p *model.Pager) (res *model.Moods, err error)
+	CreateMood(req *model.MoodReq) (err error)
 	GetLinks() (links []*model.Link, err error)
 	GetComments(p *model.Pager, objPK int64) (res *model.Comments, err error)
 	GetAlbums(p *model.Pager) (res *model.Albums, err error)

@@ -154,8 +154,8 @@ $(document).ready(function () {
                 },
             });
         }
-        if ($("#moodcontent").length > 0) {
-            mdEditor = editormd("moodcontent", {
+        if ($("#mood-content").length > 0) {
+            mdEditor = editormd("mood-content", {
                 width: "100%",
                 height: 800,
                 path: '/static/markdown/lib/',

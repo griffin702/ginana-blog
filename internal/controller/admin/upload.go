@@ -21,7 +21,7 @@ func (c *CAdmin) PostUpload() {
 		StaticDir:  c.Config.StaticDir,
 		AlbumID:    albumId,
 		LastSource: c.Ctx.URLParamDefault("last_src", ""),
-		UploadType: c.Ctx.URLParamIntDefault("type", 0),
+		UploadType: c.Ctx.URLParamIntDefault("type", 2),
 		W:          c.Ctx.URLParamIntDefault("w", 0),
 		H:          c.Ctx.URLParamIntDefault("h", 0),
 	})

@@ -114,7 +114,7 @@ func (s *service) UpdateUser(req *model.UpdateUserReq) (user *model.User, err er
 		return nil, s.hm.GetMessage(500, err)
 	}
 	if err = s.db.Model(user).Update(m).Error; err != nil {
-		return nil, s.hm.GetMessage(1002, err)
+		return nil, s.hm.GetMessage(1003, err)
 	}
 	s.mc.Delete(s.hm.GetCacheKey(1, user.ID))
 	return
@@ -140,7 +140,7 @@ func (s *service) UpdateAccount(req *model.UpdateUserReq) (user *model.User, err
 		return nil, s.hm.GetMessage(500, err)
 	}
 	if err = s.db.Model(user).Update(m).Error; err != nil {
-		return nil, s.hm.GetMessage(1002, err)
+		return nil, s.hm.GetMessage(1003, err)
 	}
 	s.mc.Delete(s.hm.GetCacheKey(1, user.ID))
 	return

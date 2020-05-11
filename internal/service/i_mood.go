@@ -14,3 +14,13 @@ func (s *service) GetMoods(p *model.Pager) (res *model.Moods, err error) {
 	res.Pager = p
 	return
 }
+
+func (s *service) CreateMood(req *model.MoodReq) (err error) {
+	mood := new(model.Mood)
+	mood.Content = req.ContentMarkdownDoc
+	mood.Cover = req.Cover
+	if err = s.db.Create(mood).Error; err != nil {
+		return s.hm.GetMessage(1002)
+	}
+	return
+}

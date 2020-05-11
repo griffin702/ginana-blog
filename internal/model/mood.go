@@ -10,8 +10,14 @@ import (
 type Mood struct {
 	ID        int64     `json:"id" gorm:"primary_key;comment:'心情ID'"`
 	CreatedAt time.Time `json:"created_at" gorm:"comment:'创建时间'"`
-	Content   string    `json:"content" gorm:"type:LONGTEXT;not null;comment:'心情内容'"`
-	Cover     string    `json:"cover" gorm:"type:VARCHAR(100);comment:'心情封面'"`
+	Content   string    `json:"content" form:"content" gorm:"type:LONGTEXT;not null;comment:'心情内容'"`
+	Cover     string    `json:"cover" form:"cover" gorm:"type:VARCHAR(100);comment:'心情插图'"`
+}
+
+type MoodReq struct {
+	ContentMarkdownDoc string `form:"mood-content-markdown-doc" valid:"required"`
+	ContentHtmlCode    string `form:"mood-content-html-code" valid:"omitempty"`
+	Cover              string `form:"cover" valid:"omitempty"`
 }
 
 type Moods struct {
