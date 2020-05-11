@@ -1,0 +1,46 @@
+<fieldset>
+    <legend>相册列表<a class="btn btn-primary btn-xs" href="/admin/album/add">
+            <span class="glyphicon glyphicon-plus"></span> 创建相册</a>
+    </legend>
+    <div class="refresh">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>相册名</th>
+                    <th>创建时间</th>
+                    <th>排序值</th>
+                    <th>封面</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range $k, $v := .data.List}}
+                    <tr>
+                        <td>{{$v.ID}}</td>
+                        <td>{{$v.Name}}</td>
+                        <td>{{date $v.CreatedAt "y-m-d H:i:s"}}</td>
+                        <td>{{$v.Rank}}</td>
+                        <td>
+                            <a href="/admin/photo/list/{{$v.ID}}">
+                                <img src="{{$v.Cover}}" width="170" height="80" alt=""/>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/admin/photo/list/{{$v.ID}}">进入</a>|
+                            <a href="/admin/album/edit/{{$v.ID}}">修改</a>|
+                            {{if $v.Hidden}}
+                                <a href="/admin/album/{{$v.ID}}/show">显示</a>
+                            {{else}}
+                                <a href="/admin/album/{{$v.ID}}/hidden">隐藏</a>
+                            {{end}}
+                        </td>
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+            {{str2html .data.Pager.ToString}}
+        </div>
+    </div>
+</fieldset>

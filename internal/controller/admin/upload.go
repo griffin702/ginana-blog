@@ -36,11 +36,11 @@ func (c *CAdmin) PostUpload() {
 		return
 	}
 	if albumId > 0 {
-		photo := new(model.Photo)
+		photo := new(model.CreatePhotoReq)
 		photo.AlbumID = albumId
 		photo.Desc = fi.Name
 		photo.Url = strings.TrimLeft(path, ".")
-		if err = c.Svc.CreatePhoto(photo); err != nil {
+		if _, err = c.Svc.CreatePhoto(photo); err != nil {
 			c.Ctx.JSON(c.JsonPlus(nil, err))
 			return
 		}

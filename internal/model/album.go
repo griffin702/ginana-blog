@@ -16,6 +16,21 @@ type Album struct {
 	Photos    []*Photo  `json:"photos"`
 }
 
+type CreateAlbumReq struct {
+	Name   string `form:"name" valid:"required"`
+	Cover  string `form:"cover" valid:"omitempty"`
+	Hidden bool   `form:"hidden" valid:"omitempty"`
+	Rank   int8   `form:"rank" valid:"omitempty"`
+}
+
+type UpdateAlbumReq struct {
+	ID     int64  `form:"id" valid:"required"`
+	Name   string `form:"name" valid:"required"`
+	Cover  string `form:"cover" valid:"omitempty"`
+	Hidden bool   `form:"hidden" valid:"omitempty"`
+	Rank   int8   `form:"rank" valid:"omitempty"`
+}
+
 //照片模型
 type Photo struct {
 	ID        int64     `json:"id" gorm:"primary_key;comment:'照片ID'"`
@@ -24,6 +39,19 @@ type Photo struct {
 	Desc      string    `json:"desc" gorm:"type:VARCHAR(255);not null;comment:'描述'"`
 	Url       string    `json:"url" gorm:"type:VARCHAR(255);not null;comment:'URL地址'"`
 	Small     string    `json:"small" gorm:"-"`
+}
+
+type CreatePhotoReq struct {
+	AlbumID int64  `form:"required,gte=0"`
+	Desc    string `form:"omitempty"`
+	Url     string `form:"omitempty"`
+}
+
+type UpdatePhotoReq struct {
+	ID      int64  `form:"required,gte=0"`
+	AlbumID int64  `form:"required,gte=0"`
+	Desc    string `form:"required"`
+	Url     string `form:"omitempty"`
 }
 
 type Albums struct {

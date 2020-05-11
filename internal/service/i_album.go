@@ -35,9 +35,70 @@ func (s *service) GetPhotos(p *model.Pager, albumId int64) (res *model.Photos, e
 	return
 }
 
-func (s *service) CreatePhoto(req *model.Photo) (err error) {
-	if err = s.db.Model(req).Create(req).Error; err != nil {
-		return s.hm.GetMessage(1002, err)
+func (s *service) CreateAlbum(req *model.CreateAlbumReq) (album *model.Album, err error) {
+	album = new(model.Album)
+	album.Name = req.Name
+	album.Cover = req.Cover
+	album.Hidden = req.Hidden
+	album.Rank = req.Rank
+	if err = s.db.Create(album).Error; err != nil {
+		return nil, s.hm.GetMessage(1002, err)
+	}
+	return
+}
+
+func (s *service) UpdateAlbum(req *model.UpdateAlbumReq) (album *model.Album, err error) {
+	album = new(model.Album)
+	if err = s.db.Find(album, "id = ?", req.ID).Error; err != nil {
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	album.Name = req.Name
+	album.Cover = req.Cover
+	album.Hidden = req.Hidden
+	album.Rank = req.Rank
+	m, err := s.tool.StructToMap(album)
+	if err != nil {
+		return nil, s.hm.GetMessage(500, err)
+	}
+	if err = s.db.Model(album).Update(m).Error; err != nil {
+		return nil, s.hm.GetMessage(1003, err)
+	}
+	return
+}
+
+func (s *service) CreatePhoto(req *model.CreatePhotoReq) (photo *model.Photo, err error) {
+	photo = new(model.Photo)
+	photo.AlbumID = req.AlbumID
+	photo.Desc = req.Desc
+	photo.Url = req.Url
+	if err = s.db.Create(photo).Error; err != nil {
+		return nil, s.hm.GetMessage(1002, err)
+	}
+	return
+}
+
+func (s *service) UpdatePhoto(req *model.UpdatePhotoReq) (photo *model.Photo, err error) {
+	photo = new(model.Photo)
+	if err = s.db.Find(photo, "id = ?", req.ID).Error; err != nil {
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	photo.AlbumID = req.AlbumID
+	photo.Desc = req.Desc
+	photo.Url = req.Url
+	m, err := s.tool.StructToMap(photo)
+	if err != nil {
+		return nil, s.hm.GetMessage(500, err)
+	}
+	if err = s.db.Model(photo).Update(m).Error; err != nil {
+		return nil, s.hm.GetMessage(1003, err)
+	}
+	return
+}
+
+func (s *service) SetAlbumStatus(id int64, hidden bool) (err error) {
+	album := new(model.Album)
+	if err = s.db.Model(album).Where("id = ?", id).Update("hidden", hidden).Error; err != nil {
+		return s.hm.GetMessage(1003)
 	}
 	return
 }

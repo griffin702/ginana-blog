@@ -60,8 +60,12 @@ type Service interface {
 	DeleteComment(id int64) (err error)
 	GetAlbums(p *model.Pager) (res *model.Albums, err error)
 	GetAlbum(id int64) (album *model.Album, err error)
+	CreateAlbum(req *model.CreateAlbumReq) (album *model.Album, err error)
+	UpdateAlbum(req *model.UpdateAlbumReq) (album *model.Album, err error)
 	GetPhotos(p *model.Pager, albumId int64) (res *model.Photos, err error)
-	CreatePhoto(req *model.Photo) (err error)
+	CreatePhoto(req *model.CreatePhotoReq) (photo *model.Photo, err error)
+	UpdatePhoto(req *model.UpdatePhotoReq) (photo *model.Photo, err error)
+	SetAlbumStatus(id int64, hidden bool) (err error)
 
 	CountArticles() (count int64)
 	CountUsers() (count int64)
