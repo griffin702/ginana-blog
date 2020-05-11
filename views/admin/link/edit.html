@@ -1,0 +1,57 @@
+<fieldset>
+    <legend>编辑友链<a class="btn btn-primary btn-xs" href="/admin/link/list">
+            <span class="glyphicon glyphicon-share-alt"></span> 返回</a>
+    </legend>
+    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+        <table class="table table-form">
+            <tbody>
+            <tr>
+                <th class="width:150px;">网站名称</th>
+                <td><input class="form-control" name="site_name" value="{{.data.SiteName}}" type="text"
+                           autocomplete="off"/></td>
+            </tr>
+            <tr>
+                <th>网站地址</th>
+                <td><input class="form-control" name="url" value="{{.data.Url}}" type="text" autocomplete="off"/></td>
+            </tr>
+            <tr>
+                <th>网站logo</th>
+                <td>
+                    <div class="input-group">
+                        <span class="input-group-addon">当前：</span>
+                        <input type="text" id="avatar" name="site_avatar" class="form-control"
+                               value="{{.data.SiteAvatar}}"/>
+                    </div>
+                    <input type="file" id="new_avatar"/>
+                    <img src="{{.data.SiteAvatar}}" id="auto_view" class="img-rounded" width="60" height="60" alt="">
+                    <button type="button" id="upload_img" class="btn btn-primary">上传</button>
+                    <div class="alert alert-warning">
+                        <strong>温馨提示：</strong>点击上传,保存后才能生效,服务器仅允许上传格式jpg、jpeg、png并自动裁剪像素:60*60
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>网站描述</th>
+                <td>
+                    <input class="form-control" name="site_desc" type="text" value="{{.data.SiteDesc}}"
+                           autocomplete="off"/>
+                </td>
+            </tr>
+            <tr>
+                <th>排序值</th>
+                <td><input class="form-control" name="rank" value="{{.data.Rank}}" type="text" autocomplete="off"/></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th></th>
+                <td>
+                    <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 保存</button>
+                    <button type="button" class="btn btn-primary" onclick="javascript:history.back();">取消</button>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+
+</fieldset>

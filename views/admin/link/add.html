@@ -1,28 +1,24 @@
 <fieldset>
-    <legend>添加用户<a class="btn btn-primary btn-xs" href="/admin/user/list">
+    <legend>添加友链<a class="btn btn-primary btn-xs" href="/admin/link/list">
             <span class="glyphicon glyphicon-share-alt"></span> 返回</a>
     </legend>
     <form class="form-horizontal" method="post">
         <table class="table table-form">
             <tbody>
             <tr>
-                <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">用户名:</th>
-                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                    <input name="username" class="form-control" type="text" autocomplete="off"/>
-                </td>
+                <th class="width:150px;">网站名称</th>
+                <td><input class="form-control" name="site_name" type="text" autocomplete="off"/></td>
             </tr>
             <tr>
-                <th>密码:</th>
-                <td>
-                    <input name="password" class="form-control" type="password"/>
-                </td>
+                <th>网站地址</th>
+                <td><input class="form-control" name="url" type="text" autocomplete="off"/></td>
             </tr>
             <tr>
-                <th>用户头像:</th>
+                <th>网站logo</th>
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">当前：</span>
-                        <input type="text" id="avatar" name="avatar" class="form-control" autocomplete="off"/>
+                        <input type="text" id="avatar" name="site_avatar" class="form-control" autocomplete="off"/>
                     </div>
                     <input type="file" id="new_avatar"/>
                     <img src="/static/upload/default/yulan-100x100.png" id="auto_view" class="img-rounded"
@@ -34,26 +30,17 @@
                 </td>
             </tr>
             <tr>
-                <th>昵称:</th>
+                <th>网站描述</th>
                 <td>
-                    <input name="nickname" class="form-control" type="text" autocomplete="off"/>
+                    <textarea class="form-control" name="site_desc" autocomplete="off"></textarea>
                 </td>
             </tr>
             <tr>
-                <th>邮箱:</th>
-                <td>
-                    <input name="email" class="form-control" type="text" autocomplete="off"/>
-                </td>
+                <th>排序值</th>
+                <td><input class="form-control" name="rank" type="text" autocomplete="off"/></td>
             </tr>
-            <tr>
-                <th>激活状态:</th>
-                <td>
-                    <label for="data_active_0" class="checkbox-inline">
-                        <input type="radio" name="is_auth" value="0" id="data_active_0" checked/>未激活</label>
-                    <label for="data_active_1" class="checkbox-inline">
-                        <input type="radio" name="is_auth" value="1" id="data_active_1"/>已激活</label>
-                </td>
-            </tr>
+            </tbody>
+            <tfoot>
             <tr>
                 <th></th>
                 <td>
@@ -61,7 +48,7 @@
                     <button type="button" class="btn btn-primary" onclick="javascript:history.back();">取消</button>
                 </td>
             </tr>
-            </tbody>
+            </tfoot>
         </table>
     </form>
 

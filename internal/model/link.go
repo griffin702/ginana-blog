@@ -12,6 +12,23 @@ type Link struct {
 	Rank       int8      `json:"rank" gorm:"not null;comment:'站点权重'"`
 }
 
+type CreateLinkReq struct {
+	SiteName   string `form:"site_name" valid:"required"`
+	SiteAvatar string `form:"site_avatar" valid:"omitempty"`
+	Url        string `form:"url" valid:"required"`
+	SiteDesc   string `form:"site_desc" valid:"required"`
+	Rank       int8   `form:"rank" valid:"omitempty"`
+}
+
+type UpdateLinkReq struct {
+	ID         int64  `form:"id" valid:"required,gt=0"`
+	SiteName   string `form:"site_name" valid:"required"`
+	SiteAvatar string `form:"site_avatar" valid:"omitempty"`
+	Url        string `form:"url" valid:"required"`
+	SiteDesc   string `form:"site_desc" valid:"required"`
+	Rank       int8   `form:"rank" valid:"omitempty"`
+}
+
 type Links struct {
 	List []*Link `json:"list"`
 }

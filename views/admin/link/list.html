@@ -1,0 +1,36 @@
+<fieldset>
+    <legend>友链列表<a class="btn btn-primary btn-xs" href="/admin/link/add">
+            <span class="glyphicon glyphicon-plus"></span> 添加友链</a>
+    </legend>
+    <div class="refresh">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>网站名称</th>
+                    <th>网站URL</th>
+                    <th>网站描述</th>
+                    <th>排序值</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range $k, $v := .links}}
+                    <tr>
+                        <td>{{$v.ID}}</td>
+                        <td>{{$v.SiteName}}</td>
+                        <td>{{$v.Url}}</td>
+                        <td>{{$v.SiteDesc}}</td>
+                        <td>{{$v.Rank}}</td>
+                        <td>
+                            <a href="/admin/link/edit/{{$v.ID}}">编辑</a> |
+                            <a href="/admin/link/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>
+                        </td>
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</fieldset>

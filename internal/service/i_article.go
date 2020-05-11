@@ -168,6 +168,7 @@ func (s *service) CreateArticle(req *model.ArticleReq) (article *model.Article, 
 	if err = s.db.Create(article).Error; err != nil {
 		return nil, s.hm.GetMessage(1002, err)
 	}
+	s.deleteArticleCache()
 	return
 }
 
@@ -210,6 +211,7 @@ func (s *service) UpdateArticle(req *model.ArticleReq) (article *model.Article, 
 		return nil, s.hm.GetMessage(1003, err)
 	}
 	tx.Commit()
+	s.deleteArticleCache()
 	return
 }
 
@@ -238,6 +240,7 @@ func (s *service) BatchArticle(req *model.ArticleListReq) (err error) {
 	if err != nil {
 		return s.hm.GetMessage(1003, err)
 	}
+	s.deleteArticleCache()
 	return
 }
 
@@ -254,4 +257,9 @@ func (s *service) PushBaiDu(url string) (string, error) {
 		return "", err
 	}
 	return string(body), nil
+}
+
+func (s *service) deleteArticleCache() {
+	s.mc.Delete(s.hm.GetCacheKey(4))
+	s.mc.Delete(s.hm.GetCacheKey(5))
 }
