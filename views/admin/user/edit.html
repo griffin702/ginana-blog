@@ -6,8 +6,8 @@
         <table class="table table-form">
             <tbody>
             <tr>
-                <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2 column">用户名:</th>
-                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10 column">
+                <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">用户名:</th>
+                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                     <input name="username" disabled value="{{.data.Username}}" class="form-control"
                            type="text" autocomplete="off"/>
                 </td>
@@ -19,7 +19,19 @@
                 </td>
             </tr>
             <tr>
-                <th>用户头像</th>
+                <th>登录次数：</th>
+                <td>
+                    {{.data.CountLogin}}
+                </td>
+            </tr>
+            <tr>
+                <th>最后登录：</th>
+                <td>
+                    {{date .data.UpdatedAt "Y-m-d H:i:s"}} ({{.data.LastLoginIP}})
+                </td>
+            </tr>
+            <tr>
+                <th>用户头像：</th>
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">当前：</span>

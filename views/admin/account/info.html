@@ -4,8 +4,8 @@
         <table class="table table-form">
             <tbody>
             <tr>
-                <th class="width:150px;">帐号：</th>
-                <td>
+                <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">帐号：</th>
+                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                     <b>{{.user.Username}}</b>
                 </td>
             </tr>
@@ -22,14 +22,7 @@
                 </td>
             </tr>
             <tr>
-                <th>昵称：</th>
-                <td>
-                    <input type="text" name="nickname" value="{{.user.Nickname}}" class="form-control"
-                           autocomplete="off"/>
-                </td>
-            </tr>
-            <tr>
-                <th>用户头像</th>
+                <th>用户头像：</th>
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">当前：</span>
@@ -43,6 +36,13 @@
                         <strong>温馨提示：</strong>点击上传,保存后才能生效(每位用户最多允许上传并保存3次),
                         服务器仅允许上传格式jpg、jpeg、png并自动裁剪像素:60*60
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <th>昵称：</th>
+                <td>
+                    <input type="text" name="nickname" value="{{.user.Nickname}}" class="form-control"
+                           autocomplete="off"/>
                 </td>
             </tr>
             <tr>
