@@ -69,7 +69,7 @@ func (s *service) CreateComment(req *model.CreateCommentReq) (err error) {
 	comment.ObjPKType = req.ObjPKType
 	comment.IPAddress = req.IPAddress
 	comment.UserID = req.UserID
-	if err = s.db.Model(req).Create(req).Error; err != nil {
+	if err = s.db.Create(comment).Error; err != nil {
 		return s.hm.GetMessage(1002, err)
 	}
 	s.mc.Delete(s.hm.GetCacheKey(6))
