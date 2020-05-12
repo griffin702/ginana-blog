@@ -74,7 +74,7 @@ func initTableData(db *gorm.DB) (err error) {
 		options["MyProfession"] = "游戏运维攻城师"
 		options["MyLang"] = "Golang、Python、SQL、Shell"
 		options["MyLike"] = "旅行、游戏、编程"
-		options["MyWorkDesc"] = `1、Windows、Linux服务器运维，主要包括IIS、Apache、Nginx、Firewall、MySQL、SQLServer等常用服务。\r\n2、公司项目开发环境、测试环境、线上环境运维，前后端编译打包测试上线等保障工作\r\n3、日常备份与灾备恢复等确保数据安全，以及DBA相关职能。\r\n4、公司内部网络运维，硬件维护、内外网分离以及常用第三方软件运维，包括不限于SVN、FTP、Bug系统、企业邮箱等服务。\r\n5、解决不同业务需求相关各类运维脚本开发、运维工具开发、数据接口开发、Web开发等`
+		options["MyWorkDesc"] = "1、Windows、Linux服务器运维，主要包括IIS、Apache、Nginx、Firewall、MySQL、SQLServer等常用服务。\r\n2、公司项目开发环境、测试环境、线上环境运维，前后端编译打包测试上线等保障工作\r\n3、日常备份与灾备恢复等确保数据安全，以及DBA相关职能。\r\n4、公司内部网络运维，硬件维护、内外网分离以及常用第三方软件运维，包括不限于SVN、FTP、Bug系统、企业邮箱等服务。\r\n5、解决不同业务需求相关各类运维脚本开发、运维工具开发、数据接口开发、Web开发等"
 		for k, v := range options {
 			option := new(model.Options)
 			option.Name = k
