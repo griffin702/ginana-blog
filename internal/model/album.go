@@ -16,6 +16,11 @@ type Album struct {
 	Photos    []*Photo  `json:"photos"`
 }
 
+type AlbumQueryParam struct {
+	Order string
+	Admin bool
+}
+
 type CreateAlbumReq struct {
 	Name   string `form:"name" valid:"required"`
 	Cover  string `form:"cover" valid:"omitempty"`

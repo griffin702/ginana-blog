@@ -2,12 +2,23 @@ package service
 
 import (
 	"ginana-blog/internal/model"
+	"os"
 )
 
-func (s *service) GetAlbums(p *model.Pager) (res *model.Albums, err error) {
+func (s *service) GetAlbums(p *model.Pager, prs ...model.AlbumQueryParam) (res *model.Albums, err error) {
+	var pr model.AlbumQueryParam
+	if len(prs) > 0 {
+		pr = prs[0]
+	}
+	if pr.Order == "" {
+		pr.Order = "rank desc, id desc"
+	}
 	res = new(model.Albums)
 	query := s.db.Model(&res.List).Count(&p.AllCount)
-	query = query.Order("rank desc, id desc").Preload("Photos")
+	if !pr.Admin {
+		query = query.Where("hidden = 0")
+	}
+	query = query.Order(pr.Order).Preload("Photos")
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
@@ -74,6 +85,14 @@ func (s *service) SetAlbumStatus(id int64, hidden bool) (err error) {
 	return
 }
 
+func (s *service) SetAlbumCover(id int64, cover string) (err error) {
+	album := new(model.Album)
+	if err = s.db.Model(album).Where("id = ?", id).Update("cover", cover).Error; err != nil {
+		return s.hm.GetMessage(1003)
+	}
+	return
+}
+
 func (s *service) CreatePhoto(req *model.CreatePhotoReq) (photo *model.Photo, err error) {
 	photo = new(model.Photo)
 	photo.AlbumID = req.AlbumID
@@ -99,6 +118,41 @@ func (s *service) UpdatePhoto(req *model.UpdatePhotoReq) (photo *model.Photo, er
 	}
 	if err = s.db.Model(photo).Update(m).Error; err != nil {
 		return nil, s.hm.GetMessage(1003, err)
+	}
+	return
+}
+
+func (s *service) DeleteAlbum(id int64) (err error) {
+	album := new(model.Album)
+	err = s.db.Model(album).Where("id = ?", id).Preload("Photos").Find(album).Error
+	if err != nil {
+		return s.hm.GetMessage(1001, err)
+	}
+	photoMap := make(map[string]string)
+	tx := s.db.Begin()
+	for _, photo := range album.Photos {
+		photoMap[photo.Url] = photo.ChangetoSmall()
+		if err = tx.Delete(photo).Error; err != nil {
+			tx.Rollback()
+			return s.hm.GetMessage(1004, err)
+		}
+	}
+	if err = tx.Delete(album).Error; err != nil {
+		tx.Rollback()
+		return s.hm.GetMessage(1004, err)
+	}
+	tx.Commit()
+	for url, small := range photoMap {
+		_ = os.Remove(".." + url)
+		_ = os.Remove(".." + small)
+	}
+	return
+}
+
+func (s *service) DeletePhoto(id int64) (err error) {
+	photo := new(model.Photo)
+	if err = s.db.Delete(photo, "id = ?", id).Error; err != nil {
+		return s.hm.GetMessage(1004, err)
 	}
 	return
 }

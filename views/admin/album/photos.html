@@ -16,13 +16,14 @@
             <table class="table table-form">
                 <tbody>
                 <tr>
-                    <td>{{range $k, $v := .data.List}}
+                    <td>
+                        {{range $k, $v := .data.List}}
                             <div class="photolist">
                                 <img src="{{$v.ChangetoSmall}}" width="190" height="135" alt=""/>
                                 <a href="/admin/album/{{$v.AlbumID}}/photo/cover?cover={{$v.ChangetoSmall}}">设为封面</a>
-                                <a href="/admin/album/{{$v.AlbumID}}/photo/delete/{{$v.ID}}"
-                                   onclick="return del_confirm()">删除</a>
-                            </div>{{end}}
+                                <a href="/admin/photo/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>
+                            </div>
+                        {{end}}
                     </td>
                 </tr>
                 </tbody>

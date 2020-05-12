@@ -1,9 +1,11 @@
 package admin
 
-import "ginana-blog/internal/model"
+import (
+	"ginana-blog/internal/model"
+)
 
 func (c *CAdmin) GetAlbumList() (err error) {
-	albums, err := c.Svc.GetAlbums(c.Pager)
+	albums, err := c.Svc.GetAlbums(c.Pager, model.AlbumQueryParam{Admin: true})
 	if err != nil {
 		return
 	}
@@ -63,6 +65,15 @@ func (c *CAdmin) PostAlbumEditBy(id int64) (err error) {
 	return
 }
 
+func (c *CAdmin) GetAlbumDeleteBy(id int64) (err error) {
+	if err = c.Svc.DeleteAlbum(id); err != nil {
+		return
+	}
+	c.setHeadMetas("删除相册")
+	c.ShowMsg("删除相册成功")
+	return
+}
+
 func (c *CAdmin) GetAlbumByShow(id int64) (err error) {
 	if err = c.Svc.SetAlbumStatus(id, false); err != nil {
 		return
@@ -90,5 +101,27 @@ func (c *CAdmin) GetAlbumByPhotoList(id int64) (err error) {
 	c.Ctx.ViewData("data", photos)
 	c.setHeadMetas("照片列表")
 	c.Ctx.View("admin/album/photos.html")
+	return
+}
+
+func (c *CAdmin) GetAlbumByPhotoCover(id int64) (err error) {
+	cover := c.Ctx.URLParamDefault("cover", "")
+	if cover == "" {
+		return c.Hm.GetMessage(404, "cover not found")
+	}
+	if err = c.Svc.SetAlbumCover(id, cover); err != nil {
+		return
+	}
+	c.setHeadMetas("设置相册封面")
+	c.ShowMsg("设置成功")
+	return
+}
+
+func (c *CAdmin) GetPhotoDeleteBy(id int64) (err error) {
+	if err = c.Svc.DeletePhoto(id); err != nil {
+		return
+	}
+	c.setHeadMetas("删除照片")
+	c.ShowMsg("删除照片成功")
 	return
 }
