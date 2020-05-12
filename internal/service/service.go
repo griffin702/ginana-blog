@@ -30,6 +30,7 @@ type Service interface {
 	GetRole(id int64) (role *model.Role, err error)
 	GetUserByUsername(sername string) (user *model.User, err error)
 	PostLogin(req *model.UserLoginReq) (user *model.User, err error)
+	PostRegister(req *model.UserRegisterReq) (user *model.User, err error)
 
 	GetLatestArticles(limit int) (articles []*model.Article, err error)
 	GetHotArticles(limit int) (articles []*model.Article, err error)

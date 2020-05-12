@@ -417,12 +417,10 @@ $(document).ready(function () {
             nickname: {
                 trigger: 'blur',
                 validators: {
-                    notEmpty: {
-                        message: '手机号码不能为空'
-                    },
                     stringLength: {
-                        max: 6,
-                        message: '昵称必须小于6个字符'
+                        min: 2,
+                        max: 10,
+                        message: '昵称字符限制2-10之间'
                     }
                 }
             },

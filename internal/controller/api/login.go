@@ -97,18 +97,50 @@ func (c *CApiLogin) PostLogin() {
 		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
-	claims := make(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(time.Duration(c.Config.SessionAndCookieExpire)).Unix()
-	claims["iat"] = time.Now().Unix()
-	claims["userId"] = user.ID
-	claims["username"] = user.Username
-	token := c.Tool.JwtGenerate(claims, c.Config.JwtSecret)
-	c.Ctx.SetCookieKV("token", token,
-		iris.CookieExpires(time.Duration(c.Config.SessionAndCookieExpire)),
-	)
-	c.Session.Set("token", token)
+	c.setToken(user)
 	log.Infof("userid: %d, username: %s, 登录成功", user.ID, user.Username)
 	c.Ctx.JSON(c.JsonPlus(true, c.Hm.GetMessage(0, "登陆成功")))
+}
+
+// PostRegister godoc
+// @Description 注册接口
+// @Tags Login
+// @Accept  json
+// @Produce  json
+// @Param user body model.UserRegisterReq true "User Register"
+// @Success 200 {object} model.JSON{data=bool}
+// @Failure 500 {object} model.JSON
+// @Router /register [post]
+func (c *CApiLogin) PostRegister() {
+	req := new(model.UserRegisterReq)
+	if err := c.Ctx.ReadJSON(req); err != nil {
+		c.Ctx.JSON(c.JsonPlus(nil, err))
+		return
+	}
+	if err := c.Valid(req); err != nil {
+		c.Ctx.JSON(c.JsonPlus(nil, err))
+		return
+	}
+	code := c.Session.Get(c.Hm.GetCacheKey(8))
+	if code == nil {
+		err := c.Hm.GetMessage(1006)
+		c.Ctx.JSON(c.JsonPlus(nil, err))
+		return
+	}
+	if code != req.Captcha {
+		err := c.Hm.GetMessage(1007)
+		c.Ctx.JSON(c.JsonPlus(nil, err))
+		return
+	}
+	req.LoginIP = c.GetClientIP()
+	user, err := c.Svc.PostRegister(req)
+	if err != nil {
+		c.Ctx.JSON(c.JsonPlus(nil, err))
+		return
+	}
+	c.setToken(user)
+	log.Infof("userid: %d, username: %s, 登录成功", user.ID, user.Username)
+	c.Ctx.JSON(c.JsonPlus(true, c.Hm.GetMessage(0, "注册并登陆成功")))
 }
 
 // PostLogout godoc
@@ -123,4 +155,17 @@ func (c *CApiLogin) GetLogout() {
 	c.Session.Destroy()
 	c.Ctx.RemoveCookie("token")
 	c.ShowMsg("已安全登出，期待与您下一次遇见...")
+}
+
+func (c *CApiLogin) setToken(user *model.User) {
+	claims := make(jwt.MapClaims)
+	claims["exp"] = time.Now().Add(time.Duration(c.Config.SessionAndCookieExpire)).Unix()
+	claims["iat"] = time.Now().Unix()
+	claims["userId"] = user.ID
+	claims["username"] = user.Username
+	token := c.Tool.JwtGenerate(claims, c.Config.JwtSecret)
+	c.Ctx.SetCookieKV("token", token,
+		iris.CookieExpires(time.Duration(c.Config.SessionAndCookieExpire)),
+	)
+	c.Session.Set("token", token)
 }

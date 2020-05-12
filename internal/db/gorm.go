@@ -49,6 +49,7 @@ func initTableData(db *gorm.DB) (err error) {
 		admin.Username = "admin"
 		admin.Password = "$2a$10$qhcgRHCZOsn3V8854Vw3eeJHPra.CSX4MACEIS4VqY10AazjxJxqO"
 		admin.Nickname = "admin"
+		admin.Email = "117976509@qq.com"
 		admin.IsAuth = true
 		if err = tx.Create(admin).Error; err != nil {
 			tx.Rollback()

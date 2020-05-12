@@ -61,6 +61,16 @@ type UserLoginReq struct {
 	LoginIP  string `json:"login_ip"`
 }
 
+type UserRegisterReq struct {
+	Username         string `json:"username1" valid:"required"`
+	NewPassword      string `json:"password1" valid:"required,ck_np"`
+	NewPasswordAgain string `json:"password2" valid:"required"`
+	Email            string `json:"email" valid:"required,email"`
+	Nickname         string `json:"nickname" valid:"omitempty"`
+	Captcha          string `json:"captcha" valid:"required"`
+	LoginIP          string `json:"login_ip"`
+}
+
 type UserSession struct {
 	ID       int64
 	Username string
