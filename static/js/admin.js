@@ -262,7 +262,7 @@ $(document).ready(function () {
                 } else {
                     $('#avatar').val(ret.data.url);
                     if (uptype === 3 && albumId > 0) {
-                        ajax_Main("GET", {}, '/admin/photo/list?albumId=' + albumId, 500);
+                        ajax_Main("GET", {}, '/admin/album/' + albumId + '/photo/list', 500);
                     }
                 }
                 formData = new FormData();

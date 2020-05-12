@@ -80,3 +80,15 @@ func (c *CAdmin) GetAlbumByHidden(id int64) (err error) {
 	c.ShowMsg("设置成功")
 	return
 }
+
+func (c *CAdmin) GetAlbumByPhotoList(id int64) (err error) {
+	photos, err := c.Svc.GetPhotos(c.Pager, id)
+	if err != nil {
+		return
+	}
+	photos.AlbumID = id
+	c.Ctx.ViewData("data", photos)
+	c.setHeadMetas("照片列表")
+	c.Ctx.View("admin/album/photos.html")
+	return
+}

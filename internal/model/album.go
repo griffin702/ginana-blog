@@ -60,8 +60,9 @@ type Albums struct {
 }
 
 type Photos struct {
-	List  []*Photo `json:"list"`
-	Pager *Pager   `json:"pager"`
+	List    []*Photo `json:"list"`
+	Pager   *Pager   `json:"pager"`
+	AlbumID int64    `json:"album_id"`
 }
 
 func (m *Album) LongNameAlter() string {

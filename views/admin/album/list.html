@@ -23,12 +23,12 @@
                         <td>{{date $v.CreatedAt "y-m-d H:i:s"}}</td>
                         <td>{{$v.Rank}}</td>
                         <td>
-                            <a href="/admin/photo/list/{{$v.ID}}">
+                            <a href="/admin/album/{{$v.ID}}/photo/list">
                                 <img src="{{$v.Cover}}" width="170" height="80" alt=""/>
                             </a>
                         </td>
                         <td>
-                            <a href="/admin/photo/list/{{$v.ID}}">进入</a>|
+                            <a href="/admin/album/{{$v.ID}}/photo/list">进入</a>|
                             <a href="/admin/album/edit/{{$v.ID}}">修改</a>|
                             {{if $v.Hidden}}
                                 <a href="/admin/album/{{$v.ID}}/show">显示</a>

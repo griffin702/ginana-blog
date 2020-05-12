@@ -7,7 +7,7 @@ import (
 func (s *service) GetAlbums(p *model.Pager) (res *model.Albums, err error) {
 	res = new(model.Albums)
 	query := s.db.Model(&res.List).Count(&p.AllCount)
-	query = query.Order("created_at desc").Preload("Photos")
+	query = query.Order("rank desc, id desc").Preload("Photos")
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
@@ -27,7 +27,7 @@ func (s *service) GetAlbum(id int64) (album *model.Album, err error) {
 func (s *service) GetPhotos(p *model.Pager, albumId int64) (res *model.Photos, err error) {
 	res = new(model.Photos)
 	query := s.db.Model(&res.List).Where("album_id = ?", albumId).Count(&p.AllCount)
-	query = query.Order("created_at desc")
+	query = query.Order("id desc")
 	if err = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize).Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
@@ -66,6 +66,14 @@ func (s *service) UpdateAlbum(req *model.UpdateAlbumReq) (album *model.Album, er
 	return
 }
 
+func (s *service) SetAlbumStatus(id int64, hidden bool) (err error) {
+	album := new(model.Album)
+	if err = s.db.Model(album).Where("id = ?", id).Update("hidden", hidden).Error; err != nil {
+		return s.hm.GetMessage(1003)
+	}
+	return
+}
+
 func (s *service) CreatePhoto(req *model.CreatePhotoReq) (photo *model.Photo, err error) {
 	photo = new(model.Photo)
 	photo.AlbumID = req.AlbumID
@@ -91,14 +99,6 @@ func (s *service) UpdatePhoto(req *model.UpdatePhotoReq) (photo *model.Photo, er
 	}
 	if err = s.db.Model(photo).Update(m).Error; err != nil {
 		return nil, s.hm.GetMessage(1003, err)
-	}
-	return
-}
-
-func (s *service) SetAlbumStatus(id int64, hidden bool) (err error) {
-	album := new(model.Album)
-	if err = s.db.Model(album).Where("id = ?", id).Update("hidden", hidden).Error; err != nil {
-		return s.hm.GetMessage(1003)
 	}
 	return
 }
