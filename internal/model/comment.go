@@ -32,24 +32,18 @@ type CommentQueryParam struct {
 }
 
 type CreateCommentReq struct {
-	ObjPK     int64  `form:"obj_pk" valid:"numeric,gte=0"`
-	ReplyPK   int64  `form:"reply_pk" valid:"numeric,gte=0"`
-	ReplyFK   int64  `form:"reply_fk" valid:"numeric,gte=0"`
-	Content   string `form:"content" valid:"required,max=200"`
-	ObjPKType int8   `form:"obj_pk_type" valid:"numeric,oneof=0 1"`
+	ObjPK     int64  `json:"obj_pk" valid:"numeric,gte=0"`
+	ReplyPK   int64  `json:"reply_pk" valid:"numeric,gte=0"`
+	ReplyFK   int64  `json:"reply_fk" valid:"numeric,gte=0"`
+	Content   string `json:"content" valid:"required,max=200"`
+	ObjPKType int8   `json:"obj_pk_type" valid:"numeric,oneof=0 1"`
 	IPAddress string `valid:"ip"`
 	UserID    int64  `valid:"required,gt=0"`
 }
 
 type UpdateCommentReq struct {
-	ID        int64  `valid:"required,gt=0"`
-	ObjPK     int64  `form:"obj_pk" valid:"numeric,gte=0"`
-	ReplyPK   int64  `form:"reply_pk" valid:"numeric,gte=0"`
-	ReplyFK   int64  `form:"reply_fk" valid:"numeric,gte=0"`
-	Content   string `form:"content" valid:"required,max=200"`
-	ObjPKType int8   `form:"obj_pk_type" valid:"numeric,oneof=0 1"`
-	IPAddress string `valid:"ip"`
-	UserID    int64  `valid:"required,gt=0"`
+	ID      int64  `valid:"required,gt=0"`
+	Content string `form:"content" valid:"required,max=200"`
 }
 
 type Comments struct {

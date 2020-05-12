@@ -15,21 +15,23 @@ func (c *CAdmin) GetCommentList() (err error) {
 	return
 }
 
-func (c *CAdmin) PostCommentAdd() (err error) {
+func (c *CAdmin) PostCommentAdd() {
 	req := new(model.CreateCommentReq)
-	if err = c.Ctx.ReadForm(req); err != nil {
+	if err := c.Ctx.ReadJSON(req); err != nil {
+		c.Ctx.JSON(c.JsonPlus(false, err))
 		return
 	}
 	req.UserID = c.UserID
 	req.IPAddress = c.GetClientIP()
-	if err = c.Valid(req); err != nil {
+	if err := c.Valid(req); err != nil {
+		c.Ctx.JSON(c.JsonPlus(false, err))
 		return
 	}
-	if err = c.Svc.CreateComment(req); err != nil {
+	if err := c.Svc.CreateComment(req); err != nil {
+		c.Ctx.JSON(c.JsonPlus(false, err))
 		return
 	}
-	c.setHeadMetas("留言板")
-	c.ShowMsg("留言成功")
+	c.Ctx.JSON(c.JsonPlus(true, "成功添加评论"))
 	return
 }
 
@@ -50,8 +52,6 @@ func (c *CAdmin) PostCommentEditBy(id int64) (err error) {
 		return
 	}
 	req.ID = id
-	req.UserID = c.UserID
-	req.IPAddress = c.GetClientIP()
 	if err = c.Valid(req); err != nil {
 		return
 	}

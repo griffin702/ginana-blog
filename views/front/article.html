@@ -71,7 +71,6 @@
                 <h4>欢迎留下您的评论：</h4>
                 <form role="form" action="/admin/comment/add" method="post">
                     <input id="id_object_pk" type="hidden" name="obj_pk" value="{{.data.ID}}"/>
-                    <input id="id_object_pk_type" type="hidden" name="obj_pk_type" value="0"/>
                     <input id="id_reply_pk" type="hidden" name="reply_pk" value="0"/>
                     <input id="id_reply_fk" type="hidden" name="reply_fk" value="0"/>
                     <textarea id="comment_content" class="comment_content form-control"
@@ -131,13 +130,13 @@
                                         {{if $islogin}}
                                             <small class="reply_btn">
                                                 <a href="#" data-comment-id="{{ $child.ID }}"
-                                                   data-parent-id="{{ $child.ID }}" id="comment_reply_link">回复</a>
+                                                   data-parent-id="{{ $child.ReplyFK }}" id="comment_reply_link">回复</a>
                                             </small>{{end}}
                                     </h6>
                                     <small class="comment-quote">
                                         {{ if eq $child.Parent.UserID 1}}引用 官方 {{else}}引用 网友 {{end}}
                                         {{ $child.Parent.User.Nickname }}：{{ $child.Parent.Content }}</small>
-                                    <p>{{ $v.Content }}</p>
+                                    <p>{{ $child.Content }}</p>
                                 </div>
                             </div>
                         {{end}}

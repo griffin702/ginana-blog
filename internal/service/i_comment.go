@@ -82,18 +82,7 @@ func (s *service) UpdateComment(req *model.UpdateCommentReq) (err error) {
 	if err = s.db.Find(comment).Error; err != nil {
 		return s.hm.GetMessage(1001, err)
 	}
-	comment.ObjPK = req.ObjPK
-	comment.ReplyPK = req.ReplyPK
-	comment.ReplyFK = req.ReplyFK
-	comment.Content = req.Content
-	comment.ObjPKType = req.ObjPKType
-	comment.IPAddress = req.IPAddress
-	comment.UserID = req.UserID
-	m, err := s.tool.StructToMap(comment)
-	if err != nil {
-		return s.hm.GetMessage(500, err)
-	}
-	if err = s.db.Model(comment).Update(m).Error; err != nil {
+	if err = s.db.Model(comment).Update("content", req.Content).Error; err != nil {
 		return s.hm.GetMessage(1002, err)
 	}
 	s.mc.Delete(s.hm.GetCacheKey(6))
