@@ -1,5 +1,7 @@
 package model
 
+import "strings"
+
 type Options struct {
 	ID    int64  `json:"id" gorm:"primary_key;comment:'设置ID'"`
 	Name  string `json:"name" gorm:"type:VARCHAR(50);unique;not null;comment:'设置名称'"`
@@ -25,4 +27,13 @@ type Option struct {
 	MyLang       string `form:"my_lang"`
 	MyLike       string `form:"my_like"`
 	MyWorkDesc   string `form:"my_work_desc"`
+}
+
+func (o *Option) GetNickname(p ...int) string {
+	def := 0
+	if len(p) > 0 {
+		def = p[0]
+	}
+	list := strings.Split(o.Nickname, "|")
+	return list[def]
 }
