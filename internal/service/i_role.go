@@ -161,6 +161,17 @@ func (s *service) GetPolicy(id int64) (policy *model.Policy, err error) {
 	return
 }
 
+func (s *service) GetPolices() (polices *model.Polices, err error) {
+	polices = new(model.Polices)
+	if err = s.db.Find(&polices.List).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return
+		}
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	return
+}
+
 func (s *service) DeletePolicy(id int64) (err error) {
 	policy, err := s.GetPolicy(id)
 	if err != nil {

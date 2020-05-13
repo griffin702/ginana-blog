@@ -14,6 +14,11 @@ func (c *CAdmin) GetRoleList() (err error) {
 }
 
 func (c *CAdmin) GetRoleAdd() (err error) {
+	polices, err := c.Svc.GetPolices()
+	if err != nil {
+		return
+	}
+	c.Ctx.ViewData("polices", polices)
 	c.setHeadMetas("角色创建")
 	c.Ctx.View("admin/role/add.html")
 	return
@@ -41,6 +46,11 @@ func (c *CAdmin) GetRoleEditBy(id int64) (err error) {
 		return
 	}
 	c.Ctx.ViewData("data", role)
+	polices, err := c.Svc.GetPolices()
+	if err != nil {
+		return
+	}
+	c.Ctx.ViewData("polices", polices)
 	c.setHeadMetas("角色编辑")
 	c.Ctx.View("admin/role/edit.html")
 	return

@@ -35,6 +35,7 @@ type Service interface {
 	UpdateRole(req *model.UpdateRoleReq) (role *model.Role, err error)
 	DeleteRole(id int64) (err error)
 	GetPolicy(id int64) (policy *model.Policy, err error)
+	GetPolices() (polices *model.Polices, err error)
 	DeletePolicy(id int64) (err error)
 	GetUserByUsername(sername string) (user *model.User, err error)
 	PostLogin(req *model.UserLoginReq) (user *model.User, err error)

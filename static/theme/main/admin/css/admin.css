@@ -99,7 +99,7 @@ footer {
 }
 
 @media (min-width: 992px) {
-    .table-form td .form-control, .table-form td .input-group {
+    .table-form td .form-control, .table-form td .table-hover, .table-form td .input-group {
         width: 50%;
     }
 

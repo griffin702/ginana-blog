@@ -19,6 +19,31 @@
                 </td>
             </tr>
             <tr>
+                <th>规则列表:</th>
+                <td>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th><label>
+                                    <input type="checkbox" value="0" onclick="checkall('ids', this)"/>
+                                </label></th>
+                            <th>ID</th>
+                            <th>Router</th>
+                            <th>Method</th>
+                        </tr>
+                        </thead>
+                        <tbody>{{range $k, $v := .polices.List}}
+                            <tr>
+                                <td><input type="checkbox" name="ids" value="{{$v.ID}}"/></td>
+                                <td>{{$v.ID}}</td>
+                                <td>{{$v.Router}}</td>
+                                <td>{{$v.Method}}</td>
+                            </tr>{{end}}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
                 <th></th>
                 <td>
                     <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 保存</button>

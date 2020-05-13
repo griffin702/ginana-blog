@@ -38,6 +38,10 @@ type Policy struct {
 	RolePolices []*RolePolices `gorm:"ForeignKey:PolicyID"`
 }
 
+type Polices struct {
+	List []*Policy `json:"list"`
+}
+
 type RolePolices struct {
 	RoleID   int64 `json:"role_id" gorm:"comment:'角色ID'"`
 	PolicyID int64 `json:"policy_id" gorm:"comment:'规则ID'"`
