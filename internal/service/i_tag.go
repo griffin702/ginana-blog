@@ -36,9 +36,6 @@ func (s *service) CountTags() (count int64) {
 func (s *service) GetTagByName(name string) (tag *model.Tag, err error) {
 	tag = new(model.Tag)
 	if err = s.db.Find(tag, "name = ?", name).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return nil, err
-		}
 		return nil, s.hm.GetMessage(1001, err)
 	}
 	return

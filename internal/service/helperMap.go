@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/griffin702/ginana/library/ecode"
+	"github.com/jinzhu/gorm"
 )
 
 func NewHelperMap() (hm HelperMap, err error) {
@@ -53,6 +54,9 @@ func (hm *helperMap) GetMessage(i int, args ...interface{}) error {
 	if len(args) > 0 {
 		arg = args[0]
 		if err, ok := arg.(error); ok {
+			if err == gorm.ErrRecordNotFound {
+				return err
+			}
 			return ecode.Errorf(i, err)
 		}
 		if str, ok := arg.(string); ok {

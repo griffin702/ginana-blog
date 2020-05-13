@@ -143,8 +143,7 @@ func (s *service) DeleteAlbum(id int64) (err error) {
 	}
 	tx.Commit()
 	for url, small := range photoMap {
-		_ = os.Remove(".." + url)
-		_ = os.Remove(".." + small)
+		s.deletePhotoSource(url, small)
 	}
 	return
 }
@@ -154,5 +153,11 @@ func (s *service) DeletePhoto(id int64) (err error) {
 	if err = s.db.Delete(photo, "id = ?", id).Error; err != nil {
 		return s.hm.GetMessage(1004, err)
 	}
+	s.deletePhotoSource(photo.Url, photo.ChangetoSmall())
 	return
+}
+
+func (s *service) deletePhotoSource(url, small string) {
+	_ = os.Remove(".." + url)
+	_ = os.Remove(".." + small)
 }

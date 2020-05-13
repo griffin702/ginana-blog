@@ -4,6 +4,7 @@ import (
 	"context"
 	"ginana-blog/internal/model"
 	"github.com/griffin702/ginana/library/database"
+	"github.com/jinzhu/gorm"
 	"sync"
 )
 
@@ -67,5 +68,116 @@ func (s *service) GetRoles(p *model.Pager, prs ...model.RoleQueryParam) (res *mo
 		return nil, s.hm.GetMessage(1001, err)
 	}
 	res.Pager = p
+	return
+}
+
+func (s *service) GetRoleByName(name string) (role *model.Role, err error) {
+	role = new(model.Role)
+	if err = s.db.Find(role, "role_name = ?", name).Error; err != nil {
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	return
+}
+
+func (s *service) CreateRole(req *model.CreateRoleReq) (role *model.Role, err error) {
+	role, err = s.GetRoleByName(req.RoleName)
+	if err == gorm.ErrRecordNotFound {
+		role = new(model.Role)
+		role.RoleName = req.RoleName
+		for _, pid := range req.IDs {
+			policy, err := s.GetPolicy(pid)
+			if err == gorm.ErrRecordNotFound {
+				continue
+			} else if err != nil {
+				return nil, s.hm.GetMessage(1001, err)
+			}
+			role.Polices = append(role.Polices, policy)
+		}
+		if err = s.db.Create(role).Error; err != nil {
+			return nil, s.hm.GetMessage(1002, err)
+		}
+		return
+	}
+	return nil, s.hm.GetMessage(1001, err)
+}
+
+func (s *service) UpdateRole(req *model.UpdateRoleReq) (role *model.Role, err error) {
+	role, err = s.GetRole(req.ID)
+	if err != nil {
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	tx := s.db.Begin()
+	err = tx.Model(role).Update("role_name = ?", req.RoleName).Error
+	if err != nil {
+		tx.Rollback()
+		return nil, s.hm.GetMessage(1003, err)
+	}
+	err = tx.Delete(&model.RolePolices{}, "role_id = ? and policy_id in (?)", role.ID, req.IDs).Error
+	if err != nil {
+		tx.Rollback()
+		return nil, s.hm.GetMessage(1004, err)
+	}
+	for _, pid := range req.IDs {
+		rolePolices := new(model.RolePolices)
+		rolePolices.RoleID = role.ID
+		rolePolices.PolicyID = pid
+		if err = tx.Create(rolePolices).Error; err != nil {
+			tx.Rollback()
+			return nil, s.hm.GetMessage(1002, err)
+		}
+	}
+	tx.Commit()
+	s.mc.Delete(s.hm.GetCacheKey(2, role.ID))
+	return
+}
+
+func (s *service) DeleteRole(id int64) (err error) {
+	role, err := s.GetRole(id)
+	if err != nil {
+		return
+	}
+	tx := s.db.Begin()
+	for _, policy := range role.Polices {
+		err = tx.Delete(&model.RolePolices{}, "role_id = ? and policy_id in (?)", role.ID, policy.ID).Error
+		if err != nil {
+			tx.Rollback()
+			return s.hm.GetMessage(1004, err)
+		}
+	}
+	if err = tx.Delete(role, "id = ?", id).Error; err != nil {
+		tx.Rollback()
+		return s.hm.GetMessage(1004, err)
+	}
+	tx.Commit()
+	s.mc.Delete(s.hm.GetCacheKey(2, role.ID))
+	return
+}
+
+func (s *service) GetPolicy(id int64) (policy *model.Policy, err error) {
+	policy = new(model.Policy)
+	if err = s.db.Preload("RolePolices").Find(policy, "id = ?", id).Error; err != nil {
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	return
+}
+
+func (s *service) DeletePolicy(id int64) (err error) {
+	policy, err := s.GetPolicy(id)
+	if err != nil {
+		return
+	}
+	tx := s.db.Begin()
+	if err = tx.Delete(policy.RolePolices, "policy_id = ?", policy.ID).Error; err != nil {
+		tx.Rollback()
+		return s.hm.GetMessage(1004, err)
+	}
+	if err = s.db.Delete(policy, "id = ?", id).Error; err != nil {
+		tx.Rollback()
+		return s.hm.GetMessage(1004, err)
+	}
+	tx.Commit()
+	for _, rp := range policy.RolePolices {
+		s.mc.Delete(s.hm.GetCacheKey(2, rp.RoleID))
+	}
 	return
 }

@@ -71,7 +71,7 @@ func (s *service) GetUser(id int64) (user *model.User, err error) {
 func (s *service) GetUserByUsername(username string) (user *model.User, err error) {
 	user = new(model.User)
 	if err = s.db.Find(user, "username = ?", username).Error; err != nil {
-		return nil, err
+		return nil, s.hm.GetMessage(1001, err)
 	}
 	return
 }
