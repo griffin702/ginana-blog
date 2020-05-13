@@ -1,0 +1,31 @@
+<fieldset>
+    <legend>角色列表<a class="btn btn-primary btn-xs" href="/admin/role/add">
+            <span class="glyphicon glyphicon-plus"></span> 添加角色</a>
+    </legend>
+    <div class="refresh">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>创建时间</th>
+                    <th>角色名称</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>{{range $k, $v := .data.List}}
+                    <tr>
+                        <td>{{$v.ID}}</td>
+                        <td>{{$v.CreatedAt}}</td>
+                        <td>{{$v.Name}}</td>
+                        <td>
+                            <a href="/admin/user/edit/{{$v.ID}}">编辑</a> |
+                            <a href="/admin/user/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>
+                        </td>
+                    </tr>{{end}}
+                </tbody>
+            </table>
+            {{str2html .data.Pager.ToString}}
+        </div>
+    </div>
+</fieldset>
