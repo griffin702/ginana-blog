@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"ginana-blog/internal/config"
+	"ginana-blog/internal/service"
 	"github.com/griffin702/ginana/library/conf/paladin"
 	"github.com/griffin702/ginana/library/log"
 	"github.com/griffin702/ginana/library/mdw"
@@ -33,7 +34,7 @@ func NewHttpServer(irisApp *iris.Application, cfg *config.Config) (h *http.Serve
 	return
 }
 
-func newIris(cfg *config.Config) (e *iris.Application) {
+func newIris(svc service.Service, cfg *config.Config) (e *iris.Application) {
 	e = iris.New()
 	//e.Use(iris.Cache304(10 * time.Second))
 	golog.Install(log.GetLogger())
@@ -44,7 +45,7 @@ func newIris(cfg *config.Config) (e *iris.Application) {
 	e.Use(customLogger, recover.New())
 	e.OnAnyErrorCode(customLogger)
 	e.Logger().SetLevel(cfg.IrisLogLevel)
-	initTemplate(e, cfg)
+	initTemplate(e, svc, cfg)
 	initStaticDir(e, cfg)
 
 	// swagger

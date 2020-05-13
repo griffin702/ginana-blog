@@ -16,11 +16,12 @@ type CAdmin struct {
 // 重写BeginRequest 处理未登录时重定向到CFront
 func (c *CAdmin) BeginRequest(ctx iris.Context) {
 	user := c.GetUserByToken()
-	c.UserID = user.ID
-	if c.UserID > 0 {
+	if user.ID <= 0 { // 未登陆
+		ctx.Redirect("/")
 		return
 	}
-	ctx.Redirect("/")
+	c.UserID = user.ID
+	c.Auth()
 }
 
 func (c *CAdmin) setHeadMetas(params ...string) {
@@ -34,7 +35,7 @@ func (c *CAdmin) setHeadMetas(params ...string) {
 func (c *CAdmin) Get() (err error) {
 	adminData := new(model.AdminData)
 	adminData.Hostname, _ = os.Hostname()
-	adminData.Gover = runtime.Version()
+	adminData.GoVer = runtime.Version()
 	adminData.OS = runtime.GOOS
 	adminData.CountCpu = runtime.NumCPU()
 	adminData.Arch = runtime.GOARCH

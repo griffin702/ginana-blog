@@ -41,7 +41,7 @@ type JsonPlus func(data interface{}, msg interface{}) *JSON
 // 后台数据统计
 type AdminData struct {
 	Hostname      string
-	Gover         string
+	GoVer         string
 	OS            string
 	Arch          string
 	CountCpu      int

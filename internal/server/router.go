@@ -16,7 +16,7 @@ import (
 
 func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, valid model.ValidatorHandler) (e *iris.Application, err error) {
 
-	e = newIris(cfg)
+	e = newIris(svc, cfg)
 
 	session := sessions.New(sessions.Config{
 		Cookie:  "GiNana_Session",

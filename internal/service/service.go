@@ -17,6 +17,7 @@ type Service interface {
 	SetEnforcer(ef *casbin.SyncedEnforcer) (err error)
 	GetEFRoles(ctx context.Context) (roles []*database.EFRolePolicy, err error)
 	GetEFUsers(ctx context.Context) (users []*database.EFUseRole, err error)
+	CheckPermission(userId int64, router, method string) (idAuth bool)
 	GetSiteOptions() (res *model.Option, err error)
 	UpdateSiteOptions(req *model.Option) (err error)
 	GetCaptcha() (res *model.Captcha, err error)
@@ -110,5 +111,15 @@ func (s *service) SetEnforcer(ef *casbin.SyncedEnforcer) (err error) {
 		return fmt.Errorf("enforcer is nil")
 	}
 	s.ef = ef
+	return
+}
+
+func (s *service) CheckPermission(userId int64, router, method string) (idAuth bool) {
+	if userId == 1 {
+		return true
+	}
+	if !s.cfg.Casbin.Enable {
+		return true
+	}
 	return
 }

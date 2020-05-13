@@ -35,6 +35,18 @@ func (c *BaseController) BeginRequest(ctx iris.Context) {
 
 func (c *BaseController) EndRequest(ctx iris.Context) {}
 
+func (c *BaseController) CheckPermission() bool {
+	return c.Svc.CheckPermission(c.UserID, c.Ctx.Path(), c.Ctx.Method())
+}
+
+func (c *BaseController) Auth() {
+	if !c.CheckPermission() {
+		c.ShowMsg("没有访问权限", "/")
+		return
+	}
+	c.Ctx.Next()
+}
+
 func (c *BaseController) GetUserByToken() (user *model.UserSession) {
 	user = new(model.UserSession)
 	tokenStr := c.Session.GetString("token")
@@ -51,11 +63,10 @@ func (c *BaseController) GetUserByToken() (user *model.UserSession) {
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if ok {
 		c.Session.Set("token", tokenStr)
-		if userId, ok := claims["userId"].(float64); ok {
+		if userId, ok := claims["userId"].(float64); ok && userId > 0 {
 			user.ID = int64(userId)
-			if user.ID > 0 {
-				c.Ctx.ViewData("isLogin", true)
-			}
+			c.Ctx.ViewData("userId", int64(userId))
+			c.Ctx.ViewData("isLogin", true)
 		}
 		if username, ok := claims["username"].(string); ok {
 			user.Username = username
@@ -69,10 +80,13 @@ func (c *BaseController) IsLogin() bool {
 	return c.UserID > 0
 }
 
-func (c *BaseController) ShowMsg(msg string) {
+func (c *BaseController) ShowMsg(msg string, path ...string) {
 	redirect := c.Ctx.GetReferrer().Path
 	if redirect == "" {
 		redirect = "/"
+	}
+	if len(path) > 0 {
+		redirect = path[0]
 	}
 	c.Ctx.ViewData("redirect", redirect)
 	c.Ctx.ViewData("message", msg)
