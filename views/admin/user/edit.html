@@ -71,6 +71,28 @@
                 </td>
             </tr>
             <tr>
+                <th>角色列表:</th>
+                <td>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th style="width: 50px"><label>
+                                    <input type="checkbox" value="0" onclick="checkall('ids', this)"/>
+                                </label></th>
+                            <th>角色名称</th>
+                        </tr>
+                        </thead>
+                        <tbody>{{$selfData := .data}}{{range $k, $v := .roles.List}}
+                            <tr>
+                                <td><input type="checkbox" name="ids" value="{{$v.ID}}"
+                                            {{if $selfData.CheckRole $v.ID}} checked{{end}}/></td>
+                                <td>{{$v.RoleName}}</td>
+                            </tr>{{end}}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
                 <th></th>
                 <td>
                     <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 保存</button>

@@ -2,6 +2,7 @@ package service
 
 import (
 	"ginana-blog/internal/model"
+	"strings"
 )
 
 func (s *service) GetPolicy(id int64) (policy *model.Policy, err error) {
@@ -44,7 +45,7 @@ func (s *service) CreatePolicy(req *model.CreatePolicyReq) (policy *model.Policy
 	policy = new(model.Policy)
 	policy.Name = req.Name
 	policy.Router = req.Router
-	policy.Method = req.Method
+	policy.Method = strings.ToUpper(req.Method)
 	if err = s.db.Create(policy).Error; err != nil {
 		return nil, s.hm.GetMessage(1002, err)
 	}
@@ -58,7 +59,7 @@ func (s *service) UpdatePolicy(req *model.UpdatePolicyReq) (policy *model.Policy
 	}
 	policy.Name = req.Name
 	policy.Router = req.Router
-	policy.Method = req.Method
+	policy.Method = strings.ToUpper(req.Method)
 	err = s.db.Model(policy).Select("name", "router", "method").Update(policy).Error
 	if err != nil {
 		return nil, s.hm.GetMessage(1003, err)

@@ -4,6 +4,7 @@ import (
 	"context"
 	"ginana-blog/internal/model"
 	"github.com/griffin702/ginana/library/database"
+	"github.com/jinzhu/gorm"
 	"sync"
 )
 
@@ -90,6 +91,15 @@ func (s *service) CreateUser(req *model.CreateUserReq) (user *model.User, err er
 	user.Email = req.Email
 	user.Avatar = req.Avatar
 	user.IsAuth = req.IsAuth
+	for _, rid := range req.IDs {
+		role, err := s.GetRole(rid)
+		if err == gorm.ErrRecordNotFound {
+			continue
+		} else if err != nil {
+			return nil, s.hm.GetMessage(1001, err)
+		}
+		user.Roles = append(user.Roles, role)
+	}
 	if err = s.db.Create(user).Error; err != nil {
 		return nil, s.hm.GetMessage(1002, err)
 	}
@@ -113,9 +123,26 @@ func (s *service) UpdateUser(req *model.UpdateUserReq) (user *model.User, err er
 	if err != nil {
 		return nil, s.hm.GetMessage(500, err)
 	}
-	if err = s.db.Model(user).Update(m).Error; err != nil {
+	tx := s.db.Begin()
+	if err = tx.Model(user).Update(m).Error; err != nil {
+		tx.Rollback()
 		return nil, s.hm.GetMessage(1003, err)
 	}
+	err = tx.Delete(&model.UserRoles{}, "user_id = ?", user.ID).Error
+	if err != nil {
+		tx.Rollback()
+		return nil, s.hm.GetMessage(1004, err)
+	}
+	for _, rid := range req.IDs {
+		userRoles := new(model.UserRoles)
+		userRoles.UserID = user.ID
+		userRoles.RoleID = rid
+		if err = tx.Create(userRoles).Error; err != nil {
+			tx.Rollback()
+			return nil, s.hm.GetMessage(1002, err)
+		}
+	}
+	tx.Commit()
 	s.mc.Delete(s.hm.GetCacheKey(1, user.ID))
 	return
 }
@@ -147,10 +174,16 @@ func (s *service) UpdateAccount(req *model.UpdateUserReq) (user *model.User, err
 }
 
 func (s *service) DeleteUser(id int64) (err error) {
-	user := new(model.User)
-	if err = s.db.Delete(user, "id = ?", id).Error; err != nil {
+	tx := s.db.Begin()
+	if err = s.db.Delete(&model.User{}, "id = ?", id).Error; err != nil {
 		return s.hm.GetMessage(1004, err)
 	}
+	err = tx.Delete(&model.UserRoles{}, "user_id = ?", id).Error
+	if err != nil {
+		tx.Rollback()
+		return s.hm.GetMessage(1004, err)
+	}
+	tx.Commit()
 	s.mc.Delete(s.hm.GetCacheKey(1, id))
 	return
 }

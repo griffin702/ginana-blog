@@ -16,6 +16,11 @@ func (c *CAdmin) GetUserList() (err error) {
 }
 
 func (c *CAdmin) GetUserAdd() (err error) {
+	roles, err := c.Svc.GetAllRoles()
+	if err != nil {
+		return
+	}
+	c.Ctx.ViewData("roles", roles)
 	c.setHeadMetas("用户创建")
 	c.Ctx.View("admin/user/add.html")
 	return
@@ -46,6 +51,11 @@ func (c *CAdmin) GetUserEditBy(id int64) (err error) {
 		return
 	}
 	c.Ctx.ViewData("data", user)
+	roles, err := c.Svc.GetAllRoles()
+	if err != nil {
+		return
+	}
+	c.Ctx.ViewData("roles", roles)
 	c.setHeadMetas("用户编辑")
 	c.Ctx.View("admin/user/edit.html")
 	return

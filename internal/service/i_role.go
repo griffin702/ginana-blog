@@ -70,7 +70,14 @@ func (s *service) GetRoles(p *model.Pager, prs ...model.RoleQueryParam) (res *mo
 	res.Pager = p
 	return
 }
-
+func (s *service) GetAllRoles() (res *model.Roles, err error) {
+	res = new(model.Roles)
+	err = s.db.Find(&res.List).Error
+	if err != nil {
+		return nil, s.hm.GetMessage(1001, err)
+	}
+	return
+}
 func (s *service) GetRoleByName(name string) (role *model.Role, err error) {
 	role = new(model.Role)
 	if err = s.db.Find(role, "role_name = ?", name).Error; err != nil {
@@ -80,25 +87,21 @@ func (s *service) GetRoleByName(name string) (role *model.Role, err error) {
 }
 
 func (s *service) CreateRole(req *model.CreateRoleReq) (role *model.Role, err error) {
-	role, err = s.GetRoleByName(req.RoleName)
-	if err == gorm.ErrRecordNotFound {
-		role = new(model.Role)
-		role.RoleName = req.RoleName
-		for _, pid := range req.IDs {
-			policy, err := s.GetPolicy(pid)
-			if err == gorm.ErrRecordNotFound {
-				continue
-			} else if err != nil {
-				return nil, s.hm.GetMessage(1001, err)
-			}
-			role.Polices = append(role.Polices, policy)
+	role = new(model.Role)
+	role.RoleName = req.RoleName
+	for _, pid := range req.IDs {
+		policy, err := s.GetPolicy(pid)
+		if err == gorm.ErrRecordNotFound {
+			continue
+		} else if err != nil {
+			return nil, s.hm.GetMessage(1001, err)
 		}
-		if err = s.db.Create(role).Error; err != nil {
-			return nil, s.hm.GetMessage(1002, err)
-		}
-		return
+		role.Polices = append(role.Polices, policy)
 	}
-	return nil, s.hm.GetMessage(1001, err)
+	if err = s.db.Create(role).Error; err != nil {
+		return nil, s.hm.GetMessage(1002, err)
+	}
+	return
 }
 
 func (s *service) UpdateRole(req *model.UpdateRoleReq) (role *model.Role, err error) {
@@ -132,21 +135,17 @@ func (s *service) UpdateRole(req *model.UpdateRoleReq) (role *model.Role, err er
 }
 
 func (s *service) DeleteRole(id int64) (err error) {
-	role, err := s.GetRole(id)
-	if err != nil {
-		return
-	}
 	tx := s.db.Begin()
-	err = tx.Delete(&model.RolePolices{}, "role_id = ?", role.ID).Error
-	if err != nil {
+	if err = tx.Delete(&model.Role{}, "id = ?", id).Error; err != nil {
 		tx.Rollback()
 		return s.hm.GetMessage(1004, err)
 	}
-	if err = tx.Delete(role, "id = ?", id).Error; err != nil {
+	err = tx.Delete(&model.RolePolices{}, "role_id = ?", id).Error
+	if err != nil {
 		tx.Rollback()
 		return s.hm.GetMessage(1004, err)
 	}
 	tx.Commit()
-	s.mc.Delete(s.hm.GetCacheKey(2, role.ID))
+	s.mc.Delete(s.hm.GetCacheKey(2, id))
 	return
 }

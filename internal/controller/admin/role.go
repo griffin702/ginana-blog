@@ -14,7 +14,7 @@ func (c *CAdmin) GetRoleList() (err error) {
 }
 
 func (c *CAdmin) GetRoleAdd() (err error) {
-	polices, err := c.Svc.GetPolices(c.Pager)
+	polices, err := c.Svc.GetAllPolices()
 	if err != nil {
 		return
 	}

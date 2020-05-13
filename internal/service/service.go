@@ -30,6 +30,7 @@ type Service interface {
 	DeleteUser(id int64) (err error)
 	GetRole(id int64) (role *model.Role, err error)
 	GetRoles(p *model.Pager, prs ...model.RoleQueryParam) (res *model.Roles, err error)
+	GetAllRoles() (res *model.Roles, err error)
 	GetRoleByName(name string) (role *model.Role, err error)
 	CreateRole(req *model.CreateRoleReq) (role *model.Role, err error)
 	UpdateRole(req *model.UpdateRoleReq) (role *model.Role, err error)
@@ -126,11 +127,22 @@ func (s *service) SetEnforcer(ef *casbin.SyncedEnforcer) (err error) {
 }
 
 func (s *service) CheckPermission(userId int64, router, method string) (idAuth bool) {
-	if userId == 1 {
+	if !s.cfg.Casbin.Enable || userId == 1 {
 		return true
 	}
-	if !s.cfg.Casbin.Enable {
-		return true
+	user, err := s.GetUser(userId)
+	if err != nil || !user.IsAuth {
+		return
+	}
+	for _, role := range user.Roles {
+		isAuth, err := s.ef.Enforce(role.RoleName, router, method)
+		if err != nil {
+			break
+		}
+		//fmt.Println(role.RoleName, router, method, isAuth)
+		if isAuth {
+			return true
+		}
 	}
 	return
 }

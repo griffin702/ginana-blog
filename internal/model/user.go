@@ -21,23 +21,25 @@ type User struct {
 }
 
 type CreateUserReq struct {
-	Username string `form:"username" valid:"required"`
-	Password string `form:"password" valid:"required"`
-	Nickname string `form:"nickname" valid:"omitempty"`
-	Email    string `form:"email" valid:"omitempty,email"`
-	Avatar   string `form:"avatar" valid:"omitempty"`
-	IsAuth   bool   `form:"is_auth"`
+	Username string  `form:"username" valid:"required"`
+	Password string  `form:"password" valid:"required"`
+	Nickname string  `form:"nickname" valid:"omitempty"`
+	Email    string  `form:"email" valid:"omitempty,email"`
+	Avatar   string  `form:"avatar" valid:"omitempty"`
+	IsAuth   bool    `form:"is_auth"`
+	IDs      []int64 `form:"ids" valid:"omitempty,gt=0"`
 }
 
 type UpdateUserReq struct {
-	ID               int64  `form:"id" valid:"required,gt=0"`
-	Password         string `form:"password" valid:"omitempty,ck_np"`
-	NewPassword      string `form:"new_password" valid:"omitempty"`
-	NewPasswordAgain string `form:"new_password_again" valid:"omitempty,eqfield=NewPassword"`
-	Nickname         string `form:"nickname" valid:"omitempty"`
-	Email            string `form:"email" valid:"omitempty,email"`
-	Avatar           string `form:"avatar" valid:"omitempty"`
-	IsAuth           bool   `form:"is_auth" valid:"omitempty"`
+	ID               int64   `form:"id" valid:"required,gt=0"`
+	Password         string  `form:"password" valid:"omitempty,ck_np"`
+	NewPassword      string  `form:"new_password" valid:"omitempty"`
+	NewPasswordAgain string  `form:"new_password_again" valid:"omitempty,eqfield=NewPassword"`
+	Nickname         string  `form:"nickname" valid:"omitempty"`
+	Email            string  `form:"email" valid:"omitempty,email"`
+	Avatar           string  `form:"avatar" valid:"omitempty"`
+	IsAuth           bool    `form:"is_auth" valid:"omitempty"`
+	IDs              []int64 `form:"ids" valid:"omitempty,gt=0"`
 }
 
 type Users struct {
@@ -75,4 +77,16 @@ type UserSession struct {
 	ID       int64
 	Username string
 	Roles    []string
+}
+
+func (u *User) CheckRole(rid int64) bool {
+	if u.ID == 1 {
+		return true
+	}
+	for _, role := range u.Roles {
+		if role.ID == rid {
+			return true
+		}
+	}
+	return false
 }
