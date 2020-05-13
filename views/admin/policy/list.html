@@ -1,0 +1,33 @@
+<fieldset>
+    <legend>规则列表<a class="btn btn-primary btn-xs" href="/admin/policy/add">
+            <span class="glyphicon glyphicon-plus"></span> 添加规则</a>
+    </legend>
+    <div class="refresh">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Router</th>
+                    <th>Method</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>{{range $k, $v := .data.List}}
+                    <tr>
+                        <td>{{$v.ID}}</td>
+                        <td>{{$v.Name}}</td>
+                        <td>{{$v.Router}}</td>
+                        <td>{{$v.Method}}</td>
+                        <td>
+                            <a href="/admin/policy/edit/{{$v.ID}}">编辑</a> |
+                            <a href="/admin/policy/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>
+                        </td>
+                    </tr>{{end}}
+                </tbody>
+            </table>
+            {{str2html .data.Pager.ToString}}
+        </div>
+    </div>
+</fieldset>

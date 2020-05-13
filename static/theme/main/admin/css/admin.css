@@ -88,7 +88,7 @@ footer {
     background: #464646 url('../img/top-bg.png') repeat-x;
 }
 
-.table-form th {
+.table-form > tbody > tr > th {
     vertical-align: middle !important;
     font-size: 12px;
     line-height: 26px !important;
@@ -99,7 +99,7 @@ footer {
 }
 
 @media (min-width: 992px) {
-    .table-form td .form-control, .table-form td .table-hover, .table-form td .input-group {
+    .table-form td .form-control, .table-form td .input-group {
         width: 50%;
     }
 
@@ -110,6 +110,14 @@ footer {
     .table-form td div.alert-warning {
         width: 50%;
     }
+
+    .table-form td .table-hover {
+        width: 70%;
+    }
+}
+
+.table-form tr td table.table-hover {
+    border: 2px solid #ddd;
 }
 
 .table-form td div.alert-warning {
@@ -136,14 +144,6 @@ footer {
 
 .table-form td ul.gallery li a {
     margin: 5px;
-}
-
-.table-form td label input {
-    margin: 3px 0 0;
-}
-
-.table-form input {
-    vertical-align: middle;
 }
 
 .table-form textarea {

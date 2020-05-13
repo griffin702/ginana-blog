@@ -14,7 +14,7 @@ func (c *CAdmin) GetRoleList() (err error) {
 }
 
 func (c *CAdmin) GetRoleAdd() (err error) {
-	polices, err := c.Svc.GetPolices()
+	polices, err := c.Svc.GetPolices(c.Pager)
 	if err != nil {
 		return
 	}
@@ -46,7 +46,7 @@ func (c *CAdmin) GetRoleEditBy(id int64) (err error) {
 		return
 	}
 	c.Ctx.ViewData("data", role)
-	polices, err := c.Svc.GetPolices()
+	polices, err := c.Svc.GetAllPolices()
 	if err != nil {
 		return
 	}

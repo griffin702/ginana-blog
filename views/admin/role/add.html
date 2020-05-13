@@ -3,48 +3,51 @@
             <span class="glyphicon glyphicon-share-alt"></span> 返回</a>
     </legend>
     <form class="form-horizontal" method="post">
-        <table class="table table-form">
-            <tbody>
-            <tr>
-                <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">角色名称:</th>
-                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                    <input name="role_name" class="form-control" type="text" autocomplete="off"/>
-                </td>
-            </tr>
-            <tr>
-                <th>规则列表:</th>
-                <td>
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th><label>
-                                    <input type="checkbox" value="0" onclick="checkall('ids', this)"/>
-                                </label></th>
-                            <th>ID</th>
-                            <th>Router</th>
-                            <th>Method</th>
-                        </tr>
-                        </thead>
-                        <tbody>{{range $k, $v := .polices.List}}
-                            <tr>
-                                <td><input type="checkbox" name="ids" value="{{$v.ID}}"/></td>
-                                <td>{{$v.ID}}</td>
-                                <td>{{$v.Router}}</td>
-                                <td>{{$v.Method}}</td>
-                            </tr>{{end}}
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <th></th>
-                <td>
-                    <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 保存</button>
-                    <button type="button" class="btn btn-primary" onclick="javascript:history.back();">取消</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-form">
+                <tbody>
+                <tr>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">角色名称:</th>
+                    <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <input name="role_name" class="form-control" type="text" autocomplete="off"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>规则列表:</th>
+                    <td>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th style="width: 50px"><label>
+                                            <input type="checkbox" value="0" onclick="checkall('ids', this)"/>
+                                        </label></th>
+                                    <th>ID</th>
+                                    <th>Router</th>
+                                    <th>Method</th>
+                                </tr>
+                                </thead>
+                                <tbody>{{range $k, $v := .polices.List}}
+                                    <tr>
+                                        <td><input type="checkbox" name="ids" value="{{$v.ID}}"/></td>
+                                        <td>{{$v.ID}}</td>
+                                        <td>{{$v.Router}}</td>
+                                        <td>{{$v.Method}}</td>
+                                    </tr>{{end}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 保存</button>
+                        <button type="button" class="btn btn-primary" onclick="history.back();">取消</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </form>
-
 </fieldset>

@@ -24,7 +24,7 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th><label>
+                            <th style="width: 50px"><label>
                                     <input type="checkbox" value="0" onclick="checkall('ids', this)"/>
                                 </label></th>
                             <th>ID</th>
@@ -32,9 +32,10 @@
                             <th>Method</th>
                         </tr>
                         </thead>
-                        <tbody>{{range $k, $v := .polices.List}}
+                        <tbody>{{$selfData := .data}}{{range $k, $v := .polices.List}}
                             <tr>
-                                <td><input type="checkbox" name="ids" value="{{$v.ID}}"/></td>
+                                <td><input type="checkbox" name="ids" value="{{$v.ID}}"
+                                            {{if $selfData.CheckPolicy $v.ID}} checked{{end}}/></td>
                                 <td>{{$v.ID}}</td>
                                 <td>{{$v.Router}}</td>
                                 <td>{{$v.Method}}</td>
@@ -47,7 +48,7 @@
                 <th></th>
                 <td>
                     <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 保存</button>
-                    <button type="button" class="btn btn-primary" onclick="javascript:history.back();">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="history.back();">取消</button>
                 </td>
             </tr>
             </tbody>

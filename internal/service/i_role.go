@@ -112,7 +112,7 @@ func (s *service) UpdateRole(req *model.UpdateRoleReq) (role *model.Role, err er
 		tx.Rollback()
 		return nil, s.hm.GetMessage(1003, err)
 	}
-	err = tx.Delete(&model.RolePolices{}, "role_id = ? and policy_id in (?)", role.ID, req.IDs).Error
+	err = tx.Delete(&model.RolePolices{}, "role_id = ?", role.ID).Error
 	if err != nil {
 		tx.Rollback()
 		return nil, s.hm.GetMessage(1004, err)
@@ -137,12 +137,10 @@ func (s *service) DeleteRole(id int64) (err error) {
 		return
 	}
 	tx := s.db.Begin()
-	for _, policy := range role.Polices {
-		err = tx.Delete(&model.RolePolices{}, "role_id = ? and policy_id in (?)", role.ID, policy.ID).Error
-		if err != nil {
-			tx.Rollback()
-			return s.hm.GetMessage(1004, err)
-		}
+	err = tx.Delete(&model.RolePolices{}, "role_id = ?", role.ID).Error
+	if err != nil {
+		tx.Rollback()
+		return s.hm.GetMessage(1004, err)
 	}
 	if err = tx.Delete(role, "id = ?", id).Error; err != nil {
 		tx.Rollback()
@@ -150,45 +148,5 @@ func (s *service) DeleteRole(id int64) (err error) {
 	}
 	tx.Commit()
 	s.mc.Delete(s.hm.GetCacheKey(2, role.ID))
-	return
-}
-
-func (s *service) GetPolicy(id int64) (policy *model.Policy, err error) {
-	policy = new(model.Policy)
-	if err = s.db.Preload("RolePolices").Find(policy, "id = ?", id).Error; err != nil {
-		return nil, s.hm.GetMessage(1001, err)
-	}
-	return
-}
-
-func (s *service) GetPolices() (polices *model.Polices, err error) {
-	polices = new(model.Polices)
-	if err = s.db.Find(&polices.List).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return
-		}
-		return nil, s.hm.GetMessage(1001, err)
-	}
-	return
-}
-
-func (s *service) DeletePolicy(id int64) (err error) {
-	policy, err := s.GetPolicy(id)
-	if err != nil {
-		return
-	}
-	tx := s.db.Begin()
-	if err = tx.Delete(policy.RolePolices, "policy_id = ?", policy.ID).Error; err != nil {
-		tx.Rollback()
-		return s.hm.GetMessage(1004, err)
-	}
-	if err = s.db.Delete(policy, "id = ?", id).Error; err != nil {
-		tx.Rollback()
-		return s.hm.GetMessage(1004, err)
-	}
-	tx.Commit()
-	for _, rp := range policy.RolePolices {
-		s.mc.Delete(s.hm.GetCacheKey(2, rp.RoleID))
-	}
 	return
 }
