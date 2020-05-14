@@ -228,12 +228,9 @@ $(document).ready(function () {
                 if (uptype === 3) {
                     autoview.width = upwidth;
                     autoview.height = upheight;
-                    upurl = '/admin/upload?type=' + uptype + '&albumId=' + albumId + '&w=190&h=135';
+                    upurl = '/admin/upload?type=' + uptype + '&albumId=' + albumId + '&w=190&h=135&small=200';
                 } else {
                     upurl = '/admin/upload?type=' + uptype + '&w=' + oldwidth + '&h=' + oldheight;
-                }
-                if (uptype === 1) {
-                    upurl = upurl + '&small=200';
                 }
             };
             image.src = this.result;

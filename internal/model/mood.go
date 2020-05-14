@@ -34,10 +34,6 @@ func (m *Mood) ChangetoSmall() string {
 	return small
 }
 
-func (m *Mood) DeleteSmall() string {
-	return strings.Replace(m.Cover, "_small", "", 1)
-}
-
 func (m *Mood) GetDesc() string {
 	//将HTML标签全转换成小写
 	re, _ := regexp.Compile("<[\\S\\s]+?>")
