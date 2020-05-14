@@ -204,6 +204,10 @@ $(document).ready(function () {
         if (!uptype) {
             uptype = 2
         }
+        let mainUrl = "/admin/upload";
+        if ($(this).data('account')) {
+            mainUrl = "/api/upload/account/avatar"
+        }
         let reader = new FileReader();
         let oldwidth = autoview.width;
         let oldheight = autoview.height;
@@ -228,9 +232,9 @@ $(document).ready(function () {
                 if (uptype === 3) {
                     autoview.width = upwidth;
                     autoview.height = upheight;
-                    upurl = '/admin/upload?type=' + uptype + '&albumId=' + albumId + '&w=190&h=135&small=200';
+                    upurl = mainUrl + '?type=' + uptype + '&albumId=' + albumId + '&w=190&h=135&small=200';
                 } else {
-                    upurl = '/admin/upload?type=' + uptype + '&w=' + oldwidth + '&h=' + oldheight;
+                    upurl = mainUrl + '?type=' + uptype + '&w=' + oldwidth + '&h=' + oldheight;
                 }
             };
             image.src = this.result;

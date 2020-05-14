@@ -8,8 +8,6 @@ definitions:
       image:
         description: 验证码图片
         type: string
-    required:
-      - code
     type: object
   model.JSON:
     properties:
@@ -20,15 +18,69 @@ definitions:
       message:
         type: string
     type: object
+  model.UserLoginReq:
+    properties:
+      captcha:
+        type: string
+      login_ip:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  model.UserRegisterReq:
+    properties:
+      captcha:
+        type: string
+      email:
+        type: string
+      login_ip:
+        type: string
+      nickname:
+        type: string
+      password1:
+        type: string
+      password2:
+        type: string
+      username1:
+        type: string
+    type: object
 host: 127.0.0.1:8000
 info:
   contact: {}
   description: 基于GiNana的个人网站项目，默认端口：8000
   license:
-    name: Apache 2.0
+    name: MIT License
   title: GiNana
   version: 1.0.0
 paths:
+  /login:
+    post:
+      consumes:
+        - application/json
+      description: 登陆接口
+      parameters:
+        - description: User Login
+          in: body
+          name: user
+          required: true
+          schema:
+            $ref: '#/definitions/model.UserLoginReq'
+            type: object
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.JSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.JSON'
+      tags:
+        - Login
   /login/captcha:
     get:
       consumes:
@@ -59,8 +111,53 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/model.Captcha'
+            type: object
       produces:
-      - application/json
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.JSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.JSON'
+      tags:
+        - Login
+  /logout:
+    get:
+      consumes:
+        - application/json
+      description: 安全登出
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.JSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.JSON'
+      tags:
+        - Login
+  /register:
+    post:
+      consumes:
+        - application/json
+      description: 注册接口
+      parameters:
+        - description: User Register
+          in: body
+          name: user
+          required: true
+          schema:
+            $ref: '#/definitions/model.UserRegisterReq'
+            type: object
+      produces:
+        - application/json
       responses:
         "200":
           description: OK

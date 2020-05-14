@@ -5,13 +5,53 @@
         "title": "GiNana",
         "contact": {},
         "license": {
-            "name": "Apache 2.0"
+          "name": "MIT License"
         },
         "version": "1.0.0"
     },
     "host": "127.0.0.1:8000",
     "basePath": "/api",
     "paths": {
+      "/login": {
+        "post": {
+          "description": "登陆接口",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "tags": [
+            "Login"
+          ],
+          "parameters": [
+            {
+              "description": "User Login",
+              "name": "user",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/model.UserLoginReq"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/model.JSON"
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "schema": {
+                "$ref": "#/definitions/model.JSON"
+              }
+            }
+          }
+        }
+      },
       "/login/captcha": {
             "get": {
               "description": "获取验证码",
@@ -59,6 +99,7 @@
                       "in": "body",
                       "required": true,
                       "schema": {
+                        "type": "object",
                         "$ref": "#/definitions/model.Captcha"
                       }
                     }
@@ -78,14 +119,79 @@
                     }
                 }
             }
+      },
+      "/logout": {
+        "get": {
+          "description": "安全登出",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "tags": [
+            "Login"
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/model.JSON"
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "schema": {
+                "$ref": "#/definitions/model.JSON"
+              }
+            }
+          }
+        }
+      },
+      "/register": {
+        "post": {
+          "description": "注册接口",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "tags": [
+            "Login"
+          ],
+          "parameters": [
+            {
+              "description": "User Register",
+              "name": "user",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "$ref": "#/definitions/model.UserRegisterReq"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/model.JSON"
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "schema": {
+                "$ref": "#/definitions/model.JSON"
+              }
+            }
+          }
+        }
       }
     },
   "definitions": {
     "model.Captcha": {
       "type": "object",
-      "required": [
-        "code"
-      ],
       "properties": {
         "code": {
           "description": "Code",
@@ -107,6 +213,49 @@
           "type": "object"
         },
         "message": {
+          "type": "string"
+        }
+      }
+    },
+    "model.UserLoginReq": {
+      "type": "object",
+      "properties": {
+        "captcha": {
+          "type": "string"
+        },
+        "login_ip": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "model.UserRegisterReq": {
+      "type": "object",
+      "properties": {
+        "captcha": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "login_ip": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "password1": {
+          "type": "string"
+        },
+        "password2": {
+          "type": "string"
+        },
+        "username1": {
           "type": "string"
                 }
             }
