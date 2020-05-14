@@ -6,6 +6,7 @@ import (
 	"github.com/griffin702/service/tools"
 	"github.com/kataras/iris/v12"
 	"html/template"
+	"strings"
 	"time"
 )
 
@@ -33,6 +34,6 @@ func str2html(str string) (template.HTML, error) {
 
 func permission(svc service.Service) func(int64, string, string) bool {
 	return func(userId int64, router, method string) (isAuth bool) {
-		return svc.CheckPermission(userId, router, method)
+		return svc.CheckPermission(userId, router, strings.ToUpper(method))
 	}
 }

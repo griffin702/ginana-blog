@@ -41,40 +41,47 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-plus"></span> 发布管理<strong class="caret"></strong>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu">{{if permission .userId "/admin/article/add" "get"}}
                             <li><a href="/admin/article/add"><span class="glyphicon glyphicon-plus"></span> 发表文章</a>
-                            </li>
+                            </li>{{end}}{{if permission .userId "/admin/article/list" "get"}}
                             <li><a href="/admin/article/list"><span class="glyphicon glyphicon-list"></span> 文章列表</a>
                             </li>
-                            <li class="divider"></li>
-                            <li><a href="/admin/mood/add"><span class="glyphicon glyphicon-plus"></span> 发表心情</a></li>
+                            <li class="divider"></li>{{end}}{{if permission .userId "/admin/mood/add" "get"}}
+                                <li><a href="/admin/mood/add"><span class="glyphicon glyphicon-plus"></span> 发表心情</a>
+                                </li>{{end}}{{if permission .userId "/admin/mood/list" "get"}}
                             <li><a href="/admin/mood/list"><span class="glyphicon glyphicon-list"></span> 心情列表</a></li>
-                            <li class="divider"></li>
+                            <li class="divider"></li>{{end}}{{if permission .userId "/admin/comment/list" "get"}}
                             <li><a href="/admin/comment/list"><span class="glyphicon glyphicon-list"></span> 评论管理</a>
-                            </li>
+                            </li>{{end}}{{if permission .userId "/admin/tag/list" "get"}}
                             <li><a href="/admin/tag/list"><span class="glyphicon glyphicon-list"></span> 标签管理</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/admin/link/add"><span class="glyphicon glyphicon-plus"></span> 添加友链</a></li>
+                            <li class="divider"></li>{{end}}{{if permission .userId "/admin/link/add" "get"}}
+                                <li><a href="/admin/link/add"><span class="glyphicon glyphicon-plus"></span> 添加友链</a>
+                                </li>{{end}}{{if permission .userId "/admin/link/list" "get"}}
                             <li><a href="/admin/link/list"><span class="glyphicon glyphicon-list"></span> 友链列表</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/admin/album/add"><span class="glyphicon glyphicon-plus"></span> 创建相册</a></li>
-                            <li><a href="/admin/album/list"><span class="glyphicon glyphicon-list"></span> 相册列表</a></li>
+                            <li class="divider"></li>{{end}}{{if permission .userId "/admin/album/add" "get"}}
+                                <li><a href="/admin/album/add"><span class="glyphicon glyphicon-plus"></span> 创建相册</a>
+                                </li>{{end}}{{if permission .userId "/admin/album/list" "get"}}
+                                <li><a href="/admin/album/list"><span class="glyphicon glyphicon-list"></span> 相册列表</a>
+                                </li>{{end}}
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-user"></span> 用户管理<strong class="caret"></strong>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/admin/user/add"><span class="glyphicon glyphicon-plus"></span> 添加用户</a></li>
+                        <ul class="dropdown-menu">{{if permission .userId "/admin/user/add" "get"}}
+                                <li><a href="/admin/user/add"><span class="glyphicon glyphicon-plus"></span> 添加用户</a>
+                                </li>{{end}}{{if permission .userId "/admin/user/list" "get"}}
                             <li><a href="/admin/user/list"><span class="glyphicon glyphicon-list"></span> 用户列表</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/admin/role/add"><span class="glyphicon glyphicon-plus"></span> 添加角色</a></li>
+                            <li class="divider"></li>{{end}}{{if permission .userId "/admin/role/add" "get"}}
+                                <li><a href="/admin/role/add"><span class="glyphicon glyphicon-plus"></span> 添加角色</a>
+                                </li>{{end}}{{if permission .userId "/admin/role/list" "get"}}
                             <li><a href="/admin/role/list"><span class="glyphicon glyphicon-list"></span> 角色列表</a></li>
-                            <li class="divider"></li>
-                            <li><a href="/admin/policy/add"><span class="glyphicon glyphicon-plus"></span> 添加规则</a></li>
+                            <li class="divider"></li>{{end}}{{if permission .userId "/admin/policy/add" "get"}}
+                                <li><a href="/admin/policy/add"><span class="glyphicon glyphicon-plus"></span> 添加规则</a>
+                                </li>{{end}}{{if permission .userId "/admin/policy/list" "get"}}
                             <li><a href="/admin/policy/list"><span class="glyphicon glyphicon-list"></span> 规则列表</a>
-                            </li>
+                            </li>{{end}}
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -82,9 +89,10 @@
                             <span class="glyphicon glyphicon-wrench"></span> 系统管理<strong class="caret"></strong>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin"><span class="glyphicon glyphicon-info-sign"></span> 系统信息</a></li>
+                            <li><a href="/admin"><span class="glyphicon glyphicon-info-sign"></span> 系统信息</a>
+                            </li>{{if permission .userId "/admin/system/setting" "get"}}
                             <li><a href="/admin/system/setting"><span class="glyphicon glyphicon-cog"></span> 站点设置</a>
-                            </li>
+                            </li>{{end}}
                             <li class="divider"></li>
                             <li><a href="/admin/account/info"><span class="glyphicon glyphicon-edit"></span> 修改密码</a>
                             </li>
