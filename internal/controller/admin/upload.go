@@ -10,9 +10,11 @@ import (
 )
 
 func (c *CAdmin) PostUpload() {
-	f, h, err := c.Ctx.FormFile("iNanaUploadImage")
+	f, h, err := c.Ctx.FormFile("editormd-image-file")
 	if err != nil {
-		c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(500, err)))
+		fi := new(upload.FileInfo)
+		fi.Message = err.Error()
+		c.Ctx.JSON(fi)
 		return
 	}
 	defer f.Close()
@@ -21,19 +23,19 @@ func (c *CAdmin) PostUpload() {
 		StaticDir:  c.Config.StaticDir,
 		AlbumID:    albumId,
 		LastSource: c.Ctx.URLParamDefault("last_src", ""),
-		UploadType: c.Ctx.URLParamIntDefault("type", 2),
+		UploadType: c.Ctx.URLParamIntDefault("type", 1),
 		SmallMaxWH: c.Ctx.URLParamIntDefault("small", 0),
 		W:          c.Ctx.URLParamIntDefault("w", 0),
 		H:          c.Ctx.URLParamIntDefault("h", 0),
 	})
 	if err != nil {
-		c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(500, err)))
+		c.Ctx.JSON(fi)
 		return
 	}
 	fi.DialogID = c.Ctx.URLParam("guid")
 	path := fi.JoinInfo()
 	if err := fi.SaveImage(path); err != nil {
-		c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(500, err)))
+		c.Ctx.JSON(fi)
 		return
 	}
 	if albumId > 0 {
@@ -42,18 +44,20 @@ func (c *CAdmin) PostUpload() {
 		photo.Desc = fi.Name
 		photo.Url = strings.TrimLeft(path, ".")
 		if _, err = c.Svc.CreatePhoto(photo); err != nil {
-			c.Ctx.JSON(c.JsonPlus(nil, err))
+			c.Ctx.JSON(fi)
 			return
 		}
 	}
-	c.Ctx.JSON(c.JsonPlus(fi, c.Hm.GetMessage(0, "上传成功")))
+	c.Ctx.JSON(fi)
 	return
 }
 
 func (c *CAdmin) PostUploadMedia() {
-	f, h, err := c.Ctx.FormFile("iNanaUploadMedia")
+	f, h, err := c.Ctx.FormFile("filemedia")
 	if err != nil {
-		c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(500, err)))
+		fi := new(upload.FileInfo)
+		fi.Message = err.Error()
+		c.Ctx.JSON(fi)
 		return
 	}
 	defer f.Close()
@@ -62,7 +66,7 @@ func (c *CAdmin) PostUploadMedia() {
 		UploadType: c.Ctx.URLParamIntDefault("type", 0),
 	})
 	if err != nil {
-		c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(500, err)))
+		c.Ctx.JSON(fi)
 		return
 	}
 	mediaPath := fi.JoinInfo()
@@ -70,17 +74,18 @@ func (c *CAdmin) PostUploadMedia() {
 		file.Filename = filepath.Base(mediaPath)
 	})
 	if err != nil {
-		c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(500, err)))
+		c.Ctx.JSON(fi)
 		return
 	}
 	fi.URL = strings.TrimLeft(mediaPath, ".")
 	if fi.Config.UploadType == 4 {
 		if _, err := fi.GetFrame(mediaPath); err != nil {
-			c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(500, err)))
+			fi.Message = err.Error()
+			c.Ctx.JSON(fi)
 			return
 		}
 	}
 	fi.ScreenShotURL = strings.TrimLeft(fi.ScreenShotURL, ".")
-	c.Ctx.JSON(c.JsonPlus(fi, c.Hm.GetMessage(0, "上传成功")))
+	c.Ctx.JSON(fi)
 	return
 }

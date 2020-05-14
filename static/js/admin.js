@@ -250,7 +250,7 @@ $(document).ready(function () {
         } else {
             newupurl = upurl;
         }
-        formData.append('iNanaUploadImage', dataURLtoFile(autoview.src, autoview.name));
+        formData.append('editormd-image-file', dataURLtoFile(autoview.src, autoview.name));
         $.ajax({
             url: newupurl,
             method: 'POST',
@@ -260,10 +260,10 @@ $(document).ready(function () {
             cache: false,
             success: function (data) {
                 let ret = JSON.parse(JSON.stringify(data));
-                if (ret.code !== 0) {
+                if (!ret.success) {
                     alert(ret.message);
                 } else {
-                    $('#avatar').val(ret.data.url);
+                    $('#avatar').val(ret.url);
                     if (uptype === 3 && albumId > 0) {
                         ajax_Main("GET", {}, '/admin/album/' + albumId + '/photo/list', 500);
                     }
