@@ -41,7 +41,7 @@ func (c *BaseController) CheckPermission() bool {
 
 func (c *BaseController) Auth() {
 	if !c.CheckPermission() {
-		c.ShowMsg("没有访问权限", "/")
+		c.ShowMsg("没有访问权限", "/admin")
 		return
 	}
 	c.Ctx.Next()

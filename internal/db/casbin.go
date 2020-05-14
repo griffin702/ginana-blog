@@ -33,7 +33,9 @@ func WatchCasbinModel(e *casbin.SyncedEnforcer, c *database.CasbinConfig) {
 	for range paladin.WatchEvent(context.Background(), c.Model) {
 		if err := e.LoadModel(); err != nil {
 			log.Printf("e.LoadModel error(%v)", err)
+			continue
 		}
+		e.LoadPolicy()
 	}
 }
 
@@ -44,6 +46,7 @@ func WatchCasbinConfig(e *casbin.SyncedEnforcer, c *database.CasbinConfig, key s
 		s := &paladin.TOML{}
 		_ = s.Set(event.Value)
 		if err := s.Get("Casbin").UnmarshalTOML(c); err != nil {
+			log.Printf("Loading Config error(%v)", err)
 			continue
 		}
 		if c.AutoLoad != autoLoad {
