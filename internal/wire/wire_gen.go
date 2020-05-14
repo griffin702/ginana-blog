@@ -20,11 +20,11 @@ func InitApp() (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	gormDB, err := db.NewDB(configConfig)
+	memcache, err := db.NewMC(configConfig)
 	if err != nil {
 		return nil, nil, err
 	}
-	memcache, err := db.NewMC(configConfig)
+	gormDB, err := db.NewDB(configConfig, memcache)
 	if err != nil {
 		return nil, nil, err
 	}

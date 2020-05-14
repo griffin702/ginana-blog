@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/model"
+	"github.com/griffin702/ginana/library/cache/memcache"
 	"github.com/griffin702/ginana/library/conf/paladin"
 	"github.com/griffin702/ginana/library/database"
 	"github.com/jinzhu/gorm"
 )
 
-func NewDB(cfg *config.Config) (db *gorm.DB, err error) {
+func NewDB(cfg *config.Config, mc memcache.Memcache) (db *gorm.DB, err error) {
 	key := "db.toml"
 	if err = paladin.Get(key).UnmarshalTOML(cfg); err != nil {
 		return
@@ -22,7 +23,7 @@ func NewDB(cfg *config.Config) (db *gorm.DB, err error) {
 		db = db.Debug()
 	}
 	initTable(db)
-	err = initTableData(db)
+	err = initTableData(db, mc)
 	return
 }
 
@@ -42,20 +43,8 @@ func initTable(db *gorm.DB) {
 	)
 }
 
-func initTableData(db *gorm.DB) (err error) {
+func initTableData(db *gorm.DB, mc memcache.Memcache) (err error) {
 	tx := db.Begin()
-	admin := new(model.User)
-	if err = tx.Find(admin, "id = 1").Error; err == gorm.ErrRecordNotFound {
-		admin.Username = "admin"
-		admin.Password = "$2a$10$qhcgRHCZOsn3V8854Vw3eeJHPra.CSX4MACEIS4VqY10AazjxJxqO"
-		admin.Nickname = "admin"
-		admin.Email = "117976509@qq.com"
-		admin.IsAuth = true
-		if err = tx.Create(admin).Error; err != nil {
-			tx.Rollback()
-			return
-		}
-	}
 	role := new(model.Role)
 	if err = tx.Find(role, "id = 1").Error; err == gorm.ErrRecordNotFound {
 		role.RoleName = "super_admin"
@@ -64,11 +53,16 @@ func initTableData(db *gorm.DB) (err error) {
 			return
 		}
 	}
-	userRole := new(model.UserRoles)
-	if err = tx.Find(userRole, "id = 1").Error; err == gorm.ErrRecordNotFound {
-		userRole.UserID = 1
-		userRole.RoleID = 1
-		if err = tx.Create(userRole).Error; err != nil {
+	admin := new(model.User)
+	if err = tx.Find(admin, "id = 1").Error; err == gorm.ErrRecordNotFound {
+		_ = mc.FlushAll()
+		admin.Username = "admin"
+		admin.Password = "$2a$10$qhcgRHCZOsn3V8854Vw3eeJHPra.CSX4MACEIS4VqY10AazjxJxqO"
+		admin.Nickname = "admin"
+		admin.Email = "117976509@qq.com"
+		admin.IsAuth = true
+		admin.Roles = append(admin.Roles, role)
+		if err = tx.Create(admin).Error; err != nil {
 			tx.Rollback()
 			return
 		}
@@ -98,6 +92,18 @@ func initTableData(db *gorm.DB) (err error) {
 			option.Name = k
 			option.Value = v
 			if err = tx.Create(option).Error; err != nil {
+				tx.Rollback()
+				return
+			}
+		}
+	}
+	var polices []*model.Policy
+	if err = tx.Find(&model.Policy{}, "id = 1").Error; err == gorm.ErrRecordNotFound {
+		if err = paladin.Get("polices.json").UnmarshalJSON(&polices); err != nil {
+			return
+		}
+		for _, policy := range polices {
+			if err = tx.Create(policy).Error; err != nil {
 				tx.Rollback()
 				return
 			}

@@ -1,0 +1,197 @@
+[
+  {
+    "name": "user:list",
+    "router": "/admin/user/list",
+    "method": "*"
+  },
+  {
+    "name": "user:add",
+    "router": "/admin/user/add",
+    "method": "*"
+  },
+  {
+    "name": "user:edit",
+    "router": "/admin/user/edit/*",
+    "method": "*"
+  },
+  {
+    "name": "user:delete",
+    "router": "/admin/user/delete/*",
+    "method": "*"
+  },
+  {
+    "name": "role:list",
+    "router": "/admin/role/list",
+    "method": "*"
+  },
+  {
+    "name": "role:add",
+    "router": "/admin/role/add",
+    "method": "*"
+  },
+  {
+    "name": "role:edit",
+    "router": "/admin/role/edit/*",
+    "method": "*"
+  },
+  {
+    "name": "role:delete",
+    "router": "/admin/role/delete/*",
+    "method": "*"
+  },
+  {
+    "name": "policy:list",
+    "router": "/admin/policy/list",
+    "method": "*"
+  },
+  {
+    "name": "policy:add",
+    "router": "/admin/policy/add",
+    "method": "*"
+  },
+  {
+    "name": "policy:edit",
+    "router": "/admin/policy/edit/*",
+    "method": "*"
+  },
+  {
+    "name": "policy:delete",
+    "router": "/admin/policy/delete/*",
+    "method": "*"
+  },
+  {
+    "name": "article:list",
+    "router": "/admin/article/list",
+    "method": "*"
+  },
+  {
+    "name": "article:add",
+    "router": "/admin/article/add",
+    "method": "*"
+  },
+  {
+    "name": "article:edit",
+    "router": "/admin/article/edit/*",
+    "method": "*"
+  },
+  {
+    "name": "article:delete",
+    "router": "/admin/article/delete/*",
+    "method": "*"
+  },
+  {
+    "name": "article:push",
+    "router": "/admin/article/push/*",
+    "method": "*"
+  },
+  {
+    "name": "mood:list",
+    "router": "/admin/mood/list",
+    "method": "*"
+  },
+  {
+    "name": "mood:add",
+    "router": "/admin/mood/add",
+    "method": "*"
+  },
+  {
+    "name": "comment:list",
+    "router": "/admin/comment/list",
+    "method": "*"
+  },
+  {
+    "name": "comment:edit",
+    "router": "/admin/comment/edit/*",
+    "method": "*"
+  },
+  {
+    "name": "comment:delete",
+    "router": "/admin/comment/delete/*",
+    "method": "*"
+  },
+  {
+    "name": "tag:list",
+    "router": "/admin/tag/list",
+    "method": "*"
+  },
+  {
+    "name": "link:list",
+    "router": "/admin/link/list",
+    "method": "*"
+  },
+  {
+    "name": "link:add",
+    "router": "/admin/link/add",
+    "method": "*"
+  },
+  {
+    "name": "link:edit",
+    "router": "/admin/link/edit/*",
+    "method": "*"
+  },
+  {
+    "name": "link:delete",
+    "router": "/admin/link/delete/*",
+    "method": "*"
+  },
+  {
+    "name": "album:list",
+    "router": "/admin/album/list",
+    "method": "*"
+  },
+  {
+    "name": "album:add",
+    "router": "/admin/album/add",
+    "method": "*"
+  },
+  {
+    "name": "album:edit",
+    "router": "/admin/album/edit/*",
+    "method": "*"
+  },
+  {
+    "name": "album:delete",
+    "router": "/admin/album/delete/*",
+    "method": "*"
+  },
+  {
+    "name": "album:show",
+    "router": "/admin/album/*/show",
+    "method": "*"
+  },
+  {
+    "name": "album:hidden",
+    "router": "/admin/album/*/hidden",
+    "method": "*"
+  },
+  {
+    "name": "album:cover",
+    "router": "/admin/album/*/photo/cover",
+    "method": "*"
+  },
+  {
+    "name": "photo:list",
+    "router": "/admin/album/*/photo/list",
+    "method": "*"
+  },
+  {
+    "name": "photo:delete",
+    "router": "/admin/photo/delete/*",
+    "method": "*"
+  },
+  {
+    "name": "system:setting",
+    "router": "/admin/system/setting",
+    "method": "*"
+  },
+  {
+    "name": "upload:image",
+    "router": "/admin/upload",
+    "method": "*"
+  },
+  {
+    "name": "upload:media",
+    "router": "/admin/upload/media",
+    "method": "*"
+  }
+]
