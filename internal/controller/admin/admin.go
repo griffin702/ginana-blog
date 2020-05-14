@@ -15,7 +15,7 @@ type CAdmin struct {
 
 // 重写BeginRequest 处理未登录时重定向到CFront
 func (c *CAdmin) BeginRequest(ctx iris.Context) {
-	user := c.GetUserByToken()
+	user := c.ParseToken()
 	if user.ID <= 0 { // 未登陆
 		ctx.Redirect("/")
 		return

@@ -67,6 +67,7 @@ func (s *service) UpdatePolicy(req *model.UpdatePolicyReq) (policy *model.Policy
 	for _, rolePolices := range policy.RolePolices {
 		s.mc.Delete(s.hm.GetCacheKey(2, rolePolices.RoleID))
 	}
+	s.ef.LoadPolicy()
 	return
 }
 
@@ -88,5 +89,6 @@ func (s *service) DeletePolicy(id int64) (err error) {
 	for _, rp := range policy.RolePolices {
 		s.mc.Delete(s.hm.GetCacheKey(2, rp.RoleID))
 	}
+	s.ef.LoadPolicy()
 	return
 }

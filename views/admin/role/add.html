@@ -23,16 +23,14 @@
                                             <input type="checkbox" value="0" onclick="checkall('ids', this)"/>
                                         </label></th>
                                     <th>ID</th>
-                                    <th>Router</th>
-                                    <th>Method</th>
+                                    <th>规则标识</th>
                                 </tr>
                                 </thead>
                                 <tbody>{{range $k, $v := .polices.List}}
                                     <tr>
                                         <td><input type="checkbox" name="ids" value="{{$v.ID}}"/></td>
                                         <td>{{$v.ID}}</td>
-                                        <td>{{$v.Router}}</td>
-                                        <td>{{$v.Method}}</td>
+                                        <td>{{$v.Name}}</td>
                                     </tr>{{end}}
                                 </tbody>
                             </table>

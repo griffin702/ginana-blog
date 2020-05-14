@@ -29,7 +29,7 @@ type BaseController struct {
 }
 
 func (c *BaseController) BeginRequest(ctx iris.Context) {
-	user := c.GetUserByToken()
+	user := c.ParseToken()
 	c.UserID = user.ID
 }
 
@@ -47,7 +47,7 @@ func (c *BaseController) Auth() {
 	c.Ctx.Next()
 }
 
-func (c *BaseController) GetUserByToken() (user *model.UserSession) {
+func (c *BaseController) ParseToken() (user *model.UserSession) {
 	user = new(model.UserSession)
 	tokenStr := c.Session.GetString("token")
 	if tokenStr == "" {

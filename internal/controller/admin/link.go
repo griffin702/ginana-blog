@@ -59,3 +59,12 @@ func (c *CAdmin) PostLinkEditBy(id int64) (err error) {
 	c.ShowMsg("友链已更新")
 	return
 }
+
+func (c *CAdmin) GetLinkDeleteBy(id int64) (err error) {
+	if err = c.Svc.DeleteLink(id); err != nil {
+		return
+	}
+	c.setHeadMetas("删除友链")
+	c.ShowMsg("友链已删除")
+	return
+}

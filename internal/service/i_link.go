@@ -67,5 +67,6 @@ func (s *service) DeleteLink(id int64) (err error) {
 	if err = s.db.Delete(link, "id = ?", id).Error; err != nil {
 		return s.hm.GetMessage(1004, err)
 	}
+	s.mc.Delete(s.hm.GetCacheKey(7))
 	return
 }

@@ -101,6 +101,7 @@ func (s *service) CreateRole(req *model.CreateRoleReq) (role *model.Role, err er
 	if err = s.db.Create(role).Error; err != nil {
 		return nil, s.hm.GetMessage(1002, err)
 	}
+	s.ef.LoadPolicy()
 	return
 }
 
@@ -110,7 +111,7 @@ func (s *service) UpdateRole(req *model.UpdateRoleReq) (role *model.Role, err er
 		return nil, s.hm.GetMessage(1001, err)
 	}
 	tx := s.db.Begin()
-	err = tx.Model(role).Update("role_name = ?", req.RoleName).Error
+	err = tx.Model(role).Update("role_name", req.RoleName).Error
 	if err != nil {
 		tx.Rollback()
 		return nil, s.hm.GetMessage(1003, err)
@@ -129,8 +130,14 @@ func (s *service) UpdateRole(req *model.UpdateRoleReq) (role *model.Role, err er
 			return nil, s.hm.GetMessage(1002, err)
 		}
 	}
+	var userIdList []int64
+	tx.Model(&model.UserRoles{}).Where("role_id = ?", role.ID).Pluck("id", &userIdList)
 	tx.Commit()
+	for _, userId := range userIdList {
+		s.mc.Delete(s.hm.GetCacheKey(1, userId))
+	}
 	s.mc.Delete(s.hm.GetCacheKey(2, role.ID))
+	s.ef.LoadPolicy()
 	return
 }
 
@@ -145,7 +152,13 @@ func (s *service) DeleteRole(id int64) (err error) {
 		tx.Rollback()
 		return s.hm.GetMessage(1004, err)
 	}
+	var userIdList []int64
+	tx.Model(&model.UserRoles{}).Where("role_id = ?", id).Pluck("id", &userIdList)
 	tx.Commit()
+	for _, userId := range userIdList {
+		s.mc.Delete(s.hm.GetCacheKey(1, userId))
+	}
 	s.mc.Delete(s.hm.GetCacheKey(2, id))
+	s.ef.LoadPolicy()
 	return
 }

@@ -103,6 +103,7 @@ func (s *service) CreateUser(req *model.CreateUserReq) (user *model.User, err er
 	if err = s.db.Create(user).Error; err != nil {
 		return nil, s.hm.GetMessage(1002, err)
 	}
+	s.ef.LoadPolicy()
 	return
 }
 
@@ -144,6 +145,7 @@ func (s *service) UpdateUser(req *model.UpdateUserReq) (user *model.User, err er
 	}
 	tx.Commit()
 	s.mc.Delete(s.hm.GetCacheKey(1, user.ID))
+	s.ef.LoadPolicy()
 	return
 }
 
@@ -185,5 +187,6 @@ func (s *service) DeleteUser(id int64) (err error) {
 	}
 	tx.Commit()
 	s.mc.Delete(s.hm.GetCacheKey(1, id))
+	s.ef.LoadPolicy()
 	return
 }

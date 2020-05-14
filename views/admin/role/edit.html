@@ -28,8 +28,7 @@
                                     <input type="checkbox" value="0" onclick="checkall('ids', this)"/>
                                 </label></th>
                             <th>ID</th>
-                            <th>Router</th>
-                            <th>Method</th>
+                            <th>规则标识</th>
                         </tr>
                         </thead>
                         <tbody>{{$selfData := .data}}{{range $k, $v := .polices.List}}
@@ -37,8 +36,7 @@
                                 <td><input type="checkbox" name="ids" value="{{$v.ID}}"
                                             {{if $selfData.CheckPolicy $v.ID}} checked{{end}}/></td>
                                 <td>{{$v.ID}}</td>
-                                <td>{{$v.Router}}</td>
-                                <td>{{$v.Method}}</td>
+                                <td>{{$v.Name}}</td>
                             </tr>{{end}}
                         </tbody>
                     </table>
