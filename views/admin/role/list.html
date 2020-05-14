@@ -13,12 +13,12 @@
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody>{{$isAdmin := eq .userId 1}}{{range $k, $v := .data.List}}
+                <tbody>{{range $k, $v := .data.List}}
                     <tr>
                         <td>{{$v.ID}}</td>
                         <td>{{date $v.CreatedAt "Y-m-d H:i:s"}}</td>
                         <td>{{$v.RoleName}}</td>
-                        <td>{{$notAdminData := ne $v.ID 1}}{{if or $isAdmin $notAdminData}}
+                        <td>{{if ne $v.ID 1}}
                             <a href="/admin/role/edit/{{$v.ID}}">编辑</a> |
                             <a href="/admin/role/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>{{end}}
                         </td>

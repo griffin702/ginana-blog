@@ -15,9 +15,9 @@
                 <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">角色名称:</th>
                 <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                     <input name="role_name" value="{{.data.RoleName}}" class="form-control"
-                           type="text" autocomplete="off"/>
+                           type="text" autocomplete="off"{{if eq .data.ID 1}} disabled{{end}}/>
                 </td>
-            </tr>
+            </tr>{{if ne .data.ID 1}}
             <tr>
                 <th>规则列表:</th>
                 <td>
@@ -48,7 +48,7 @@
                     <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 保存</button>
                     <button type="button" class="btn btn-primary" onclick="history.back();">取消</button>
                 </td>
-            </tr>
+            </tr>{{end}}
             </tbody>
         </table>
     </form>

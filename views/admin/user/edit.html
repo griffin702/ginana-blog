@@ -75,16 +75,17 @@
                 <td>
                     <table class="table table-hover">
                         <thead>
-                        <tr>
-                            <th style="width: 50px"><label>
+                        <tr>{{$isAdminData := eq .data.ID 1}}
+                            <th style="width: 50px">{{if not $isAdminData}}<label>
                                     <input type="checkbox" value="0" onclick="checkall('ids', this)"/>
-                                </label></th>
+                                </label>{{end}}</th>
                             <th>角色名称</th>
                         </tr>
                         </thead>
                         <tbody>{{$selfData := .data}}{{range $k, $v := .roles.List}}
                             <tr>
                                 <td><input type="checkbox" name="ids" value="{{$v.ID}}"
+                                            {{if $isAdminData}} disabled{{end}}
                                             {{if $selfData.CheckRole $v.ID}} checked{{end}}/></td>
                                 <td>{{$v.RoleName}}</td>
                             </tr>{{end}}
