@@ -41,6 +41,9 @@ func (c *CAdmin) PostRoleAdd() (err error) {
 }
 
 func (c *CAdmin) GetRoleEditBy(id int64) (err error) {
+	if id == 1 && c.UserID != 1 {
+		return c.Hm.GetMessage(500, "禁止修改管理员角色")
+	}
 	role, err := c.Svc.GetRole(id)
 	if err != nil {
 		return
@@ -57,6 +60,9 @@ func (c *CAdmin) GetRoleEditBy(id int64) (err error) {
 }
 
 func (c *CAdmin) PostRoleEditBy(id int64) (err error) {
+	if id == 1 && c.UserID != 1 {
+		return c.Hm.GetMessage(500, "禁止修改管理员角色")
+	}
 	req := new(model.UpdateRoleReq)
 	if err = c.Ctx.ReadForm(req); err != nil {
 		return
@@ -74,6 +80,9 @@ func (c *CAdmin) PostRoleEditBy(id int64) (err error) {
 }
 
 func (c *CAdmin) GetRoleDeleteBy(id int64) (err error) {
+	if id == 1 && c.UserID != 1 {
+		return c.Hm.GetMessage(500, "禁止删除管理员角色")
+	}
 	if err = c.Svc.DeleteRole(id); err != nil {
 		return
 	}

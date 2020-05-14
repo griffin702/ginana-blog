@@ -46,6 +46,9 @@ func (c *CAdmin) PostUserAdd() (err error) {
 }
 
 func (c *CAdmin) GetUserEditBy(id int64) (err error) {
+	if id == 1 && c.UserID != 1 {
+		return c.Hm.GetMessage(500, "禁止修改超级管理员")
+	}
 	user, err := c.Svc.GetUser(id)
 	if err != nil {
 		return
@@ -62,6 +65,9 @@ func (c *CAdmin) GetUserEditBy(id int64) (err error) {
 }
 
 func (c *CAdmin) PostUserEditBy(id int64) (err error) {
+	if id == 1 && c.UserID != 1 {
+		return c.Hm.GetMessage(500, "禁止修改超级管理员")
+	}
 	req := new(model.UpdateUserReq)
 	if err = c.Ctx.ReadForm(req); err != nil {
 		return
@@ -79,6 +85,9 @@ func (c *CAdmin) PostUserEditBy(id int64) (err error) {
 }
 
 func (c *CAdmin) GetUserDeleteBy(id int64) (err error) {
+	if id == 1 && c.UserID != 1 {
+		return c.Hm.GetMessage(500, "禁止删除超级管理员")
+	}
 	if err = c.Svc.DeleteUser(id); err != nil {
 		return
 	}

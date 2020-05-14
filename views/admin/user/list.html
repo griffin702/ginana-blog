@@ -18,7 +18,7 @@
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody>{{range $k, $v := .data.List}}
+                <tbody>{{$isAdmin := eq .userId 1}}{{range $k, $v := .data.List}}
                     <tr>
                         <td>{{$v.ID}}</td>
                         <td>{{$v.Username}}</td>
@@ -31,9 +31,9 @@
                                 <span class="text-success">已激活</span>{{else}}
                                 <span class="text-error">未激活</span>{{end}}
                         </td>
-                        <td>
+                        <td>{{$notAdminData := ne $v.ID 1}}{{if or $isAdmin $notAdminData}}
                             <a href="/admin/user/edit/{{$v.ID}}">编辑</a> |
-                            <a href="/admin/user/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>
+                            <a href="/admin/user/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>{{end}}
                         </td>
                     </tr>{{end}}
                 </tbody>
