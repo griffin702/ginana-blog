@@ -30,6 +30,8 @@ func Rawurlencode(str string) string {
 // 一些自定义的类型
 type GetClientIP func() string
 
+type GetPagination func(ctx iris.Context) (*Pager, error)
+
 type OptionHandler func(ctx iris.Context) (*Option, error)
 
 type Validator func(obj interface{}, translation ...bool) error

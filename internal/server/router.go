@@ -24,9 +24,8 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 	})
 
 	objects := []interface{}{
-		svc, session.Start, hm, valid, jsonPlus,
-		getClientIP, getPagination, getTools, getConfigs,
-		getSiteOptions(svc, cfg),
+		svc, session.Start, hm, valid, getSiteOptions(svc, cfg),
+		getClientIP, getPagination(svc), jsonPlus, getTools, getConfigs,
 	}
 
 	group := mvc.New(e.Party("/"))

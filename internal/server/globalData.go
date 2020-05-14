@@ -8,16 +8,27 @@ import (
 	"github.com/griffin702/ginana/library/ecode"
 	"github.com/griffin702/service/tools"
 	"github.com/kataras/iris/v12"
+	"strconv"
 	"strings"
 )
 
-func getPagination(ctx iris.Context) (p *model.Pager) {
-	p = new(model.Pager)
-	p.Page = ctx.URLParamInt64Default("page", 1)
-	p.PageSize = ctx.URLParamInt64Default("pagesize", 15)
-	p.UrlPath = ctx.Path()
-	p.UrlParams = ctx.URLParams()
-	return
+func getPagination(svc service.Service) model.GetPagination {
+	return func(ctx iris.Context) (p *model.Pager, err error) {
+		options, err := svc.GetSiteOptions()
+		if err != nil {
+			return nil, err
+		}
+		p = new(model.Pager)
+		p.Page = ctx.URLParamInt64Default("page", 1)
+		size, err := strconv.Atoi(options.PageSize)
+		if err != nil {
+			return nil, err
+		}
+		p.PageSize = ctx.URLParamInt64Default("pagesize", int64(size))
+		p.UrlPath = ctx.Path()
+		p.UrlParams = ctx.URLParams()
+		return
+	}
 }
 
 func getSiteOptions(svc service.Service, cfg *config.Config) model.OptionHandler {
