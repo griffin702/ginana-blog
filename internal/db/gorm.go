@@ -45,7 +45,7 @@ func initTable(db *gorm.DB) {
 func initTableData(db *gorm.DB) (err error) {
 	tx := db.Begin()
 	admin := new(model.User)
-	if err = tx.Find(admin, "id = 1").Error; err != nil {
+	if err = tx.Find(admin, "id = 1").Error; err == gorm.ErrRecordNotFound {
 		admin.Username = "admin"
 		admin.Password = "$2a$10$qhcgRHCZOsn3V8854Vw3eeJHPra.CSX4MACEIS4VqY10AazjxJxqO"
 		admin.Nickname = "admin"
@@ -56,7 +56,24 @@ func initTableData(db *gorm.DB) (err error) {
 			return
 		}
 	}
-	if err = tx.Find(&model.Options{}, "id = 1").Error; err != nil {
+	role := new(model.Role)
+	if err = tx.Find(role, "id = 1").Error; err == gorm.ErrRecordNotFound {
+		role.RoleName = "super_admin"
+		if err = tx.Create(role).Error; err != nil {
+			tx.Rollback()
+			return
+		}
+	}
+	userRole := new(model.UserRoles)
+	if err = tx.Find(userRole, "id = 1").Error; err == gorm.ErrRecordNotFound {
+		userRole.UserID = 1
+		userRole.RoleID = 1
+		if err = tx.Create(userRole).Error; err != nil {
+			tx.Rollback()
+			return
+		}
+	}
+	if err = tx.Find(&model.Options{}, "id = 1").Error; err == gorm.ErrRecordNotFound {
 		options := make(map[string]string)
 		options["SiteName"] = "iNana用心交织的生活"
 		options["SiteURL"] = "https://inana.top"
@@ -87,7 +104,7 @@ func initTableData(db *gorm.DB) (err error) {
 		}
 	}
 	link := new(model.Link)
-	if err = tx.Find(link, "id = 1").Error; err != nil {
+	if err = tx.Find(link, "id = 1").Error; err == gorm.ErrRecordNotFound {
 		link.SiteName = "iNana"
 		link.SiteAvatar = "/static/upload/default/user-default-60x60.png"
 		link.SiteDesc = "iNana个人博客"
@@ -108,7 +125,7 @@ func initTableData(db *gorm.DB) (err error) {
 			return
 		}
 	}
-	if err = tx.Find(&model.Article{}, "id = 1").Error; err != nil {
+	if err = tx.Find(&model.Article{}, "id = 1").Error; err == gorm.ErrRecordNotFound {
 		for i := 0; i < 20; i++ {
 			article := new(model.Article)
 			article.UserID = 1
