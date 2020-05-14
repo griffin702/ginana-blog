@@ -1,6 +1,7 @@
 <fieldset>
-    <legend>心情列表<a class="btn btn-primary btn-xs" href="/admin/mood/add">
-            <span class="glyphicon glyphicon-plus"></span> 添加心情</a>
+    <legend>心情列表{{if permission .userId "/admin/mood/add" "get"}}
+    <a class="btn btn-primary btn-xs" href="/admin/mood/add">
+        <span class="glyphicon glyphicon-plus"></span> 添加心情</a>{{end}}
     </legend>
     <div class="refresh">
         <div class="table-responsive">
@@ -13,7 +14,7 @@
                     <th>图片</th>
                     <th>操作</th>
                 </tr>
-                </thead>
+                </thead>{{$hasDelete:=permission .userId "/admin/mood/delete/*" "get"}}
                 <tbody>{{range $k, $v := .data.List}}
                     <tr>
                         <td style="min-width: 80px">{{$v.ID}}</td>
@@ -22,8 +23,8 @@
                         <td style="min-width: 200px">{{if ne $v.Cover ""}}
                                 <img src="{{$v.Cover}}" width="170" height="80" alt=""/>{{end}}
                         </td>
-                        <td style="min-width: 80px">
-                            <a href="/admin/mood/delete?id={{$v.ID}}" onclick="return del_confirm()">删除</a>
+                        <td style="min-width: 80px">{{if $hasDelete}}
+                                <a href="/admin/mood/delete?id={{$v.ID}}" onclick="return del_confirm()">删除</a>{{end}}
                         </td>
                     </tr>{{end}}
                 </tbody>

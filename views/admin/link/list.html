@@ -1,6 +1,7 @@
 <fieldset>
-    <legend>友链列表<a class="btn btn-primary btn-xs" href="/admin/link/add">
-            <span class="glyphicon glyphicon-plus"></span> 添加友链</a>
+    <legend>友链列表{{if permission .userId "/admin/link/add" "get"}}
+    <a class="btn btn-primary btn-xs" href="/admin/link/add">
+        <span class="glyphicon glyphicon-plus"></span> 添加友链</a>{{end}}
     </legend>
     <div class="refresh">
         <div class="table-responsive">
@@ -15,20 +16,20 @@
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody>
-                {{range $k, $v := .links}}
+                {{$hasEdit:=permission .userId "/admin/link/edit/*" "get"}}
+                {{$hasDelete:=permission .userId "/admin/link/delete/*" "get"}}
+                <tbody>{{range $k, $v := .links}}
                     <tr>
                         <td>{{$v.ID}}</td>
                         <td>{{$v.SiteName}}</td>
                         <td>{{$v.Url}}</td>
                         <td>{{$v.SiteDesc}}</td>
                         <td>{{$v.Rank}}</td>
-                        <td>
-                            <a href="/admin/link/edit/{{$v.ID}}">编辑</a> |
-                            <a href="/admin/link/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>
+                        <td>{{if $hasEdit}}
+                                <a href="/admin/link/edit/{{$v.ID}}">编辑</a> |{{end}}{{if $hasDelete}}
+                                <a href="/admin/link/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>{{end}}
                         </td>
-                    </tr>
-                {{end}}
+                    </tr>{{end}}
                 </tbody>
             </table>
         </div>

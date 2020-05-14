@@ -21,7 +21,7 @@
                             <td>{{$v.Name}}</td>
                             <td>{{len $v.Articles}}</td>
                         </tr>{{end}}
-                    </tbody>
+                    </tbody>{{if permission .userId "/admin/tag/list" "post"}}
                     <div class="col-lg-12" style="padding: 10px 0 0 0">
                         <label>
                             <select class="form-control" name="option">
@@ -35,7 +35,7 @@
 							</span>
                         </label>
                         <button type="submit" class="btn btn-primary">应用</button>
-                    </div>
+                    </div>{{end}}
                 </table>
                 {{str2html .data.Pager.ToString}}
             </div>

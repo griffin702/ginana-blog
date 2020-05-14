@@ -37,34 +37,62 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-plus"></span> 发布管理<strong class="caret"></strong>
-                        </a>
-                        <ul class="dropdown-menu">{{if permission .userId "/admin/article/add" "get"}}
-                            <li><a href="/admin/article/add"><span class="glyphicon glyphicon-plus"></span> 发表文章</a>
-                            </li>{{end}}{{if permission .userId "/admin/article/list" "get"}}
-                            <li><a href="/admin/article/list"><span class="glyphicon glyphicon-list"></span> 文章列表</a>
-                            </li>
-                            <li class="divider"></li>{{end}}{{if permission .userId "/admin/mood/add" "get"}}
-                                <li><a href="/admin/mood/add"><span class="glyphicon glyphicon-plus"></span> 发表心情</a>
-                                </li>{{end}}{{if permission .userId "/admin/mood/list" "get"}}
-                            <li><a href="/admin/mood/list"><span class="glyphicon glyphicon-list"></span> 心情列表</a></li>
-                            <li class="divider"></li>{{end}}{{if permission .userId "/admin/comment/list" "get"}}
-                            <li><a href="/admin/comment/list"><span class="glyphicon glyphicon-list"></span> 评论管理</a>
-                            </li>{{end}}{{if permission .userId "/admin/tag/list" "get"}}
-                            <li><a href="/admin/tag/list"><span class="glyphicon glyphicon-list"></span> 标签管理</a></li>
-                            <li class="divider"></li>{{end}}{{if permission .userId "/admin/link/add" "get"}}
-                                <li><a href="/admin/link/add"><span class="glyphicon glyphicon-plus"></span> 添加友链</a>
-                                </li>{{end}}{{if permission .userId "/admin/link/list" "get"}}
-                            <li><a href="/admin/link/list"><span class="glyphicon glyphicon-list"></span> 友链列表</a></li>
-                            <li class="divider"></li>{{end}}{{if permission .userId "/admin/album/add" "get"}}
-                                <li><a href="/admin/album/add"><span class="glyphicon glyphicon-plus"></span> 创建相册</a>
-                                </li>{{end}}{{if permission .userId "/admin/album/list" "get"}}
-                                <li><a href="/admin/album/list"><span class="glyphicon glyphicon-list"></span> 相册列表</a>
-                                </li>{{end}}
-                        </ul>
-                    </li>
+                    {{$notArtAdd:=permission .userId "/admin/article/add" "get"}}
+                    {{$notArtList:=permission .userId "/admin/article/list" "get"}}
+                    {{$notMoodAdd:=permission .userId "/admin/mood/add" "get"}}
+                    {{$notMoodList:=permission .userId "/admin/mood/list" "get"}}
+                    {{$notCommentList:=permission .userId "/admin/comment/list" "get"}}
+                    {{$notTagList:=permission .userId "/admin/tag/list" "get"}}
+                    {{$notLinkAdd:=permission .userId "/admin/link/add" "get"}}
+                    {{$notLinkList:=permission .userId "/admin/link/list" "get"}}
+                    {{$notAlbumAdd:=permission .userId "/admin/album/add" "get"}}
+                    {{$notAlbumList:=permission .userId "/admin/album/list" "get"}}
+                    {{$publicList:=or $notArtAdd $notArtList $notMoodAdd $notMoodList $notCommentList $notTagList $notLinkAdd $notLinkList $notAlbumAdd $notAlbumList}}
+                    {{if $publicList}}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-plus"></span> 发布管理<strong class="caret"></strong>
+                            </a>
+                            <ul class="dropdown-menu">{{if permission .userId "/admin/article/add" "get"}}
+                                    <li><a href="/admin/article/add"><span class="glyphicon glyphicon-plus"></span> 发表文章</a>
+                                    </li>{{end}}{{if permission .userId "/admin/article/list" "get"}}
+                                    <li><a href="/admin/article/list"><span class="glyphicon glyphicon-list"></span>
+                                            文章列表</a>
+                                    </li>
+                                    <li class="divider"></li>{{end}}{{if permission .userId "/admin/mood/add" "get"}}
+                                    <li><a href="/admin/mood/add"><span class="glyphicon glyphicon-plus"></span>
+                                            发表心情</a>
+                                    </li>{{end}}{{if permission .userId "/admin/mood/list" "get"}}
+                                    <li><a href="/admin/mood/list"><span class="glyphicon glyphicon-list"></span>
+                                            心情列表</a></li>
+                                    <li class="divider"></li>{{end}}{{if permission .userId "/admin/comment/list" "get"}}
+                                    <li><a href="/admin/comment/list"><span class="glyphicon glyphicon-list"></span>
+                                            评论管理</a>
+                                    </li>{{end}}{{if permission .userId "/admin/tag/list" "get"}}
+                                    <li><a href="/admin/tag/list"><span class="glyphicon glyphicon-list"></span>
+                                            标签管理</a></li>
+                                    <li class="divider"></li>{{end}}{{if permission .userId "/admin/link/add" "get"}}
+                                    <li><a href="/admin/link/add"><span class="glyphicon glyphicon-plus"></span>
+                                            添加友链</a>
+                                    </li>{{end}}{{if permission .userId "/admin/link/list" "get"}}
+                                    <li><a href="/admin/link/list"><span class="glyphicon glyphicon-list"></span>
+                                            友链列表</a></li>
+                                    <li class="divider"></li>{{end}}{{if permission .userId "/admin/album/add" "get"}}
+                                    <li><a href="/admin/album/add"><span class="glyphicon glyphicon-plus"></span>
+                                            创建相册</a>
+                                    </li>{{end}}{{if permission .userId "/admin/album/list" "get"}}
+                                    <li><a href="/admin/album/list"><span class="glyphicon glyphicon-list"></span> 相册列表</a>
+                                    </li>{{end}}
+                            </ul>
+                        </li>{{end}}
+                    {{$notUserAdd:=permission .userId "/admin/user/add" "get"}}
+                    {{$notUserList:=permission .userId "/admin/user/list" "get"}}
+                    {{$notRoleAdd:=permission .userId "/admin/role/add" "get"}}
+                    {{$notRoleList:=permission .userId "/admin/role/list" "get"}}
+                    {{$notPolicyAdd:=permission .userId "/admin/policy/add" "get"}}
+                    {{$notPolicyList:=permission .userId "/admin/policy/list" "get"}}
+                    {{$userList:=or $notUserAdd $notUserList $notRoleAdd $notRoleList $notPolicyAdd $notPolicyList}}
+                    {{if $userList}}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-user"></span> 用户管理<strong class="caret"></strong>
@@ -83,7 +111,7 @@
                             <li><a href="/admin/policy/list"><span class="glyphicon glyphicon-list"></span> 规则列表</a>
                             </li>{{end}}
                         </ul>
-                    </li>
+                    </li>{{end}}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-wrench"></span> 系统管理<strong class="caret"></strong>

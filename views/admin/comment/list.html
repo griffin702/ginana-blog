@@ -14,6 +14,8 @@
                     <th>操作</th>
                 </tr>
                 </thead>
+                {{$hasEdit:=permission .userId "/admin/comment/edit/*" "get"}}
+                {{$hasDelete:=permission .userId "/admin/comment/delete/*" "get"}}
                 <tbody>{{range $k, $v := .data.List}}
                     <tr>
                         <td>{{$v.ID}}</td>
@@ -22,9 +24,9 @@
                         <td>{{$v.Content}}</td>
                         <td>{{date $v.CreatedAt "y-m-d H:i:s"}}</td>
                         <td>{{$v.IPAddress}}</td>
-                        <td>
-                            <a href="/admin/comment/edit/{{$v.ID}}">编辑</a>
-                            <a href="/admin/comment/delete/{{$v.ID}}" onclick="return del_comment()">删除</a>
+                        <td>{{if $hasEdit}}
+                                <a href="/admin/comment/edit/{{$v.ID}}">编辑</a> |{{end}}{{if $hasDelete}}
+                                <a href="/admin/comment/delete/{{$v.ID}}" onclick="return del_comment()">删除</a>{{end}}
                         </td>
                     </tr>{{end}}
                 </tbody>

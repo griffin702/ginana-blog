@@ -1,6 +1,7 @@
 <fieldset>
-    <legend>相册列表<a class="btn btn-primary btn-xs" href="/admin/album/add">
-            <span class="glyphicon glyphicon-plus"></span> 创建相册</a>
+    <legend>相册列表{{if permission .userId "/admin/album/add" "get"}}
+    <a class="btn btn-primary btn-xs" href="/admin/album/add">
+        <span class="glyphicon glyphicon-plus"></span> 创建相册</a>{{end}}
     </legend>
     <div class="refresh">
         <div class="table-responsive">
@@ -15,8 +16,11 @@
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody>
-                {{range $k, $v := .data.List}}
+                {{$hasPhotoList:=permission .userId "/admin/album/*/photo/list" "get"}}
+                {{$hasEdit:=permission .userId "/admin/album/edit/*" "get"}}
+                {{$hasShow:=permission .userId "/admin/album/*/show" "get"}}
+                {{$hasHidden:=permission .userId "/admin/album/*/hidden" "get"}}
+                <tbody>{{range $k, $v := .data.List}}
                     <tr>
                         <td>{{$v.ID}}</td>
                         <td>{{$v.Name}}</td>
@@ -27,17 +31,13 @@
                                 <img src="{{$v.Cover}}" width="170" height="80" alt=""/>
                             </a>
                         </td>
-                        <td>
-                            <a href="/admin/album/{{$v.ID}}/photo/list">进入相册</a> |
-                            <a href="/admin/album/edit/{{$v.ID}}">编辑</a> |
-                            {{if $v.Hidden}}
-                                <a href="/admin/album/{{$v.ID}}/show">显示</a>
-                            {{else}}
-                                <a href="/admin/album/{{$v.ID}}/hidden">隐藏</a>
-                            {{end}}
+                        <td>{{if $hasPhotoList}}
+                                <a href="/admin/album/{{$v.ID}}/photo/list">进入相册</a> |{{end}}{{if $hasEdit}}
+                                <a href="/admin/album/edit/{{$v.ID}}">编辑</a> |{{end}}{{if $v.Hidden}}{{if $hasShow}}
+                                <a href="/admin/album/{{$v.ID}}/show">显示</a>{{end}}{{else}}{{if $hasHidden}}
+                                <a href="/admin/album/{{$v.ID}}/hidden">隐藏</a>{{end}}{{end}}
                         </td>
-                    </tr>
-                {{end}}
+                    </tr>{{end}}
                 </tbody>
             </table>
             {{str2html .data.Pager.ToString}}

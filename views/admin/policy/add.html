@@ -28,8 +28,8 @@
                 </tr>
                 <tr>
                     <th></th>
-                    <td>
-                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 保存</button>
+                    <td>{{if permission .userId "/admin/policy/add" "post"}}
+                            <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 保存</button>{{end}}
                         <button type="button" class="btn btn-primary" onclick="history.back();">取消</button>
                     </td>
                 </tr>

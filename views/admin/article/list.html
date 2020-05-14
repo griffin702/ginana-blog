@@ -1,6 +1,7 @@
 <fieldset>
-    <legend>文章列表<a class="btn btn-primary btn-xs" href="/admin/article/add">
-            <span class="glyphicon glyphicon-plus"></span> 发布文章</a>
+    <legend>文章列表{{if permission .userId "/admin/article/add" "get"}}
+    <a class="btn btn-primary btn-xs" href="/admin/article/add">
+        <span class="glyphicon glyphicon-plus"></span> 发布文章</a>{{end}}
     </legend>
     <ul class="nav nav-tabs">
         <li {{if eq .data.Status 0}}class="active"{{end}}><a
@@ -43,6 +44,9 @@
                         <th>操作</th>
                     </tr>
                     </thead>
+                    {{$hasPush:=permission .userId "/admin/article/push/*" "get"}}
+                    {{$hasEdit:=permission .userId "/admin/article/edit/*" "get"}}
+                    {{$hasDelete:=permission .userId "/admin/article/delete/*" "get"}}
                     <tbody>{{range $k, $v := .data.List}}
                         <tr>
                             <td><label>
@@ -58,10 +62,11 @@
                             <td>{{$v.Views}}</td>
                             <td class="hl_author">{{$v.User.Nickname}}</td>
                             <td>{{date $v.CreatedAt "Y年m月d日 H:i:s"}}</td>
-                            <td>{{if eq $v.Status 0}}
-                                    <a href="/admin/article/push/{{$v.ID}}">推送</a> | {{end}}
-                                <a href="/admin/article/edit/{{$v.ID}}">编辑</a> |
-                                <a href="/admin/article/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>
+                            <td>{{if eq $v.Status 0}}{{if $hasPush}}
+                                    <a href="/admin/article/push/{{$v.ID}}">推送</a> |{{end}}{{end}}{{if $hasEdit}}
+                                    <a href="/admin/article/edit/{{$v.ID}}">编辑</a> |{{end}}{{if $hasDelete}}
+                                    <a href="/admin/article/delete/{{$v.ID}}"
+                                       onclick="return del_confirm()">删除</a>{{end}}
                             </td>
                         </tr>{{end}}
                     </tbody>

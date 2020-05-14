@@ -1,6 +1,7 @@
 <fieldset>
-    <legend>用户列表<a class="btn btn-primary btn-xs" href="/admin/user/add">
-            <span class="glyphicon glyphicon-plus"></span> 添加用户</a>
+    <legend>用户列表{{if permission .userId "/admin/user/add" "get"}}
+    <a class="btn btn-primary btn-xs" href="/admin/user/add">
+        <span class="glyphicon glyphicon-plus"></span> 添加用户</a>{{end}}
     </legend>
     <div class="refresh">
         <div class="table-responsive">
@@ -18,6 +19,8 @@
                     <th>操作</th>
                 </tr>
                 </thead>
+                {{$hasEdit:=permission .userId "/admin/user/edit/*" "get"}}
+                {{$hasDelete:=permission .userId "/admin/user/delete/*" "get"}}
                 <tbody>{{$isAdmin := eq .userId 1}}{{range $k, $v := .data.List}}
                     <tr>
                         <td>{{$v.ID}}</td>
@@ -31,9 +34,10 @@
                                 <span class="text-success">已激活</span>{{else}}
                                 <span class="text-error">未激活</span>{{end}}
                         </td>
-                        <td>{{$notAdminData := ne $v.ID 1}}{{if or $isAdmin $notAdminData}}
-                            <a href="/admin/user/edit/{{$v.ID}}">编辑</a> |
-                            <a href="/admin/user/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>{{end}}
+                        <td>{{$notAdminData := ne $v.ID 1}}{{if or $isAdmin $notAdminData}}{{if $hasEdit}}
+                                <a href="/admin/user/edit/{{$v.ID}}">编辑</a> |{{end}}{{if $hasDelete}}
+                                <a href="/admin/user/delete/{{$v.ID}}"
+                                   onclick="return del_confirm()">删除</a>{{end}}{{end}}
                         </td>
                     </tr>{{end}}
                 </tbody>

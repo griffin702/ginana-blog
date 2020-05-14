@@ -1,6 +1,7 @@
 <fieldset>
-    <legend>角色列表<a class="btn btn-primary btn-xs" href="/admin/role/add">
-            <span class="glyphicon glyphicon-plus"></span> 添加角色</a>
+    <legend>角色列表{{if permission .userId "/admin/role/add" "get"}}
+    <a class="btn btn-primary btn-xs" href="/admin/role/add">
+        <span class="glyphicon glyphicon-plus"></span> 添加角色</a>{{end}}
     </legend>
     <div class="refresh">
         <div class="table-responsive">
@@ -13,14 +14,17 @@
                     <th>操作</th>
                 </tr>
                 </thead>
+                {{$hasEdit:=permission .userId "/admin/role/edit/*" "get"}}
+                {{$hasDelete:=permission .userId "/admin/role/delete/*" "get"}}
                 <tbody>{{range $k, $v := .data.List}}
                     <tr>
                         <td>{{$v.ID}}</td>
                         <td>{{date $v.CreatedAt "Y-m-d H:i:s"}}</td>
                         <td>{{$v.RoleName}}</td>
-                        <td>{{if ne $v.ID 1}}
-                            <a href="/admin/role/edit/{{$v.ID}}">编辑</a> |
-                            <a href="/admin/role/delete/{{$v.ID}}" onclick="return del_confirm()">删除</a>{{end}}
+                        <td>{{if ne $v.ID 1}}{{if $hasEdit}}
+                                <a href="/admin/role/edit/{{$v.ID}}">编辑</a> |{{end}}{{if $hasDelete}}
+                                <a href="/admin/role/delete/{{$v.ID}}"
+                                   onclick="return del_confirm()">删除</a>{{end}}{{end}}
                         </td>
                     </tr>{{end}}
                 </tbody>
