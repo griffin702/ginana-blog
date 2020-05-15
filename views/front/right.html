@@ -5,11 +5,6 @@
             <ul>
                 {{range $k,$v := .latestArticles}}
                     <li class="col-md-12">
-                        <div class="r-img">
-                            <a href="{{$v.Link}}" title="{{$v.Title}}">
-                                <img src="{{$v.Cover}}" alt="" width="60" height="42"/>
-                            </a>
-                        </div>
                         <div class="r-data">
                             <div class="r-data-title">
                                 <a href="{{$v.Link}}" title="{{$v.Title}}">{{str2html $v.ColorTitle}}</a>
@@ -30,11 +25,6 @@
             <ul>
                 {{range $k,$v := .hotArticles}}
                     <li class="col-md-12">
-                        <div class="r-img">
-                            <a href="{{$v.Link}}" title="{{$v.Title}}">
-                                <img src="{{$v.Cover}}" alt="" width="60" height="42"/>
-                            </a>
-                        </div>
                         <div class="r-data">
                             <div class="r-data-title">
                                 <a href="{{$v.Link}}" title="{{$v.Title}}">{{str2html $v.ColorTitle}}</a>

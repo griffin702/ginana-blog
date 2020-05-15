@@ -243,8 +243,8 @@ aside .rnav ul li a:hover {
     font-size: 12px;
     float: left;
     text-align: center;
-    width: 90px;
-    height: 100px;
+    width: 70px;
+    height: 90px;
     padding: 10px 0
 }
 
@@ -808,6 +808,7 @@ h2.title_tj div {
 
 .bloglist div a.articleimg {
     padding: 15px 15px 15px 20px;
+    max-width: 265px;
 }
 
 .bloglist div a.articleimg img {
@@ -840,7 +841,7 @@ h2.title_tj div {
 }
 
 .blogcontent {
-    padding: 0 15px !important;
+    padding: 5px 15px 0 !important;
     height: 70px;
 }
 
@@ -875,8 +876,8 @@ a.readmore {
     padding: 5px 10px;
     float: right;
     position: relative;
-    right: 20px;
-    bottom: 20px;
+    right: 15px;
+    margin-bottom: 15px;
 }
 
 /*mood*/
@@ -1317,8 +1318,9 @@ a.readmore {
     display: block;
 }
 
-.right-bar .r-img, .right-bar .r-data {
+.right-bar .r-data {
     float: left;
+    display: inline;
 }
 
 .right-bar .panel-body {
@@ -1338,9 +1340,10 @@ a.readmore {
 
 .right-bar .r-data-title {
     padding: 0 0 5px 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+}
+
+.right-bar .r-data-title a {
+    word-wrap: break-word;
 }
 
 .right-bar .r-data-info {

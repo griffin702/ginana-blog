@@ -123,8 +123,8 @@ func (a *Article) Excerpt() string {
 	data := []rune(rep)
 	if i := strings.Index(rep, "_markdown_hr_"); i != -1 {
 		return rep[:i] + "..."
-	} else if i = -1; len(data) > 58 {
-		return string(data[:62]) + "..."
+	} else if len(data) > 65 {
+		return string(data[:65]) + "..."
 	}
 	return rep
 }
