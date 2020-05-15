@@ -9,7 +9,7 @@ configIsLocal = true
 configPath = "../configs"
 
 # irisLogLevel: disable, fatal, error, warn, info, debug
-irisLogLevel = "info"
+irisLogLevel = "warn"
 
 enableGzip = true
 

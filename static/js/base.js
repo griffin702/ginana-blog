@@ -384,7 +384,7 @@ $(document).ready(function () {
             let src = smallsrc.replace(/_small/, "");
             let lightgallery = "<ul id=\"lightgallery-" + index + "\" class=\"list-unstyled\">" +
                 "<li data-src=\"" + src + "\"><a href=\"#\">" +
-                "<img src=\"" + smallsrc + "\" alt=\"\"></a></li></ul>" +
+                "<img src=\"" + smallsrc + "\" alt=\"\"/></a></li></ul>" +
                 "<script>lightGallery(document.getElementById('lightgallery-" + index + "'));</script>";
             let parent = $(this).parent();
             $(this).remove();
