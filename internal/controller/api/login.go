@@ -98,7 +98,7 @@ func (c *CApiLogin) PostLogin() {
 		return
 	}
 	c.setToken(user)
-	log.Infof("userid: %d, username: %s, 登录成功", user.ID, user.Username)
+	log.Infof("userId: %d, username: %s, 登录成功", user.ID, user.Username)
 	c.Ctx.JSON(c.JsonPlus(true, c.Hm.GetMessage(0, "登陆成功")))
 }
 
@@ -139,7 +139,7 @@ func (c *CApiLogin) PostRegister() {
 		return
 	}
 	c.setToken(user)
-	log.Infof("userid: %d, username: %s, 登录成功", user.ID, user.Username)
+	log.Infof("userId: %d, username: %s, 登录成功", user.ID, user.Username)
 	c.Ctx.JSON(c.JsonPlus(true, c.Hm.GetMessage(0, "注册并登陆成功")))
 }
 
