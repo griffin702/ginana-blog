@@ -6,6 +6,7 @@ import (
 	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
 	"github.com/griffin702/ginana/library/ecode"
+	"github.com/griffin702/ginana/library/log"
 	"github.com/griffin702/service/tools"
 	"github.com/kataras/iris/v12"
 	"strconv"
@@ -115,6 +116,7 @@ func jsonPlus(_ iris.Context) model.JsonPlus {
 }
 
 func errorHandler(ctx iris.Context, err error) {
+	log.Errorf("%+v", jsonPlus(ctx)(nil, err))
 	redirect := ctx.GetReferrer().Path
 	if redirect == "" {
 		redirect = "/"
