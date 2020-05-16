@@ -1,0 +1,50 @@
+appName = "GiNana"
+
+version = "1.0.0"
+
+configIsLocal = true
+
+configPath = "../configs"
+
+irisLogLevel = "warn"
+
+enableGzip = true
+
+enableTemplate = true
+
+reloadTemplate = true
+
+viewsPath = "../views"
+
+staticDir = "static:../static"
+
+sessionAndCookieExpire = "24h"
+
+jwtSecret = "123123"
+
+[Memcache]
+	addr = "127.0.0.1:11211"
+	idle = 10
+	timeout = "300ms"
+	cacheExpire = "24h"
+
+[MySQL]
+    params = "timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Asia%2FShanghai&charset=utf8mb4,utf8"
+    driver = "mysql"
+    dbUser = "root"
+    dbPwd = "root"
+    dbHost = "127.0.0.1"
+    dbName = "test"
+    dbPort = "3306"
+    dbPrev = "w_"
+    debug = true
+    active = 20
+    idle = 10
+    idleTimeout ="4h"
+
+[Casbin]
+    model = "casbinmodel.conf"
+    enable = true
+    autoLoad = true
+    # 自动加载，单位(秒)
+    autoLoadInternal = 3600
