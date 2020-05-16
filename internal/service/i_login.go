@@ -6,7 +6,7 @@ import (
 )
 
 func (s *service) GetCaptcha() (res *model.Captcha, err error) {
-	code, image, err := s.tool.CaptchaGenerate(120, 40, 4, 0)
+	code, image, err := s.tool.CaptchaGenerate(120, 40, 4, 0, false)
 	if err != nil {
 		return nil, s.hm.GetMessage(1005, err)
 	}
