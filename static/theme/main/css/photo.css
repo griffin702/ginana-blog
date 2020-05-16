@@ -78,6 +78,7 @@ ul.gallery {
 }
 
 ul.gallery li {
+    width: 220px;
     padding: 0;
     display: block;
     float: left;
