@@ -1,7 +1,6 @@
 package db
 
 import (
-	"fmt"
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/model"
 	"github.com/griffin702/ginana/library/cache/memcache"
@@ -131,25 +130,25 @@ func initTableData(db *gorm.DB, mc memcache.Memcache) (err error) {
 			return
 		}
 	}
-	if err = tx.Find(&model.Article{}, "id = 1").Error; err == gorm.ErrRecordNotFound {
-		for i := 0; i < 20; i++ {
-			article := new(model.Article)
-			article.UserID = 1
-			article.Title = fmt.Sprintf("标题-%d", i)
-			article.Content = fmt.Sprintf("内容-%d", i)
-			tag := new(model.Tag)
-			tag.Name = fmt.Sprintf("标签-%d", i)
-			if err = tx.Create(tag).Error; err != nil {
-				tx.Rollback()
-				return
-			}
-			article.Tags = append(article.Tags, tag)
-			if err = tx.Create(article).Error; err != nil {
-				tx.Rollback()
-				return
-			}
-		}
-	}
+	//if err = tx.Find(&model.Article{}, "id = 1").Error; err == gorm.ErrRecordNotFound {
+	//	for i := 0; i < 20; i++ {
+	//		article := new(model.Article)
+	//		article.UserID = 1
+	//		article.Title = fmt.Sprintf("标题-%d", i)
+	//		article.Content = fmt.Sprintf("内容-%d", i)
+	//		tag := new(model.Tag)
+	//		tag.Name = fmt.Sprintf("标签-%d", i)
+	//		if err = tx.Create(tag).Error; err != nil {
+	//			tx.Rollback()
+	//			return
+	//		}
+	//		article.Tags = append(article.Tags, tag)
+	//		if err = tx.Create(article).Error; err != nil {
+	//			tx.Rollback()
+	//			return
+	//		}
+	//	}
+	//}
 	tx.Commit()
 	return nil
 }
