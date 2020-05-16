@@ -10,7 +10,7 @@
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">当前：</span>
-                        <input type="text" id="avatar" name="cover" class="form-control"/>
+                        <input type="text" id="avatar" name="cover" class="form-control" autocomplete="off"/>
                     </div>{{if permission .userId "/admin/upload" "post"}}
                     <input type="file" id="new_avatar" data-uptype="3" data-albumid="0"/>
                     <img src="/static/upload/default/yulan-190x135.png" id="auto_view" class="img-rounded" width="190"

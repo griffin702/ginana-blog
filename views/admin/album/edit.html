@@ -10,7 +10,8 @@
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">当前：</span>
-                        <input type="text" id="avatar" name="cover" class="form-control" value="{{.data.Cover}}"/>
+                        <input type="text" id="avatar" name="cover" class="form-control" value="{{.data.Cover}}"
+                               autocomplete="off"/>
                     </div>{{if permission .userId "/admin/upload" "post"}}
                     <input type="file" id="new_avatar"/>
                     <img src="{{.data.Cover}}" id="auto_view" class="img-rounded" width="190" height="135" alt=""/>
@@ -23,13 +24,13 @@
             <tr>
                 <th>展示排序</th>
                 <td>
-                    <input class="form-control" type="text" name="rank" value="{{.data.Rank}}"/>
+                    <input class="form-control" type="text" name="rank" value="{{.data.Rank}}" autocomplete="off"/>
                 </td>
             </tr>
             <tr>
                 <th>相册名称</th>
                 <td>
-                    <input class="form-control" type="text" name="name" value="{{.data.Name}}"/>
+                    <input class="form-control" type="text" name="name" value="{{.data.Name}}" autocomplete="off"/>
                 </td>
             </tr>
             <tr>
