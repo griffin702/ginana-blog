@@ -149,13 +149,16 @@ func (s *service) UpdateUser(req *model.UpdateUserReq) (user *model.User, err er
 	return
 }
 
-func (s *service) UpdateAccount(req *model.UpdateAccountReq) (user *model.User, err error) {
+func (s *service) UpdateAccount(req *model.UpdateUserReq) (user *model.User, err error) {
 	user = new(model.User)
 	user.ID = req.ID
 	if err = s.db.Find(user).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
 	if req.Password != "" {
+		if req.NewPassword == "" || req.NewPasswordAgain == "" {
+			return nil, s.hm.GetMessage(1011)
+		}
 		if !s.tool.BcryptHashCompare(user.Password, req.Password) {
 			return nil, s.hm.GetMessage(1008)
 		}

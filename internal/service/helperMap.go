@@ -23,6 +23,7 @@ func NewHelperMap() (hm HelperMap, err error) {
 			1008: "密码校验不正确",
 			1009: "该帐号未激活",
 			1010: "2次输入的密码不一致",
+			1011: "新密码不允许为空",
 		},
 		CacheKey: map[int]string{
 			1: "user",

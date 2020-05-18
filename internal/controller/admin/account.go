@@ -14,7 +14,7 @@ func (c *CAdmin) GetAccountInfo() (err error) {
 }
 
 func (c *CAdmin) PostAccountInfo() (err error) {
-	req := new(model.UpdateAccountReq)
+	req := new(model.UpdateUserReq)
 	if err = c.Ctx.ReadForm(req); err != nil {
 		return
 	}

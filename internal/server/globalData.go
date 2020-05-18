@@ -116,12 +116,13 @@ func jsonPlus(_ iris.Context) model.JsonPlus {
 }
 
 func errorHandler(ctx iris.Context, err error) {
-	log.Errorf("%+v", jsonPlus(ctx)(nil, err))
+	jp := jsonPlus(ctx)(nil, err)
+	log.Errorf("%d, %s", jp.Code, jp.Message)
 	redirect := ctx.GetReferrer().Path
 	if redirect == "" {
 		redirect = "/"
 	}
 	ctx.ViewData("redirect", redirect)
-	ctx.ViewData("error", jsonPlus(ctx)(nil, err))
+	ctx.ViewData("error", jp)
 	ctx.View("message/error.html")
 }

@@ -23,7 +23,7 @@ type Service interface {
 	CheckPermission(userId int64, router, method string) (idAuth bool)
 	GetSiteOptions() (res *model.Option, err error)
 	UpdateSiteOptions(req *model.Option) (err error)
-	UpdateAccount(req *model.UpdateAccountReq) (user *model.User, err error)
+	UpdateAccount(req *model.UpdateUserReq) (user *model.User, err error)
 
 	// 角色
 	GetEFRoles(ctx context.Context) (roles []*database.EFRolePolicy, err error)
