@@ -4,7 +4,7 @@ version = "1.0.0"
 
 configIsLocal = true
 
-configPath = "../configs"
+configPath = "../../configs"
 
 irisLogLevel = "warn"
 
@@ -45,6 +45,6 @@ jwtSecret = "123123"
 [Casbin]
     model = "casbinmodel.conf"
     enable = true
-    autoLoad = true
+    autoLoad = false
     # 自动加载，单位(秒)
     autoLoadInternal = 3600

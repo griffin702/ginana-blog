@@ -16,6 +16,7 @@ require (
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/philchia/agollo v2.1.0+incompatible // indirect
 	github.com/pkg/errors v0.8.1
+	github.com/smartystreets/goconvey v0.0.0-20190731233626-505e41936337
 	github.com/swaggo/swag v1.6.3
 	github.com/ulricqin/goutils v0.0.0-20141016093831-470e8f553458
 	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e // indirect

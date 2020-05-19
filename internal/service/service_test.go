@@ -34,6 +34,13 @@ func TestMain(m *testing.M) {
 	if svc, err = New(cfg, mysql, mc, hm); err != nil {
 		panic(err)
 	}
+	ef, err := database.NewCasbinConn(svc, cfg.ConfigPath, cfg.Casbin)
+	if err != nil {
+		panic(err)
+	}
+	if err = svc.SetEnforcer(ef); err != nil {
+		panic(err)
+	}
 	os.Exit(m.Run())
 }
 
