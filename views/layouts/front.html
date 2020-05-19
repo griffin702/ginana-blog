@@ -28,12 +28,10 @@
 <div class="container-fluid" style="padding: 70px 0 0 0;">
     {{ render "front/head.html" }}
     {{ render "front/banner.html" }}
-    <div class="col-lg-1 col-md-1 hidden-sm hidden-xs"></div>
-    <article class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+    <article class="col-lg-10 col-lg-offset-1">
         {{ yield }}{{if not .disableRight}}
             {{ render "front/right.html" }}{{end}}
     </article>
-    <div class="col-lg-1 col-md-1 hidden-sm hidden-xs"></div>
     {{ render "front/foot.html" }}
 </div>
 </body>

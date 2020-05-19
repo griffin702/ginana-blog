@@ -12,13 +12,13 @@
     <a href="/album.html" class="n2">返回列表</a>
     <strong><span class="glyphicon glyphicon-map-marker"></span> 每一个瞬间的摄影，都是无法复摹独一无二的</strong>
 </h1>
-<div class="photolist col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <ul id="lightgallery" class="gallery list-unstyled col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<div class="photolist col-xs-12">
+    <ul id="lightgallery" class="gallery list-unstyled col-xs-12">
         {{range $k, $v := .data.List}}
-            <li data-sub-html="IMG_{{$v.ID}}" data-src="{{$v.Url}}" class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                <a href="#" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <img src="{{$v.ChangetoSmall}}" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" alt=""/>
-                    <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+            <li data-sub-html="IMG_{{$v.ID}}" data-src="{{$v.Url}}" class="col-md-2 col-sm-6">
+                <a href="#" class="col-xs-12">
+                    <img src="{{$v.ChangetoSmall}}" class="col-xs-12" alt=""/>
+                    <span class="col-xs-12"
                           title="IMG_{{$v.ID}}">IMG_{{$v.ID}}</span>
                 </a>
             </li>

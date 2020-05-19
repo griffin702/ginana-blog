@@ -21,9 +21,9 @@
         <a href="/mood.html" class="n2">碎言碎语</a>
         <strong><span class="glyphicon glyphicon-map-marker"></span> 删删写写，回回忆忆，虽无法行云流水，却也可碎言碎语。</strong>
     </h1>
-    <div class="article_all col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="article_all col-xs-12">
         {{range $k, $v := .data.List}}
-            <div class="sy col-lg-8 col-md-8 col-sm-10 col-xs-10">
+            <div class="sy col-md-8 col-sm-10">
                 <div class="bg">
                     {{if $v.Cover }}
                         <ul id="lightgallery-{{$v.ID}}" class="list-unstyled">
@@ -51,7 +51,7 @@
                     </script>
                 </div>
             </div>
-            <span class="dateview col-lg-2 col-md-2 col-sm-2 col-xs-2">{{date $v.CreatedAt "Y-m-d H:i"}}</span>
+            <span class="dateview col-xs-2">{{date $v.CreatedAt "Y-m-d H:i"}}</span>
         {{end}}
     </div>
     {{str2html .data.Pager.ToString}}

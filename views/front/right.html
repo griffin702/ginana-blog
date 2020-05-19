@@ -1,10 +1,10 @@
-<div class="right-bar col-lg-3 col-md-3 hidden-sm hidden-xs">
+<div class="right-bar col-md-3 hidden-sm">
     <div class="panel panel-default">
         <div class="panel-heading">最新文章</div>
         <div class="panel-body">
             <ul>
                 {{range $k,$v := .latestArticles}}
-                    <li class="col-md-12">
+                    <li class="col-xs-12">
                         <div class="r-data">
                             <div class="r-data-title">
                                 <a href="{{$v.Link}}" title="{{$v.Title}}">{{str2html $v.ColorTitle}}</a>
@@ -24,7 +24,7 @@
         <div class="panel-body">
             <ul>
                 {{range $k,$v := .hotArticles}}
-                    <li class="col-md-12">
+                    <li class="col-xs-12">
                         <div class="r-data">
                             <div class="r-data-title">
                                 <a href="{{$v.Link}}" title="{{$v.Title}}">{{str2html $v.ColorTitle}}</a>
@@ -44,7 +44,7 @@
         <div class="panel-body">
             <ul>
                 {{range $k,$v := .latestComments}}
-                    <li class="col-md-12">
+                    <li class="col-xs-12">
                         <a class="pull-left">
                             <img class="media-object" src="{{ $v.User.Avatar }}" height="36" width="36" alt=""/>
                         </a>

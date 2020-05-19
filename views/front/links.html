@@ -4,7 +4,7 @@
     <strong><span class="glyphicon glyphicon-map-marker"></span> 人生贵知心，定交无暮早。</strong>
 </h1>
 
-<div class="link-friends-body col-lg-9 col-md-9 col-sm-12 col-xs-12" id="wy-delegate-all">
+<div class="link-friends-body col-md-9 col-sm-12" id="wy-delegate-all">
     <blockquote><p>请先做好本站链接再申请，发现没有链接到本站的一律删除不做通知！</p></blockquote>
     <blockquote><p>中国好伙伴</p></blockquote>
     <div class="link-friends">{{range $k, $v := .links}}
@@ -18,7 +18,7 @@
     <script src="/static/js/mycomments.js"></script>
     <script src="/static/js/md5.js"></script>
     <!-- Comments Form -->{{$islogin := .isLogin}}{{if .isLogin}}
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="wrap-form-comment">
+        <div class="col-xs-12" id="wrap-form-comment">
             <div class="well" id="form-comment">
                 <h4>欢迎留下您的评论：</h4>
                 <form role="form" action="/admin/comment/add" method="post">
@@ -34,7 +34,7 @@
                 </form>
             </div>
         </div>{{else}}
-        <p class="checklogin col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <p class="checklogin col-xs-12">
             如需留言，请
             <a href="#" data-toggle="modal" data-target="#wy-login-modal">
                 <span class="glyphicon glyphicon-log-in"></span> 登录</a>，没有账号？请
@@ -42,17 +42,17 @@
                 <span class="glyphicon glyphicon-new-window"></span> 注册</a>
         </p>{{end}}
     <!-- Comments List -->
-    <div id="comments-head" class="comments_length col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div id="comments-head" class="comments_length col-xs-12">
         <p>{{.comments.Pager.AllCount}} 条评论 {{.comments.CountUsers}} 人参与
             {{ if gt .comments.Pager.AllPage 1 }}<span
                     class="pagenum">({{.comments.Pager.Page}}/{{.comments.Pager.AllPage}})</span>{{ end }}
         </p>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="wrap-comments-list">
+    <div class="col-xs-12" id="wrap-comments-list">
         <div id="comments-list">
             {{range $k, $v := .comments.List}}
-                <div class="comments_one col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="comment_parent col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="comments_one col-xs-12">
+                    <div class="comment_parent col-xs-12">
                         <a class="pull-left">
                             <img class="media-object" src="{{ $v.User.Avatar }}" height="45" width="45" alt=""/>
                         </a>
@@ -70,7 +70,7 @@
                             <p>{{ $v.Content }}</p>
                         </div>
                         {{range $kk, $child := $v.Children}}
-                            <div class="comment_child col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <div class="comment_child col-xs-11">
                                 <a class="pull-left">
                                     <img class="media-object" src="{{ $child.User.Avatar }}" height="30" width="30"
                                          alt=""/>
