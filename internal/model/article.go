@@ -116,8 +116,14 @@ func (a *Article) Excerpt() string {
 	//去除所有尖括号内的HTML代码
 	re, _ = regexp.Compile("<[\\S\\s]+?>")
 	rep = re.ReplaceAllString(rep, "")
+	//去除markdown中的标题符号
+	re, _ = regexp.Compile("#{1,6}\\s")
+	rep = re.ReplaceAllString(rep, "")
+	//去除markdown中的图片或超链接
+	re, _ = regexp.Compile("!?\\[.*?]\\(.*?\\)")
+	rep = re.ReplaceAllString(rep, "")
 	//去除连续的换行符
-	re, _ = regexp.Compile("\\s{1,}")
+	re, _ = regexp.Compile("\\s+")
 	rep = re.ReplaceAllString(rep, "")
 	//如果断定截取的断点可能会存在中文字符，则需要转为rune后再截取，否则可能会截成乱码
 	data := []rune(rep)

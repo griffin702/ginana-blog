@@ -1,13 +1,13 @@
 <h2 class="title_tj col-xs-12">
     <div>文章<span>推荐</span></div>
 </h2>
-<div class="bloglist col-md-9 col-sm-12">
+<div class="bloglist col-md-9 col-xs-12">
     {{range $k, $v := .data.List}}
         <div class="blog col-xs-12">
-            <a href="{{$v.Link}}" class="articleimg col-lg-3 col-md-5 hidden-sm">
-                <img src="{{$v.Cover}}" class="img-thumbnail col-md-12 hidden-sm" alt=""/>
+            <a href="{{$v.Link}}" class="articleimg col-lg-3 col-md-5 hidden-sm hidden-xs">
+                <img src="{{$v.Cover}}" class="img-thumbnail col-md-12 hidden-sm hidden-xs" alt=""/>
             </a>
-            <h3 class="col-lg-9 col-md-7 col-sm-12">
+            <h3 class="col-lg-9 col-md-7 col-xs-12">
                 <a href="{{$v.Link}}">{{str2html $v.ColorTitle}}</a>
                 <div class="lifedateview">
                     <span><span class="glyphicon glyphicon-time"></span>{{date $v.CreatedAt "Y-m-d H:i"}}</span>
@@ -15,7 +15,7 @@
                     <span><span class="glyphicon glyphicon-tags"></span> [{{str2html $v.TagsLink}}]</span>
                 </div>
             </h3>
-            <div class="blogcontent col-lg-9 col-md-7 col-sm-12">
+            <div class="blogcontent col-lg-9 col-md-7 col-xs-12">
                 {{str2html $v.Excerpt}}
             </div>
             <a title="阅读全文" href="{{$v.Link}}" target="_blank" class="readmore">阅读全文

@@ -8,7 +8,7 @@
 <div class="albumlist col-xs-12">
     <ul class="gallery col-xs-12">
         {{range $k, $v := .data.List}}
-            <li class="col-md-2 col-sm-6">
+            <li>
                 <a href="/album/{{$v.ID}}" class="col-xs-12">
                     <div class="box1 col-xs-12"
                          style="background:url({{$v.Cover}});">

@@ -15,7 +15,7 @@
 <div class="photolist col-xs-12">
     <ul id="lightgallery" class="gallery list-unstyled col-xs-12">
         {{range $k, $v := .data.List}}
-            <li data-sub-html="IMG_{{$v.ID}}" data-src="{{$v.Url}}" class="col-md-2 col-sm-6">
+            <li data-sub-html="IMG_{{$v.ID}}" data-src="{{$v.Url}}" class="col-md-2 col-xs-6">
                 <a href="#" class="col-xs-12">
                     <img src="{{$v.ChangetoSmall}}" class="col-xs-12" alt=""/>
                     <span class="col-xs-12"
