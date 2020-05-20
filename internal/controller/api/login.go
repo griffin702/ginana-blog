@@ -3,10 +3,6 @@ package api
 import (
 	"ginana-blog/internal/controller"
 	"ginana-blog/internal/model"
-	"github.com/griffin702/ginana/library/log"
-	"github.com/griffin702/service/jwt-iris"
-	"github.com/kataras/iris/v12"
-	"time"
 )
 
 type CApiLogin struct {
@@ -97,8 +93,8 @@ func (c *CApiLogin) PostLogin() {
 		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
-	c.setToken(user)
-	log.Infof("userId: %d, username: %s, 登录成功", user.ID, user.Username)
+	c.SetToken(user)
+	//log.Infof("userId: %d, username: %s, 登录成功", user.ID, user.Username)
 	c.Ctx.JSON(c.JsonPlus(true, c.Hm.GetMessage(0, "登陆成功")))
 }
 
@@ -138,7 +134,7 @@ func (c *CApiLogin) PostRegister() {
 		c.Ctx.JSON(c.JsonPlus(nil, err))
 		return
 	}
-	c.setToken(user)
+	c.SetToken(user)
 	//log.Infof("userId: %d, username: %s, 登录成功", user.ID, user.Username)
 	c.Ctx.JSON(c.JsonPlus(true, c.Hm.GetMessage(0, "注册并登陆成功")))
 }
@@ -155,17 +151,4 @@ func (c *CApiLogin) GetLogout() {
 	c.Session.Destroy()
 	c.Ctx.RemoveCookie("token")
 	c.ShowMsg("已安全登出，期待与您下一次遇见...")
-}
-
-func (c *CApiLogin) setToken(user *model.User) {
-	claims := make(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(time.Duration(c.Config.SessionAndCookieExpire)).Unix()
-	claims["iat"] = time.Now().Unix()
-	claims["userId"] = user.ID
-	claims["username"] = user.Username
-	token := c.Tool.JwtGenerate(claims, c.Config.JwtSecret)
-	c.Ctx.SetCookieKV("token", token,
-		iris.CookieExpires(time.Duration(c.Config.SessionAndCookieExpire)),
-	)
-	c.Session.Set("token", token)
 }

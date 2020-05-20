@@ -11,7 +11,6 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
 	"github.com/kataras/iris/v12/sessions"
-	"time"
 )
 
 func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, valid model.ValidatorHandler) (e *iris.Application, err error) {
@@ -20,7 +19,7 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 
 	session := sessions.New(sessions.Config{
 		Cookie:  "GiNana_Session",
-		Expires: time.Duration(cfg.SessionAndCookieExpire),
+		//Expires: time.Duration(cfg.SessionAndCookieExpire),
 	})
 
 	objects := []interface{}{

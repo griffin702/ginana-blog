@@ -11,7 +11,7 @@ require (
 	github.com/griffin702/service v1.2.9
 	github.com/jinzhu/gorm v1.9.11
 	github.com/kataras/golog v0.0.10
-	github.com/kataras/iris/v12 v12.1.2
+	github.com/kataras/iris/v12 v12.1.8
 	github.com/nats-io/nats-server/v2 v2.1.2 // indirect
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/philchia/agollo v2.1.0+incompatible // indirect

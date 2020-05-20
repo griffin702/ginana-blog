@@ -9,6 +9,7 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
 	"strings"
+	"time"
 )
 
 type BaseController struct {
@@ -47,6 +48,47 @@ func (c *BaseController) Auth() {
 	c.Ctx.Next()
 }
 
+func (c *BaseController) IsLogin() bool {
+	return c.UserID > 0
+}
+
+func (c *BaseController) ShowMsg(msg string, path ...string) {
+	redirect := c.Ctx.GetReferrer().Path
+	if redirect == "" {
+		redirect = "/"
+	}
+	if len(path) > 0 {
+		redirect = path[0]
+	}
+	c.Ctx.ViewData("redirect", redirect)
+	c.Ctx.ViewData("message", msg)
+	c.Ctx.View("message/message.html")
+	c.Ctx.StopExecution()
+}
+
+func (c *BaseController) IsDefaultSrc(value string) bool {
+	var defaultDir = "/static/upload/default/"
+	if value != "" {
+		if index := strings.Index(value, defaultDir); index != -1 {
+			return true
+		}
+	}
+	return false
+}
+
+func (c *BaseController) SetToken(user *model.User) {
+	claims := make(jwt.MapClaims)
+	claims["exp"] = time.Now().Add(time.Duration(c.Config.SessionAndCookieExpire)).Unix()
+	claims["iat"] = time.Now().Unix()
+	claims["userId"] = user.ID
+	claims["username"] = user.Username
+	token := c.Tool.JwtGenerate(claims, c.Config.JwtSecret)
+	c.Ctx.SetCookieKV("token", token,
+		iris.CookieExpires(time.Duration(c.Config.SessionAndCookieExpire)),
+	)
+	c.Session.Set("token", token)
+}
+
 func (c *BaseController) ParseToken() (user *model.UserSession) {
 	user = new(model.UserSession)
 	tokenStr := c.Session.GetString("token")
@@ -74,32 +116,4 @@ func (c *BaseController) ParseToken() (user *model.UserSession) {
 		}
 	}
 	return
-}
-
-func (c *BaseController) IsLogin() bool {
-	return c.UserID > 0
-}
-
-func (c *BaseController) ShowMsg(msg string, path ...string) {
-	redirect := c.Ctx.GetReferrer().Path
-	if redirect == "" {
-		redirect = "/"
-	}
-	if len(path) > 0 {
-		redirect = path[0]
-	}
-	c.Ctx.ViewData("redirect", redirect)
-	c.Ctx.ViewData("message", msg)
-	c.Ctx.View("message/message.html")
-	c.Ctx.StopExecution()
-}
-
-func (c *BaseController) IsDefaultSrc(value string) bool {
-	var defaultDir = "/static/upload/default/"
-	if value != "" {
-		if index := strings.Index(value, defaultDir); index != -1 {
-			return true
-		}
-	}
-	return false
 }
