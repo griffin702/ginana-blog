@@ -19,8 +19,9 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 	e = newIris(svc, cfg)
 
 	session := sessions.New(sessions.Config{
-		Cookie:  "GiNana_Session",
-		Expires: time.Duration(cfg.SessionAndCookieExpire),
+		Cookie:                      "GiNana_Session",
+		Expires:                     time.Duration(cfg.SessionAndCookieExpire),
+		DisableSubdomainPersistence: true,
 	})
 
 	objects := []interface{}{
