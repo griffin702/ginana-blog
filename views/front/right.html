@@ -5,7 +5,7 @@
             <ul>
                 {{range $k,$v := .latestArticles}}
                     <li class="col-xs-12">
-                        <div class="r-data">
+                        <div class="r-data col-xs-11">
                             <div class="r-data-title">
                                 <a href="{{$v.Link}}" title="{{$v.Title}}">{{str2html $v.ColorTitle}}</a>
                             </div>

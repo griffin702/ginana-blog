@@ -71,6 +71,7 @@ type Service interface {
 	GetTagByName(name string) (tag *model.Tag, err error)
 	BatchTag(req *model.TagListReq) (err error)
 	CountTags() (count int64)
+	GetTagsLimit6() (tags []*model.Tag, err error)
 
 	// 心情
 	GetMoods(p *model.Pager) (res *model.Moods, err error)

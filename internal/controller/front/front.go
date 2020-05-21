@@ -46,11 +46,11 @@ func (c *CFront) setHeadMetas(params ...string) {
 }
 
 func (c *CFront) Get() (err error) {
-	articles, err := c.Svc.GetArticles(c.Pager)
+	tags, err := c.Svc.GetTagsLimit6()
 	if err != nil {
 		return
 	}
-	c.Ctx.ViewData("data", articles)
+	c.Ctx.ViewData("data", tags)
 	c.setHeadMetas("首页")
 	c.Ctx.View("front/index.html")
 	return

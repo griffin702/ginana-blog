@@ -7,6 +7,10 @@ img {
     border: 0;
 }
 
+ul {
+    list-style: none;
+}
+
 a:link, a:visited, a:hover, a:focus {
     text-decoration: none !important;
 }
@@ -1316,34 +1320,40 @@ a.readmore {
     min-height: 200px;
 }
 
-.right-bar ul {
+.right-bar ul, .tagpanel ul {
     padding: 0;
 }
 
-.right-bar ul li {
+.right-bar ul li, .tagpanel ul li {
     padding: 6px 0;
     margin-left: 2px;
     float: left;
+    border-bottom: #ebebeb 1px dashed;
 }
 
-.right-bar ul li:hover {
+.right-bar ul li:first-child, .tagpanel ul li:first-child {
+    border-top: #ebebeb 1px dashed;
+}
+
+.right-bar ul li:hover, .tagpanel ul li:hover {
     background: #f8f8f8;
 }
 
-.right-bar ul li:hover .r-left-box {
+ul li:hover .r-left-box {
     display: block;
 }
 
-.right-bar .r-data {
+.r-data {
+    padding: 0;
     float: left;
     display: inline;
 }
 
-.right-bar .panel-body {
+.right-bar .panel-body, .tagpanel .panel-body {
     padding: 10px;
 }
 
-.right-bar .r-left-box {
+.r-left-box {
     width: 4px;
     height: 100%;
     background: #b7b7b7;
@@ -1354,18 +1364,57 @@ a.readmore {
     display: none;
 }
 
-.right-bar .r-data-title {
-    padding: 0 0 5px 10px;
+.r-data-title {
+    padding: 5px 0 5px 10px;
 }
 
-.right-bar .r-data-title a {
-    word-wrap: break-word;
+.r-data-title a {
+    max-width: 320px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.right-bar .data-info {
+.r-data-title a div {
+    max-width: 320px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.right-bar .data-info, .tagpanel .data-info {
     padding-left: 10px;
 }
 
 .right-bar .data-info span {
     font-size: 12px;
+}
+
+div.tagpanel {
+    padding: 0 15px 0 0;
+}
+
+div.tagpanel .panel {
+    min-height: 600px;
+}
+
+div.tagpanel .panel-heading .pull-right {
+    color: #cbcbcb;
+}
+
+div.tagpanel .panel-heading .pull-right .badge {
+    background-color: #b7b7b7;
+}
+
+.r-img {
+    padding: 0;
+    float: left;
+    width: 72px;
+}
+
+.r-img img {
+    border-radius: 4px;
+    padding: 0;
 }
