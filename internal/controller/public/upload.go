@@ -1,4 +1,4 @@
-package api
+package public
 
 import (
 	"github.com/griffin702/service/upload"
@@ -14,8 +14,8 @@ import (
 // @Param type query int true "上传类型，本接口只接收type=2"
 // @Success 200 {string} string "{\"success\":1,\"message\":\"上传成功\",\"url\":\"xxxx/xxxx.jpg\"}"
 // @Failure 500 {string} string "{\"success\":0,\"message\":\"error\",\"url\":\"\"}"
-// @Router /api/upload/account/avatar [post]
-func (c *CApiLogin) PostUploadAccountAvatar() {
+// @Router /upload/account/avatar [post]
+func (c *CPublic) PostUploadAccountAvatar() {
 	f, h, err := c.Ctx.FormFile("editormd-image-file")
 	if err != nil {
 		fi := new(upload.FileInfo)

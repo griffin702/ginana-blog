@@ -3,11 +3,10 @@ package server
 import (
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/controller/admin"
-	"ginana-blog/internal/controller/api"
 	"ginana-blog/internal/controller/front"
+	"ginana-blog/internal/controller/public"
 	"ginana-blog/internal/model"
 	"ginana-blog/internal/service"
-	"github.com/griffin702/ginana/library/mdw"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
 	"github.com/kataras/iris/v12/sessions"
@@ -39,10 +38,9 @@ func InitRouter(svc service.Service, cfg *config.Config, hm service.HelperMap, v
 	adminParty.Router.Layout("layouts/admin.html")
 	adminParty.Handle(new(admin.CAdmin))
 
-	apiParty := group.Party("/api", mdw.CORS([]string{"*"}))
-	apiParty.Router.AllowMethods(iris.MethodOptions)
-	apiParty.Router.Layout("layouts/api.html")
-	apiParty.Handle(new(api.CApiLogin))
+	publicParty := group.Party("/public")
+	publicParty.Router.Layout("layouts/public.html")
+	publicParty.Handle(new(public.CPublic))
 
 	return
 }

@@ -60,7 +60,7 @@ type UserLoginReq struct {
 	Username string `json:"username" valid:"required"`
 	Password string `json:"password" valid:"required"`
 	Captcha  string `json:"captcha" valid:"required"`
-	LoginIP  string `json:"login_ip"`
+	LoginIP  string
 }
 
 type UserRegisterReq struct {
@@ -70,7 +70,7 @@ type UserRegisterReq struct {
 	Email            string `json:"email" valid:"required,email"`
 	Nickname         string `json:"nickname" valid:"omitempty"`
 	Captcha          string `json:"captcha" valid:"required"`
-	LoginIP          string `json:"login_ip"`
+	LoginIP          string
 }
 
 type UserSession struct {

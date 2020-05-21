@@ -131,7 +131,7 @@ func (s *service) UpdateRole(req *model.UpdateRoleReq) (role *model.Role, err er
 		}
 	}
 	var userIdList []int64
-	tx.Model(&model.UserRoles{}).Where("role_id = ?", role.ID).Pluck("id", &userIdList)
+	tx.Model(&model.UserRoles{}).Where("role_id = ?", role.ID).Pluck("user_id", &userIdList)
 	tx.Commit()
 	for _, userId := range userIdList {
 		s.mc.Delete(s.hm.GetCacheKey(1, userId))
@@ -153,7 +153,7 @@ func (s *service) DeleteRole(id int64) (err error) {
 		return s.hm.GetMessage(1004, err)
 	}
 	var userIdList []int64
-	tx.Model(&model.UserRoles{}).Where("role_id = ?", id).Pluck("id", &userIdList)
+	tx.Model(&model.UserRoles{}).Where("role_id = ?", id).Pluck("user_id", &userIdList)
 	tx.Commit()
 	for _, userId := range userIdList {
 		s.mc.Delete(s.hm.GetCacheKey(1, userId))

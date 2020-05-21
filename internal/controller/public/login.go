@@ -1,13 +1,8 @@
-package api
+package public
 
 import (
-	"ginana-blog/internal/controller"
 	"ginana-blog/internal/model"
 )
-
-type CApiLogin struct {
-	controller.BaseController
-}
 
 // GetLoginCaptcha godoc
 // @Description 获取验证码
@@ -17,7 +12,7 @@ type CApiLogin struct {
 // @Success 200 {string} string "data:image/png;base64,U3dhZ2dlciByb2Nrcw=="
 // @Failure 500 {object} model.JSON
 // @Router /login/captcha [get]
-func (c *CApiLogin) GetLoginCaptcha() {
+func (c *CPublic) GetLoginCaptcha() {
 	captcha, err := c.Svc.GetCaptcha()
 	if err != nil {
 		c.Ctx.JSON(c.JsonPlus(nil, err))
@@ -37,7 +32,7 @@ func (c *CApiLogin) GetLoginCaptcha() {
 // @Success 200 {object} model.JSON{data=bool}
 // @Failure 500 {object} model.JSON
 // @Router /login/captcha/check [post]
-func (c *CApiLogin) PostLoginCaptchaCheck() {
+func (c *CPublic) PostLoginCaptchaCheck() {
 	captcha := new(model.Captcha)
 	if err := c.Ctx.ReadJSON(&captcha); err != nil {
 		c.Ctx.JSON(c.JsonPlus(nil, err))
@@ -66,7 +61,7 @@ func (c *CApiLogin) PostLoginCaptchaCheck() {
 // @Success 200 {object} model.JSON{data=bool}
 // @Failure 500 {object} model.JSON
 // @Router /login [post]
-func (c *CApiLogin) PostLogin() {
+func (c *CPublic) PostLogin() {
 	req := new(model.UserLoginReq)
 	if err := c.Ctx.ReadJSON(req); err != nil {
 		c.Ctx.JSON(c.JsonPlus(nil, err))
@@ -107,7 +102,7 @@ func (c *CApiLogin) PostLogin() {
 // @Success 200 {object} model.JSON{data=bool}
 // @Failure 500 {object} model.JSON
 // @Router /register [post]
-func (c *CApiLogin) PostRegister() {
+func (c *CPublic) PostRegister() {
 	req := new(model.UserRegisterReq)
 	if err := c.Ctx.ReadJSON(req); err != nil {
 		c.Ctx.JSON(c.JsonPlus(nil, err))
@@ -147,7 +142,7 @@ func (c *CApiLogin) PostRegister() {
 // @Success 200 {object} model.JSON{data=bool}
 // @Failure 500 {object} model.JSON
 // @Router /logout [get]
-func (c *CApiLogin) GetLogout() {
+func (c *CPublic) GetLogout() {
 	c.Session.Destroy()
 	c.Ctx.RemoveCookie("token")
 	c.ShowMsg("已安全登出，期待与您下一次遇见...")

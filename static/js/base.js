@@ -124,6 +124,9 @@ $(document).ready(function () {
         fields: {
             username: {
                 validators: {
+                    notEmpty: {
+                        message: '账号不能为空'
+                    },
                     regexp: {
                         regexp: /^[a-zA-Z0-9_.]+$/,
                         message: '用户名只允许英文字母、数字与"_"的组合'
@@ -168,7 +171,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: 'POST',
-            url: '/api/login',
+            url: '/public/login',
             data: data,
             success: function (data) {
                 $('input[name=password]').val('').focus();
@@ -296,7 +299,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: 'POST',
-            url: '/api/register',
+            url: '/public/register',
             data: data,
             success: function (data) {
                 $('input[name=password1]').val('');
@@ -320,13 +323,13 @@ $(document).ready(function () {
     let captcha_click = 0;
     $("#captcha-img").on('click', function () {
         captcha_click++;
-        this.src = '/api/login/captcha?num=' + captcha_click;
+        this.src = '/public/login/captcha?num=' + captcha_click;
         $("#captcha").val('');
         loginForm.data('bootstrapValidator').updateStatus("captcha", "NOT_VALIDATED", null);
     });
     $("#captcha-img2").on('click', function () {
         captcha_click++;
-        this.src = '/api/login/captcha?num=' + captcha_click;
+        this.src = '/public/login/captcha?num=' + captcha_click;
         $("#captcha2").val('');
         registerForm.data('bootstrapValidator').updateStatus("captcha2", "NOT_VALIDATED", null);
     });
@@ -436,7 +439,7 @@ function initcommentslist() {
 
 // 检查验证码
 function checkLoginCode(value) {
-    let url = '/api/login/captcha/check';
+    let url = '/public/login/captcha/check';
     let data = {
         code: value
     };

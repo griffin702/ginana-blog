@@ -206,7 +206,7 @@ $(document).ready(function () {
         }
         let mainUrl = "/admin/upload";
         if ($(this).data('account')) {
-            mainUrl = "/api/upload/account/avatar"
+            mainUrl = "/public/upload/account/avatar"
         }
         let reader = new FileReader();
         let oldwidth = autoview.width;
