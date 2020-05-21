@@ -11,7 +11,7 @@
             </a>
             <h3 class="col-lg-9 col-md-7 col-xs-12">
                 <a href="{{$v.Link}}">{{str2html $v.ColorTitle}}</a>
-                <div class="lifedateview">
+                <div class="data-info">
                     <span><span class="glyphicon glyphicon-time"></span>{{date $v.CreatedAt "Y-m-d H:i"}}</span>
                     <span><span class="glyphicon glyphicon-user"></span>{{$v.User.Nickname}}</span>
                     <span><span class="glyphicon glyphicon-tags"></span> [{{str2html $v.TagsLink}}]</span>

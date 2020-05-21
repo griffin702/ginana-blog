@@ -9,7 +9,7 @@
                             <div class="r-data-title">
                                 <a href="{{$v.Link}}" title="{{$v.Title}}">{{str2html $v.ColorTitle}}</a>
                             </div>
-                            <div class="r-data-info">
+                            <div class="data-info">
                                 <span>{{date $v.CreatedAt "Y-m-d"}}</span>
                             </div>
                         </div>
@@ -29,8 +29,9 @@
                             <div class="r-data-title">
                                 <a href="{{$v.Link}}" title="{{$v.Title}}">{{str2html $v.ColorTitle}}</a>
                             </div>
-                            <div class="r-data-info">
+                            <div class="data-info">
                                 <span>{{date $v.CreatedAt "Y-m-d"}}</span>
+                                <span><span class="glyphicon glyphicon-eye-open"></span> {{$v.Views}}</span>
                             </div>
                         </div>
                         <div class="r-left-box"></div>
