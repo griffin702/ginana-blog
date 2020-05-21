@@ -918,10 +918,15 @@ a.readmore {
     background: #f4f2f2;
 }
 
-.sy .bg img {
+.sy .bg img:not(img.emoji) {
     float: left;
     margin-right: 15px;
     max-width: 230px;
+}
+
+.sy .bg img.emoji {
+    vertical-align: bottom;
+    max-width: 25px;
 }
 
 .sy .bg div {
