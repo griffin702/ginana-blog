@@ -43,8 +43,8 @@ func (s *service) GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (r
 		}
 	}
 	if pr.TagID > 0 {
-		query = query.Joins("left join w_article_tags ON w_article_tags.article_id = w_article.id "+
-			"and w_article_tags.tag_id = ?", pr.TagID)
+		query = query.Joins("left join w_article_tags ON w_article_tags.article_id = w_article.id").
+			Where("w_article_tags.tag_id = ?", pr.TagID)
 	}
 	query = query.Where("status = ?", pr.Status)
 	query.Count(&p.AllCount)
