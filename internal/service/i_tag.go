@@ -114,9 +114,14 @@ func (s *service) GetTagsLimit6() (tags []*model.Tag, err error) {
 	query = query.Joins("left join w_article_tags on w_tag.id = w_article_tags.tag_id").
 		Group("w_tag.id").Order("count(w_tag.id) desc").Limit(6)
 	if err = query.Preload("Articles", func(db *gorm.DB) *gorm.DB {
-		return db.Order("istop desc, id desc").Limit(8)
+		return db.Order("istop desc, id desc")
 	}).Find(&tags).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
+	}
+	for _, tag := range tags {
+		if len(tag.Articles) > 8 {
+			tag.Articles = tag.Articles[:8]
+		}
 	}
 	return
 }
