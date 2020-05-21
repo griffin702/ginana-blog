@@ -22,7 +22,7 @@ definitions:
     properties:
       captcha:
         type: string
-      login_ip:
+      loginIP:
         type: string
       password:
         type: string
@@ -35,7 +35,7 @@ definitions:
         type: string
       email:
         type: string
-      login_ip:
+      loginIP:
         type: string
       nickname:
         type: string
@@ -67,7 +67,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/model.UserLoginReq'
-            type: object
       produces:
         - application/json
       responses:
@@ -111,7 +110,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/model.Captcha'
-            type: object
       produces:
         - application/json
       responses:
@@ -155,7 +153,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/model.UserRegisterReq'
-            type: object
       produces:
         - application/json
       responses:
@@ -169,4 +166,33 @@ paths:
             $ref: '#/definitions/model.JSON'
       tags:
         - Login
+  /upload/account/avatar:
+    post:
+      consumes:
+        - application/json
+      description: 上传当前账号头像接口
+      parameters:
+        - description: 上一个资源的地址
+          in: query
+          name: last_src
+          required: true
+          type: string
+        - description: 上传类型，本接口只接收type=2
+          in: query
+          name: type
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: '{\"success\":1,\"message\":\"上传成功\",\"url\":\"xxxx/xxxx.jpg\"}'
+          schema:
+            type: string
+        "500":
+          description: '{\"success\":0,\"message\":\"error\",\"url\":\"\"}'
+          schema:
+            type: string
+      tags:
+        - Upload
 swagger: "2.0"
