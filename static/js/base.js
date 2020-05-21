@@ -171,15 +171,15 @@ $(document).ready(function () {
             url: '/api/login',
             data: data,
             success: function (data) {
-                if (data.data) {
-                    window.location.reload();
-                }
                 $('input[name=password]').val('').focus();
                 $('#captcha').val('');
                 // $('#captcha-img').click();
                 loginForm.data("bootstrapValidator").updateStatus("password", "NOT_VALIDATED", null);
                 loginForm.data("bootstrapValidator").updateStatus("captcha", "NOT_VALIDATED", null);
                 alert(data.message);
+                if (data.data) {
+                    window.location.reload();
+                }
             },
             error: function () {
                 alert("登录失败");
@@ -299,9 +299,6 @@ $(document).ready(function () {
             url: '/api/register',
             data: data,
             success: function (data) {
-                if (data.data) {
-                    window.location.reload();
-                }
                 $('input[name=password1]').val('');
                 $('input[name=password2]').val('');
                 $('#captcha2').val('');
@@ -310,6 +307,9 @@ $(document).ready(function () {
                 registerForm.data("bootstrapValidator").updateStatus("password2", "NOT_VALIDATED", null);
                 registerForm.data("bootstrapValidator").updateStatus("captcha2", "NOT_VALIDATED", null);
                 alert(data.message);
+                if (data.data) {
+                    window.location.reload();
+                }
             },
             error: function () {
                 alert("注册失败");
