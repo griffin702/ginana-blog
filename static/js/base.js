@@ -181,7 +181,7 @@ $(document).ready(function () {
                 loginForm.data("bootstrapValidator").updateStatus("captcha", "NOT_VALIDATED", null);
                 alert(data.message);
                 if (data.data) {
-                    window.location.reload();
+                    window.location.replace(window.location.href);
                 }
             },
             error: function () {
@@ -311,7 +311,7 @@ $(document).ready(function () {
                 registerForm.data("bootstrapValidator").updateStatus("captcha2", "NOT_VALIDATED", null);
                 alert(data.message);
                 if (data.data) {
-                    window.location.reload();
+                    window.location.replace(window.location.href);
                 }
             },
             error: function () {
