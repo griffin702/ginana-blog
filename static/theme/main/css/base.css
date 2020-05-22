@@ -1139,6 +1139,7 @@ a.readmore {
 }
 
 .article_all {
+    min-height: 500px;
     padding: 10px 0 !important;
 }
 

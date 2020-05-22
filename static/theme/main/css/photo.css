@@ -65,6 +65,7 @@ a.n1, a.n2 {
 }
 
 .albumlist {
+    min-height: 500px;
     float: left;
     margin: 2px;
     padding: 20px 2px 10px 2px;
