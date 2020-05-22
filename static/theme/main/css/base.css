@@ -872,7 +872,17 @@ h2.title_tj div {
     font-size: 10px;
 }
 
-.data-info span span {
+.data-info span.badge {
+    border-radius: 4px;
+    background-color: #cdcdcd;
+    vertical-align: bottom;
+}
+
+.data-info span.badge:hover {
+    background-color: #b7b7b7;
+}
+
+.data-info > span > span {
     padding-right: 3px;
 }
 

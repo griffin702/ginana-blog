@@ -312,3 +312,8 @@ legend .btn {
     font-size: 18px;
     font-weight: 700;
 }
+
+.hl_tag span.badge {
+    border-radius: 4px;
+    background-color: #cdcdcd;
+}

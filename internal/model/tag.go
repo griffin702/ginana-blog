@@ -30,7 +30,7 @@ type TagListReq struct {
 }
 
 func (t *Tag) Link() string {
-	return fmt.Sprintf("<a class=\"category\" href=\"/category/%d\">%s</a>", t.ID, t.Name)
+	return fmt.Sprintf("<a class=\"category\" href=\"/category/%d\"><span class=\"badge\">%s</span></a>", t.ID, t.Name)
 }
 
 func (t *Tag) CountArticles() int {

@@ -96,10 +96,7 @@ func (a *Article) TagsLink() string {
 		return ""
 	}
 	var buf bytes.Buffer
-	for k, v := range a.Tags {
-		if k > 0 {
-			buf.WriteString(", ")
-		}
+	for _, v := range a.Tags {
 		buf.WriteString(v.Link())
 	}
 	return buf.String()
