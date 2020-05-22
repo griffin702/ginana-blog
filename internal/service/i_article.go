@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"ginana-blog/internal/model"
 	"github.com/jinzhu/gorm"
 	"io/ioutil"
@@ -43,8 +44,11 @@ func (s *service) GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (r
 		}
 	}
 	if pr.TagID > 0 {
-		query = query.Joins("left join w_article_tags ON w_article_tags.article_id = w_article.id").
-			Where("w_article_tags.tag_id = ?", pr.TagID)
+		an := s.db.NewScope(&model.Article{}).TableName()
+		bn := s.db.NewScope(&model.ArticleTags{}).TableName()
+		joinStr := fmt.Sprintf("left join %s on %s.article_id = %s.id", bn, bn, an)
+		whereStr := fmt.Sprintf("%s.tag_id = ?", bn)
+		query = query.Joins(joinStr).Where(whereStr, pr.TagID)
 	}
 	query = query.Where("status = ?", pr.Status)
 	query.Count(&p.AllCount)

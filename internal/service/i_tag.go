@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"ginana-blog/internal/model"
 	"github.com/jinzhu/gorm"
 )
@@ -15,8 +16,12 @@ func (s *service) GetTags(p *model.Pager, prs ...model.TagQueryParam) (res *mode
 	}
 	res = new(model.Tags)
 	query := s.db.Model(&res.List)
-	query = query.Joins("left join w_article_tags on w_tag.id = w_article_tags.tag_id").
-		Group("w_tag.id").Order("count(w_tag.id) desc").Order(pr.Order)
+	an := s.db.NewScope(&res.List).TableName()
+	bn := s.db.NewScope(&model.ArticleTags{}).TableName()
+	joinStr := fmt.Sprintf("left join %s on %s.id = %s.tag_id", bn, an, bn)
+	groupStr := fmt.Sprintf("%s.id", an)
+	orderStr := fmt.Sprintf("count(%s.id) desc", an)
+	query = query.Joins(joinStr).Group(groupStr).Order(orderStr).Order(pr.Order)
 	if pr.Admin {
 		query.Count(&p.AllCount)
 		query = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize)
@@ -114,8 +119,12 @@ func (s *service) BatchTag(req *model.TagListReq) (err error) {
 
 func (s *service) GetTagsLimit6() (tags []*model.Tag, err error) {
 	query := s.db.Model(&tags)
-	query = query.Joins("left join w_article_tags on w_tag.id = w_article_tags.tag_id").
-		Group("w_tag.id").Order("count(w_tag.id) desc").Limit(6)
+	an := s.db.NewScope(&tags).TableName()
+	bn := s.db.NewScope(&model.ArticleTags{}).TableName()
+	joinStr := fmt.Sprintf("left join %s on %s.id = %s.tag_id", bn, an, bn)
+	groupStr := fmt.Sprintf("%s.id", an)
+	orderStr := fmt.Sprintf("count(%s.id) desc", an)
+	query = query.Joins(joinStr).Group(groupStr).Order(orderStr).Limit(6)
 	if err = query.Preload("Articles", func(db *gorm.DB) *gorm.DB {
 		return db.Order("istop desc, id desc")
 	}).Find(&tags).Error; err != nil {
