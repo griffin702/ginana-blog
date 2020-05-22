@@ -82,6 +82,10 @@ $(document).ready(function () {
         let num = Math.floor(Math.random() * 9.9);
         $(this).attr('src', '/static/upload/default/blog-default-' + num + '.png');
     });
+    $(".r-img img").error(function () {
+        let num = Math.floor(Math.random() * 9.9);
+        $(this).attr('src', '/static/upload/default/blog-default-' + num + '.png');
+    });
     $("img.wyavater").error(function () {
         $(this).attr('src', '/static/upload/default/user-default-60x60.png');
     });
@@ -394,6 +398,9 @@ $(document).ready(function () {
             parent.append(lightgallery);
         }
     });
+    $("#mdinfos p a").each(function () {
+        $(this).attr('target', '_blank');
+    })
 });
 
 function ajax_Main(type, data, url, timewait) {
