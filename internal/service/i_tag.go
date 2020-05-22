@@ -15,13 +15,16 @@ func (s *service) GetTags(p *model.Pager, prs ...model.TagQueryParam) (res *mode
 	}
 	res = new(model.Tags)
 	query := s.db.Model(&res.List)
-	query = query.Order(pr.Order)
+	query = query.Joins("left join w_article_tags on w_tag.id = w_article_tags.tag_id").
+		Group("w_tag.id").Order("count(w_tag.id) desc").Order(pr.Order)
 	if pr.Admin {
 		query.Count(&p.AllCount)
 		query = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize)
 		res.Pager = p
 	}
-	if err = query.Preload("Articles").Find(&res.List).Error; err != nil {
+	if err = query.Preload("Articles", func(db *gorm.DB) *gorm.DB {
+		return db.Order("istop desc, id desc")
+	}).Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
 	return
