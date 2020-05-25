@@ -21,6 +21,7 @@ func (c *CPublic) GetLoginCaptcha() {
 	c.Session.Set(c.Hm.GetCacheKey(8), captcha.Code)
 	c.Ctx.ContentType("image/png")
 	c.Ctx.Write(captcha.Image)
+	return
 }
 
 // PostLoginCaptchaCheck godoc
@@ -91,6 +92,7 @@ func (c *CPublic) PostLogin() {
 	c.SetToken(user)
 	//log.Infof("userId: %d, username: %s, 登录成功", user.ID, user.Username)
 	c.Ctx.JSON(c.JsonPlus(true, c.Hm.GetMessage(0, "登陆成功")))
+	return
 }
 
 // PostRegister godoc
@@ -132,6 +134,7 @@ func (c *CPublic) PostRegister() {
 	c.SetToken(user)
 	//log.Infof("userId: %d, username: %s, 登录成功", user.ID, user.Username)
 	c.Ctx.JSON(c.JsonPlus(true, c.Hm.GetMessage(0, "注册并登陆成功")))
+	return
 }
 
 // PostLogout godoc
@@ -146,4 +149,5 @@ func (c *CPublic) GetLogout() {
 	c.Session.Destroy()
 	c.Ctx.RemoveCookie("token")
 	c.ShowMsg("已安全登出，期待与您下一次遇见...")
+	return
 }
