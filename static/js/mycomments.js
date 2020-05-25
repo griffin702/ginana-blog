@@ -60,7 +60,7 @@ function comment_submit(event) {
                             type: 'GET',
                             data: {},
                             url: location.pathname,
-                            cache: true,
+                            // cache: true,
                             dataType: "html",
                             success: function (data) {
                                 $('#form-comment').appendTo($('#wrap-form-comment'));

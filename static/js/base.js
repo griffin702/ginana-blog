@@ -178,15 +178,15 @@ $(document).ready(function () {
             url: '/public/login',
             data: data,
             success: function (data) {
+                alert(data.message);
+                if (data.data) {
+                    window.location.replace(window.location.href);
+                }
                 $('input[name=password]').val('').focus();
                 $('#captcha').val('');
                 // $('#captcha-img').click();
                 loginForm.data("bootstrapValidator").updateStatus("password", "NOT_VALIDATED", null);
                 loginForm.data("bootstrapValidator").updateStatus("captcha", "NOT_VALIDATED", null);
-                alert(data.message);
-                if (data.data) {
-                    window.location.replace(window.location.href);
-                }
             },
             error: function () {
                 alert("登录失败");
@@ -306,6 +306,10 @@ $(document).ready(function () {
             url: '/public/register',
             data: data,
             success: function (data) {
+                alert(data.message);
+                if (data.data) {
+                    window.location.replace(window.location.href);
+                }
                 $('input[name=password1]').val('');
                 $('input[name=password2]').val('');
                 $('#captcha2').val('');
@@ -313,10 +317,6 @@ $(document).ready(function () {
                 registerForm.data("bootstrapValidator").updateStatus("password1", "NOT_VALIDATED", null);
                 registerForm.data("bootstrapValidator").updateStatus("password2", "NOT_VALIDATED", null);
                 registerForm.data("bootstrapValidator").updateStatus("captcha2", "NOT_VALIDATED", null);
-                alert(data.message);
-                if (data.data) {
-                    window.location.replace(window.location.href);
-                }
             },
             error: function () {
                 alert("注册失败");
