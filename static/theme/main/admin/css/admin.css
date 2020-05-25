@@ -317,3 +317,7 @@ legend .btn {
     border-radius: 4px;
     background-color: #cdcdcd;
 }
+
+.hl_tag a:not(:first-child) {
+    margin-left: 5px;
+}
