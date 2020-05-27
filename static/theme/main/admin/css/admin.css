@@ -318,6 +318,10 @@ legend .btn {
     background-color: #cdcdcd;
 }
 
+.hl_tag span.badge:hover {
+    background-color: #b7b7b7;
+}
+
 .hl_tag a:not(:first-child) {
     margin-left: 5px;
 }
