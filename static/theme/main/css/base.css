@@ -1331,6 +1331,10 @@ a.readmore {
     min-height: 200px;
 }
 
+#mdinfos ul.light-gallery li {
+    display: inline-block;
+}
+
 .right-bar ul, .tagpanel ul {
     padding: 0;
 }
