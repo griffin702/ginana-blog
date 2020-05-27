@@ -23,7 +23,7 @@ type Pager struct {
 	pager.Pager
 }
 
-func Rawurlencode(str string) string {
+func RawUrlEncode(str string) string {
 	return strings.Replace(url.QueryEscape(str), "+", "%20", -1)
 }
 
