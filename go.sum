@@ -159,8 +159,8 @@ github.com/gorilla/mux v1.6.2/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2z
 github.com/gorilla/websocket v1.4.0/go.mod h1:E7qHFY5m1UJ88s3WnNqhKjPHQ0heANvMoAMk2YaljkQ=
 github.com/gorilla/websocket v1.4.1 h1:q7AeDBpnBk8AogcD4DSag/Ukw/KV+YhzLj2bP5HvKCM=
 github.com/gorilla/websocket v1.4.1/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
-github.com/griffin702/ginana v1.6.7 h1:2QKJtLr5A85j/jRl1gv/CRuj0dGzEcqojVVtPn9TnTI=
-github.com/griffin702/ginana v1.6.7/go.mod h1:sriAMV9cJta415i/qvl2EUVQs1bJc93HysAjZTKIGHk=
+github.com/griffin702/ginana v1.6.8 h1:6avyIfiUGnUAaGMFIHfxSskCAht766qH7wwKVaJ53Yo=
+github.com/griffin702/ginana v1.6.8/go.mod h1:sriAMV9cJta415i/qvl2EUVQs1bJc93HysAjZTKIGHk=
 github.com/griffin702/service v1.2.9 h1:s2dHK696ZQkKtqBaNFVtOlQLlxLlHRxdsbPAszqZNSI=
 github.com/griffin702/service v1.2.9/go.mod h1:Htfo2cIGDbuBD/71nviYXsUeBcYcum1kipOoQ5rvfWo=
 github.com/hashicorp/go-version v1.2.0/go.mod h1:fltr4n8CU8Ke44wwGCBoEymUuxUHl09ZGVZPK5anwXA=
