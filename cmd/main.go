@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	_ "ginana-blog/docs"
 	"ginana-blog/internal/config"
 	"ginana-blog/internal/wire"
@@ -22,7 +21,6 @@ import (
 // @license.name MIT License
 // @license.url
 func main() {
-	flag.Parse()
 	closeLog := log.Init()
 	log.Info("GiNana App Start")
 	cfg, err := config.GetBaseConfig()
