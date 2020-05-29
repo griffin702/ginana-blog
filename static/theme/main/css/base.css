@@ -159,51 +159,56 @@ h1.t_nav strong {
 
 @media (min-width: 992px) {
     h1.t_nav strong {
-        padding-left: 5%;
-        display: inline;
-        vertical-align: text-top;
-        line-height: 30px;
+        vertical-align: -10%;
+        margin-left: 30px;
     }
 }
 
 @media (max-width: 991px) {
     h1.t_nav strong {
         float: left;
-        line-height: 20px;
-        padding: 5px 5px;
-        min-width: 200px;
+        width: 100%;
     }
 }
 
 h1.t_nav strong span {
-    vertical-align: text-top;
     font-size: 14px;
     color: #999;
 }
 
 h1.t_nav {
+    align-items: center;
     border-bottom: #F1F1F1 1px solid;
     font-size: 12px;
     font-weight: normal;
-    line-height: 40px;
-    height: 40px;
+    line-height: 35px;
+    height: 35px;
     margin: 10px 0;
 }
 
 a.n1, a.n2 {
-    width: 100px;
+    width: 80px;
+    height: 35px;
     display: block;
     text-align: center;
     color: #fff;
     float: left
 }
 
-.n1 {
-    background: #5EA51B;
+a.n1:hover, a.n2:hover {
+    background-color: #3d7a9b;
 }
 
-.n2 {
-    background: #8BBF5D;
+a.n1 {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    background: #5b80af;
+}
+
+a.n2 {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background: #749fcd;
 }
 
 /*右边栏样式*/
