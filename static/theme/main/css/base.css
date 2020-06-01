@@ -1124,7 +1124,7 @@ a.readmore {
     background-color: #f0f0f0;
 }
 
-.keybq span, .keybq a {
+.keybq p > span, .keybq a {
     color: #099;
     padding: 0 5px;
 }
