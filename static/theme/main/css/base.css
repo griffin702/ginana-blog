@@ -1117,6 +1117,11 @@ a.readmore {
     padding-left: 0;
 }
 
+.come_from {
+    line-height: 28px;
+    padding: 10px 5px;
+}
+
 .keybq {
     line-height: 30px;
     height: 30px;

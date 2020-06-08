@@ -156,6 +156,7 @@ func (s *service) CreateArticle(req *model.ArticleReq) (article *model.Article, 
 	article.Status = req.Status
 	article.Content = req.ContentMarkdownDoc
 	article.Cover = req.Cover
+	article.ComeFrom = req.ComeFrom
 	article.UserID = req.UserID
 	tags := strings.Split(req.Tags, ",")
 	for _, name := range tags {
@@ -189,6 +190,7 @@ func (s *service) UpdateArticle(req *model.ArticleReq) (article *model.Article, 
 	article.Status = req.Status
 	article.Content = req.ContentMarkdownDoc
 	article.Cover = req.Cover
+	article.ComeFrom = req.ComeFrom
 	m, err := s.tool.StructToMap(article)
 	if err != nil {
 		return nil, s.hm.GetMessage(500, err)

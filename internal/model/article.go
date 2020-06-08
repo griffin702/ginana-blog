@@ -22,6 +22,7 @@ type Article struct {
 	Istop     int8      `json:"istop" gorm:"index;comment:'置顶相关'"`
 	Cover     string    `json:"cover" gorm:"type:VARCHAR(255);default:'/static/upload/default/blog-default-0.png';not null;comment:'文章封面'"`
 	UserID    int64     `json:"user_id" gorm:"comment:'关联用户ID'"`
+	ComeFrom  string    `json:"come_from" gorm:"type:VARCHAR(300);not null;comment:'转载原文链接'"`
 	User      *User     `json:"user" gorm:"ForeignKey:UserID"`
 	Tags      []*Tag    `json:"tags" gorm:"many2many:article_tags"`
 	Prev      *Article  `json:"prev" gorm:"-"`
@@ -48,6 +49,7 @@ type ArticleReq struct {
 	Istop              int8   `form:"istop" valid:"numeric"`
 	Cover              string `form:"cover" valid:"omitempty"`
 	UserID             int64  `form:"user_id" valid:"gte=0"`
+	ComeFrom           string `form:"come_from" valid:"omitempty"`
 	Tags               string `form:"tags" valid:"required"`
 }
 
