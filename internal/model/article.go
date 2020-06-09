@@ -123,8 +123,8 @@ func (a *Article) Excerpt() string {
 	rep = re.ReplaceAllString(rep, "")
 	//如果断定截取的断点可能会存在中文字符，则需要转为rune后再截取，否则可能会截成乱码
 	data := []rune(rep)
-	if len(data) > 65 {
-		return string(data[:65]) + "..."
+	if len(data) > 160 {
+		return string(data[:160]) + "..."
 	}
 	return rep
 }

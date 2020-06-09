@@ -861,8 +861,13 @@ h2.title_tj div {
 }
 
 .blogcontent {
+    color: #909090;
     padding: 5px 15px 0 !important;
-    height: 70px;
+    height: 65px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
 }
 
 .data-info {
@@ -901,13 +906,19 @@ h2.title_tj div {
 }
 
 a.readmore {
+    border-radius: 4px;
     background: #fd8a61;
     color: #fff;
     padding: 5px 10px;
     float: right;
     position: relative;
+    top: 5px;
     right: 15px;
     margin-bottom: 15px;
+}
+
+a.readmore:hover {
+    background-color: #edac8c;
 }
 
 /*mood*/
