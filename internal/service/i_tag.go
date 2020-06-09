@@ -22,16 +22,15 @@ func (s *service) GetTags(p *model.Pager, prs ...model.TagQueryParam) (res *mode
 	groupStr := fmt.Sprintf("%s.id", an)
 	orderStr := fmt.Sprintf("count(%s.id) desc", an)
 	query = query.Joins(joinStr).Group(groupStr).Order(orderStr).Order(pr.Order)
-	if pr.Admin {
-		query.Count(&p.AllCount)
-		query = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize)
-		res.Pager = p
+	if !pr.Admin {
+		query = query.Having(fmt.Sprintf("count(%s.id) > 9", an))
 	}
-	if err = query.Preload("Articles", func(db *gorm.DB) *gorm.DB {
-		return db.Order("istop desc, id desc")
-	}).Find(&res.List).Error; err != nil {
+	query.Count(&p.AllCount)
+	query = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize)
+	if err = query.Preload("Articles").Find(&res.List).Error; err != nil {
 		return nil, s.hm.GetMessage(1001, err)
 	}
+	res.Pager = p
 	return
 }
 
