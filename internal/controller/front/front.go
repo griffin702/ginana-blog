@@ -91,6 +91,7 @@ func (c *CFront) GetLife() (err error) {
 }
 
 func (c *CFront) GetCategorys() (err error) {
+	c.Pager.PageSize = 50
 	tags, err := c.Svc.GetTags(c.Pager)
 	if err != nil {
 		return
