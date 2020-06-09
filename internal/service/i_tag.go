@@ -23,7 +23,7 @@ func (s *service) GetTags(p *model.Pager, prs ...model.TagQueryParam) (res *mode
 	orderStr := fmt.Sprintf("count(%s.id) desc", an)
 	query = query.Joins(joinStr).Group(groupStr).Order(orderStr).Order(pr.Order)
 	if !pr.Admin {
-		query = query.Having(fmt.Sprintf("count(%s.id) > 3", an))
+		query = query.Having(fmt.Sprintf("count(%s.id) > 2", an))
 	}
 	query.Count(&p.AllCount)
 	query = query.Limit(p.PageSize).Offset((p.Page - 1) * p.PageSize)
