@@ -109,9 +109,6 @@ func (a *Article) Excerpt() string {
 	//将HTML标签全转换成小写
 	re, _ := regexp.Compile("<[\\S\\s]+?>")
 	rep := re.ReplaceAllStringFunc(a.Content, strings.ToLower)
-	//将hr标签转换为特殊标记
-	re, _ = regexp.Compile("------------")
-	rep = re.ReplaceAllString(rep, "_markdown_hr_")
 	//去除所有尖括号内的HTML代码
 	re, _ = regexp.Compile("<[\\S\\s]+?>")
 	rep = re.ReplaceAllString(rep, "")
@@ -126,20 +123,10 @@ func (a *Article) Excerpt() string {
 	rep = re.ReplaceAllString(rep, "")
 	//如果断定截取的断点可能会存在中文字符，则需要转为rune后再截取，否则可能会截成乱码
 	data := []rune(rep)
-	if i := strings.Index(rep, "_markdown_hr_"); i != -1 {
-		return rep[:i] + "..."
-	} else if len(data) > 65 {
+	if len(data) > 65 {
 		return string(data[:65]) + "..."
 	}
 	return rep
-}
-
-func (a *Article) DelExcerpt() string {
-	if i := strings.Index(a.Content, "------------"); i != -1 {
-		x := len("------------")
-		return a.Content[i+x:]
-	}
-	return a.Content
 }
 
 func (a *Article) TagsToString() string {
