@@ -46,7 +46,7 @@ func (s *service) GetArticles(p *model.Pager, prs ...model.ArticleQueryParam) (r
 	if pr.TagID > 0 {
 		an := s.db.NewScope(&model.Article{}).TableName()
 		bn := s.db.NewScope(&model.ArticleTags{}).TableName()
-		joinStr := fmt.Sprintf("left join %s on %s.article_id = %s.id", bn, bn, an)
+		joinStr := fmt.Sprintf("inner join %s on %s.article_id = %s.id", bn, bn, an)
 		whereStr := fmt.Sprintf("%s.tag_id = ?", bn)
 		query = query.Joins(joinStr).Where(whereStr, pr.TagID)
 	}

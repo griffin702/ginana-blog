@@ -11,17 +11,16 @@ func (s *service) GetTags(p *model.Pager, prs ...model.TagQueryParam) (res *mode
 	if len(prs) > 0 {
 		pr = prs[0]
 	}
-	if pr.Order == "" {
-		pr.Order = "id desc"
-	}
 	res = new(model.Tags)
 	query := s.db.Model(&res.List)
 	an := s.db.NewScope(&res.List).TableName()
 	bn := s.db.NewScope(&model.ArticleTags{}).TableName()
-	joinStr := fmt.Sprintf("left join %s on %s.id = %s.tag_id", bn, an, bn)
+	if pr.Order == "" {
+		pr.Order = fmt.Sprintf("count(%s.id) desc", an)
+	}
+	joinStr := fmt.Sprintf("inner join %s on %s.id = %s.tag_id", bn, an, bn)
 	groupStr := fmt.Sprintf("%s.id", an)
-	orderStr := fmt.Sprintf("count(%s.id) desc", an)
-	query = query.Joins(joinStr).Group(groupStr).Order(orderStr).Order(pr.Order)
+	query = query.Joins(joinStr).Group(groupStr).Order(pr.Order)
 	if !pr.Admin {
 		query = query.Having(fmt.Sprintf("count(%s.id) > 2", an))
 	}
@@ -120,7 +119,7 @@ func (s *service) GetTagsLimit6() (tags []*model.Tag, err error) {
 	query := s.db.Model(&tags)
 	an := s.db.NewScope(&tags).TableName()
 	bn := s.db.NewScope(&model.ArticleTags{}).TableName()
-	joinStr := fmt.Sprintf("left join %s on %s.id = %s.tag_id", bn, an, bn)
+	joinStr := fmt.Sprintf("inner join %s on %s.id = %s.tag_id", bn, an, bn)
 	groupStr := fmt.Sprintf("%s.id", an)
 	orderStr := fmt.Sprintf("count(%s.id) desc", an)
 	query = query.Joins(joinStr).Group(groupStr).Order(orderStr).Limit(6)
