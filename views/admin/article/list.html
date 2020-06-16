@@ -29,19 +29,19 @@
     <form method="post" action="/admin/article/list">
         <div class="refresh">
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-hover" style="table-layout: fixed;">
                     <thead>
                     <tr>
-                        <th><label>
+                        <th style="width: 30px"><label>
                                 <input type="checkbox" value="0" onclick="checkall('ids', this)"/>
                             </label></th>
-                        <th>ID</th>
-                        <th style="min-width: 150px;">标题</th>
-                        <th>标签</th>
-                        <th>点击量</th>
-                        <th>发布人</th>
-                        <th>发布时间</th>
-                        <th>操作</th>
+                        <th style="width: 50px">ID</th>
+                        <th style="width: 300px">标题</th>
+                        {{/*                        <th style="width: 150px">标签</th>*/}}
+                        <th style="width: 100px">点击量</th>
+                        <th style="width: 100px">发布人</th>
+                        <th style="width: 180px">发布时间</th>
+                        <th style="width: 150px">操作</th>
                     </tr>
                     </thead>
                     {{$hasPush:=permission .userId "/admin/article/push/*" "get"}}
@@ -58,7 +58,7 @@
                                 <a href="{{$v.Link}}" target="_blank">{{str2html $v.ColorTitle}}</a>{{if $v.Urltype}}
                             <span class="label label-default">页面</span>{{end}}
                             </td>
-                            <td class="hl_tag">{{str2html $v.TagsLink}}</td>
+                            {{/*                            <td class="hl_tag">{{str2html $v.TagsLink}}</td>*/}}
                             <td>{{$v.Views}}</td>
                             <td class="hl_author">{{$v.User.Nickname}}</td>
                             <td>{{date $v.CreatedAt "Y年m月d日 H:i:s"}}</td>

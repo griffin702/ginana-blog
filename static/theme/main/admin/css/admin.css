@@ -313,15 +313,8 @@ legend .btn {
     font-weight: 700;
 }
 
-.hl_tag span.badge {
-    border-radius: 4px;
-    background-color: #cdcdcd;
-}
-
-.hl_tag span.badge:hover {
-    background-color: #b7b7b7;
-}
-
-.hl_tag a:not(:first-child) {
-    margin-left: 5px;
+.hl_title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
