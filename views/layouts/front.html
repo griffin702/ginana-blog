@@ -26,8 +26,8 @@
 </head>
 <body>
 <div class="container-fluid" style="padding: 70px 0 0 0;">
-    {{ render "front/head.html" }}
-    {{ render "front/banner.html" }}
+    {{ render "front/head.html" }}{{if not .enableBanner}}
+        {{ render "front/banner.html" }}{{end}}
     <article class="col-lg-10 col-lg-offset-1">
         {{ yield }}{{if not .disableRight}}
             {{ render "front/right.html" }}{{end}}

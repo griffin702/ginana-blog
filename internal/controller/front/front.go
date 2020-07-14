@@ -24,6 +24,7 @@ func (c *CFront) BeforeActivation(b mvc.BeforeActivation) {
 
 func (c *CFront) setHeadMetas(params ...string) {
 	c.Ctx.ViewData("disableRight", c.DisableRight)
+	c.Ctx.ViewData("enableBanner", c.EnableBanner)
 	titleBuf := make([]string, 0, 3)
 	if len(params) == 0 && c.SiteOptions.SiteName != "" {
 		titleBuf = append(titleBuf, c.SiteOptions.SiteName)
@@ -51,6 +52,7 @@ func (c *CFront) Get() (err error) {
 		return
 	}
 	c.Ctx.ViewData("data", tags)
+	c.EnableBanner = true
 	c.setHeadMetas("首页")
 	c.Ctx.View("front/index.html")
 	return

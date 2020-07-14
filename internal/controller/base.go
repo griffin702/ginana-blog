@@ -22,6 +22,7 @@ type BaseController struct {
 	SiteOptions  *model.Option
 	Links        *model.Links
 	DisableRight bool
+	EnableBanner bool
 	Hm           service.HelperMap
 	Valid        model.Validator
 	Tool         *tools.Tool
