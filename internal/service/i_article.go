@@ -146,6 +146,15 @@ func (s *service) CountArticles() (count int64) {
 	return
 }
 
+func (s *service) AddViews(article *model.Article) (err error) {
+	if err = s.db.Model(article).UpdateColumn(map[string]interface{}{
+		"views": article.Views + 1,
+	}).Error; err != nil {
+		return s.hm.GetMessage(1003, err)
+	}
+	return
+}
+
 func (s *service) CreateArticle(req *model.ArticleReq) (article *model.Article, err error) {
 	article = new(model.Article)
 	article.Title = req.Title

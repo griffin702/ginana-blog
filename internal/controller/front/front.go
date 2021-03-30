@@ -70,6 +70,9 @@ func (c *CFront) GetArticleBy(id int64) (err error) {
 	if err != nil {
 		return
 	}
+	if err = c.Svc.AddViews(article); err != nil {
+		return
+	}
 	c.Ctx.ViewData("data", article)
 	comments, err := c.Svc.GetComments(c.Pager, model.CommentQueryParam{ArticleID: id})
 	if err != nil {

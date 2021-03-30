@@ -65,6 +65,7 @@ type Service interface {
 	BatchArticle(req *model.ArticleListReq) (err error)
 	PushBaiDu(url string) (string, error)
 	CountArticles() (count int64)
+	AddViews(article *model.Article) (err error)
 
 	// 标签
 	GetTags(p *model.Pager, prs ...model.TagQueryParam) (res *model.Tags, err error)
