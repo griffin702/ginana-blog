@@ -152,6 +152,7 @@ func (s *service) AddViews(article *model.Article) (err error) {
 	}).Error; err != nil {
 		return s.hm.GetMessage(1003, err)
 	}
+	s.deleteArticleCache()
 	return
 }
 
