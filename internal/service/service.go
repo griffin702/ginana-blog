@@ -154,6 +154,11 @@ func (s *service) CheckPermission(userId int64, router, method string) (idAuth b
 	if err != nil || !user.IsAuth {
 		return
 	}
+	// 如果没有角色则给予默认角色名称
+	if len(user.Roles) == 0 {
+		defaultRole := new(model.Role)
+		user.Roles = append(user.Roles, defaultRole)
+	}
 	for _, role := range user.Roles {
 		isAuth, err := s.ef.Enforce(role.RoleName, router, method)
 		if err != nil {
