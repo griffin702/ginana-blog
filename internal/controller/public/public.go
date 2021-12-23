@@ -13,8 +13,4 @@ type CPublic struct {
 func (c *CPublic) BeginRequest(ctx iris.Context) {
 	user := c.ParseToken()
 	c.UserID = user.ID
-	if user.ID > 0 && c.Ctx.Path() != "/public/logout" { // 已登陆
-		ctx.Redirect("/admin")
-		return
-	}
 }
