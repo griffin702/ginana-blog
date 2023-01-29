@@ -1,0 +1,26 @@
+<fieldset>
+    <legend>添加手机列表<a class="btn btn-primary btn-xs" href="/admin/gocmd/phone_list/list">
+            <span class="glyphicon glyphicon-share-alt"></span> 返回</a>
+    </legend>
+    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+        <table class="table table-form">
+            <tbody>
+            <tr>
+                <th class="width:150px;">项目名称</th>
+                <td><input class="form-control" name="pro_name" type="text" autocomplete="off"/></td>
+            </tr>
+            <tr>
+                <th>电话列表</th>
+                <td><input class="form-control" name="phone_list" type="text" autocomplete="off"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{if permission .userId "/admin/gocmd/phone_list/add" "post"}}
+                        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> 提交</button>{{end}}
+                    <button type="button" class="btn btn-primary" onclick="history.back();">取消</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</fieldset>

@@ -39,6 +39,7 @@ func initTable(db *gorm.DB) {
 		new(model.Comment),
 		new(model.Album),
 		new(model.Photo),
+		new(model.PhoneList),
 	)
 }
 

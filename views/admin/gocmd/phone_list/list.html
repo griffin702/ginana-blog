@@ -1,0 +1,31 @@
+<fieldset>
+    <legend>手机列表{{if permission .userId "/admin/gocmd/phone_list/add" "get"}}
+    <a class="btn btn-primary btn-xs" href="/admin/gocmd/phone_list/add">
+        <span class="glyphicon glyphicon-plus"></span> 添加手机列表</a>{{end}}
+    </legend>
+    <div class="refresh">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>项目名称</th>
+                    <th>手机列表</th>
+                </tr>
+                </thead>
+                {{$hasEdit:=permission .userId "/admin/gocmd/phone_list/edit/*" "get"}}
+                <tbody>{{range $k, $v := .data.List}}
+                    <tr>
+                        <td style="min-width: 80px">{{$v.ID}}</td>
+                        <td style="min-width: 100px">{{$v.ProName}}</td>
+                        <td style="white-space: normal;min-width: 500px">{{str2html $v.PhoneList}}</td>
+                        <td>{{if $hasEdit}}
+                                <a href="/admin/gocmd/phone_list/edit/{{$v.ID}}">编辑</a>{{end}}
+                        </td>
+                    </tr>{{end}}
+                </tbody>
+            </table>
+            {{str2html .data.Pager.ToString}}
+        </div>
+    </div>
+</fieldset>

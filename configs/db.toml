@@ -7,7 +7,7 @@
     dbName = "ginana_blog"
     dbPort = "3306"
     dbPrev = "w_"
-    debug = false
+    debug = true
     active = 20
     idle = 10
     idleTimeout ="4h"

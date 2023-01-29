@@ -107,6 +107,12 @@ type Service interface {
 	CreatePhoto(req *model.CreatePhotoReq) (photo *model.Photo, err error)
 	UpdatePhoto(req *model.UpdatePhotoReq) (photo *model.Photo, err error)
 	DeletePhoto(id int64) (err error)
+
+	// gocmd接口
+	GetPhoneLists(p *model.Pager) (res *model.PhoneLists, err error)
+	CreatePhoneList(req *model.CreatePhoneListReq) (phoneList *model.PhoneList, err error)
+	UpdatePhoneList(req *model.UpdatePhoneListReq) (phoneList *model.PhoneList, err error)
+	GetPhoneList(id int64) (phoneList *model.PhoneList, err error)
 }
 
 func New(cfg *config.Config, db *gorm.DB, mc memcache.Memcache, hm HelperMap) (s Service, err error) {
