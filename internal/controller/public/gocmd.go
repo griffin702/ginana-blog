@@ -9,3 +9,13 @@ func (c *CPublic) GetGocmdPhone_listBy(id int64) {
 	c.Ctx.JSON(c.JsonPlus(phoneList, c.Hm.GetMessage(0)))
 	return
 }
+
+func (c *CPublic) GetIp() {
+	ip := c.GetClientIP()
+	if ip == "" {
+		c.Ctx.JSON(c.JsonPlus(nil, c.Hm.GetMessage(1001)))
+		return
+	}
+	c.Ctx.JSON(c.JsonPlus(ip, c.Hm.GetMessage(0)))
+	return
+}
